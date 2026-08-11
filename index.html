@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Almex — Raqamli ekotizim</title>
+<meta name="description" content="Almex — Telegram va raqamli platformalarda rivojlanayotgan mustaqil loyihalar ekotizimi: Almex Mafia, Almex Black, Almex News.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0a0c;
+    --surface: #141317;
+    --surface-2: #1b1a1f;
+    --hair: #2b2930;
+    --wine: #8c2430;
+    --wine-bright: #b23244;
+    --gold: #c9a24b;
+    --gold-dim: #8a7238;
+    --text: #f1ece1;
+    --text-muted: #8f8a82;
+    --text-faint: #58544e;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(140,36,48,0.18), transparent),
+      radial-gradient(ellipse 60% 40% at 90% 10%, rgba(201,162,75,0.06), transparent);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .noise{
+    position:fixed; inset:0;
+    opacity:0.035;
+    pointer-events:none;
+    z-index:1;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 32px; position:relative; z-index:2; }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--gold);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:1px;
+    background:var(--gold-dim);
+  }
+
+  h1,h2,h3{ font-family:'Fraunces', serif; font-weight:600; letter-spacing:-0.01em; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,10,12,0.78);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--hair);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 32px;
+    max-width:1120px; margin:0 auto;
+  }
+  .brand{
+    font-family:'Fraunces', serif;
+    font-size:20px; font-weight:600;
+    letter-spacing:0.01em;
+    display:flex; align-items:center; gap:9px;
+  }
+  .brand .mark{
+    width:9px; height:9px;
+    background:var(--wine-bright);
+    border-radius:1px;
+    transform:rotate(45deg);
+    box-shadow:0 0 12px rgba(178,50,68,0.7);
+  }
+  .navlinks{ display:flex; gap:34px; font-size:14px; color:var(--text-muted); }
+  .navlinks a:hover{ color:var(--text); }
+  @media (max-width:720px){ .navlinks{ display:none; } }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:110px 0 90px;
+    position:relative;
+  }
+  .hero .eyebrow{ margin-bottom:28px; }
+  .hero h1{
+    font-size:clamp(40px, 6.6vw, 74px);
+    line-height:1.04;
+    max-width:820px;
+    color:var(--text);
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--gold);
+    font-weight:500;
+  }
+  .hero p.lead{
+    margin-top:26px;
+    max-width:560px;
+    font-size:17px;
+    color:var(--text-muted);
+    line-height:1.65;
+  }
+  .hero-actions{
+    margin-top:40px;
+    display:flex; gap:14px; flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'Inter'; font-size:14px; font-weight:600;
+    padding:14px 24px;
+    border-radius:2px;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform .15s ease, background .15s ease, border-color .15s ease;
+    border:1px solid transparent;
+  }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn-primary{
+    background:var(--wine);
+    color:#fff2ef;
+  }
+  .btn-primary:hover{ background:var(--wine-bright); }
+  .btn-ghost{
+    border-color:var(--hair);
+    color:var(--text);
+  }
+  .btn-ghost:hover{ border-color:var(--gold-dim); color:var(--gold); }
+
+  /* stat strip */
+  .stats{
+    margin-top:80px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--hair);
+    border-bottom:1px solid var(--hair);
+  }
+  .stat{
+    padding:26px 28px;
+    border-right:1px solid var(--hair);
+  }
+  .stat:last-child{ border-right:none; }
+  .stat .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:28px;
+    color:var(--gold);
+    letter-spacing:-0.01em;
+  }
+  .stat .label{
+    margin-top:6px;
+    font-size:12.5px;
+    color:var(--text-muted);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+  @media (max-width:720px){
+    .stats{ grid-template-columns:1fr; }
+    .stat{ border-right:none; border-bottom:1px solid var(--hair); }
+    .stat:last-child{ border-bottom:none; }
+  }
+
+  /* ---------- SECTION shared ---------- */
+  section{ padding:100px 0; position:relative; }
+  .section-head{ max-width:640px; margin-bottom:56px; }
+  .section-head h2{
+    font-size:clamp(28px,3.4vw,40px);
+    margin-top:16px;
+    color:var(--text);
+  }
+  .section-head p{
+    margin-top:16px;
+    color:var(--text-muted);
+    font-size:15.5px;
+    line-height:1.7;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about{ border-top:1px solid var(--hair); }
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+    align-items:start;
+  }
+  .about-grid p{
+    color:var(--text-muted);
+    font-size:15.5px;
+    line-height:1.8;
+    margin-bottom:18px;
+  }
+  .about-grid p strong{ color:var(--text); font-weight:600; }
+  @media (max-width:820px){ .about-grid{ grid-template-columns:1fr; gap:36px; } }
+
+  .pillar-list{ display:flex; flex-direction:column; gap:0; }
+  .pillar{
+    padding:22px 0;
+    border-top:1px solid var(--hair);
+    display:flex; gap:20px; align-items:baseline;
+  }
+  .pillar:last-child{ border-bottom:1px solid var(--hair); }
+  .pillar .idx{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; color:var(--gold-dim);
+    width:24px; flex-shrink:0;
+  }
+  .pillar .txt h4{
+    font-family:'Inter'; font-weight:600; font-size:15px; color:var(--text);
+  }
+  .pillar .txt p{
+    margin-top:5px; font-size:13.5px; color:var(--text-muted); line-height:1.6;
+  }
+
+  /* ---------- PROJECTS ---------- */
+  .projects{ border-top:1px solid var(--hair); }
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--hair);
+    border:1px solid var(--hair);
+  }
+  @media (max-width:900px){ .card-grid{ grid-template-columns:1fr; } }
+
+  .card{
+    background:var(--surface);
+    padding:38px 32px;
+    display:flex; flex-direction:column;
+    min-height:340px;
+    transition:background .2s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .card:hover{ background:var(--surface-2); }
+  .card .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+  }
+  .card h3{
+    margin-top:16px;
+    font-size:25px;
+    color:var(--text);
+  }
+  .card p{
+    margin-top:14px;
+    font-size:14px;
+    color:var(--text-muted);
+    line-height:1.7;
+    flex-grow:1;
+  }
+  .card .stat-row{
+    margin-top:20px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--gold);
+    display:flex; align-items:center; gap:8px;
+  }
+  .card .stat-row .dot{
+    width:6px; height:6px; border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 8px var(--gold);
+  }
+  .card .card-link{
+    margin-top:26px;
+    font-size:13.5px; font-weight:600;
+    color:var(--text);
+    display:inline-flex; align-items:center; gap:7px;
+    padding-top:18px;
+    border-top:1px solid var(--hair);
+  }
+  .card .card-link .arrow{ transition:transform .15s ease; }
+  .card:hover .card-link .arrow{ transform:translateX(4px); }
+  .card.wine{ background:linear-gradient(150deg, #1b1013, var(--surface) 55%); }
+  .card.wine:hover{ background:linear-gradient(150deg, #231316, var(--surface-2) 55%); }
+  .card.wine .card-link{ color:var(--gold); }
+
+  /* ---------- TECH STRIP ---------- */
+  .tech{
+    border-top:1px solid var(--hair);
+    padding:70px 0;
+  }
+  .tech-row{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    flex-wrap:wrap; gap:24px;
+  }
+  .tech-row .big{
+    font-family:'Fraunces', serif;
+    font-size:clamp(22px,2.6vw,30px);
+    max-width:640px;
+    color:var(--text);
+    font-weight:500;
+  }
+  .tech-row .big em{ color:var(--gold); font-style:italic; }
+  .tech-note{
+    font-size:13px; color:var(--text-faint);
+    font-family:'IBM Plex Mono', monospace;
+    max-width:280px;
+    text-align:right;
+  }
+  @media (max-width:720px){ .tech-note{ text-align:left; } }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  .contact{
+    border-top:1px solid var(--hair);
+    text-align:center;
+    padding:110px 0 90px;
+  }
+  .contact .eyebrow{ justify-content:center; }
+  .contact .eyebrow::before{ display:none; }
+  .contact h2{
+    margin-top:20px;
+    font-size:clamp(30px,4vw,46px);
+  }
+  .contact p{
+    margin:18px auto 0;
+    max-width:480px;
+    color:var(--text-muted);
+    font-size:15.5px;
+  }
+  .contact-links{
+    margin-top:42px;
+    display:flex; justify-content:center; gap:14px; flex-wrap:wrap;
+  }
+
+  footer{
+    border-top:1px solid var(--hair);
+    padding:36px 0;
+  }
+  .footer-row{
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:16px;
+    font-size:12.5px; color:var(--text-faint);
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .footer-row a{ color:var(--text-faint); }
+  .footer-row a:hover{ color:var(--gold); }
+  .footer-links{ display:flex; gap:22px; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .btn, .card, .card-link .arrow{ transition:none; }
+  }
+</style>
+</head>
+<body>
+<div class="noise"></div>
+
+<header>
+  <div class="nav">
+    <div class="brand"><span class="mark"></span>ALMEX</div>
+    <nav class="navlinks">
+      <a href="#ekotizim">Ekotizim</a>
+      <a href="#loyihalar">Loyihalar</a>
+      <a href="#aloqa">Aloqa</a>
+    </nav>
+    <a href="https://t.me/Almex_News" class="btn btn-ghost" style="padding:9px 18px; font-size:13px;">Kanalga o'tish</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Almex — Raqamli Ekotizim</div>
+    <h1>Bitta ekotizim,<br>bir nechta <em>raqamli dunyo.</em></h1>
+    <p class="lead">Almex — Telegram va boshqa raqamli platformalarda mustaqil tarzda rivojlanayotgan loyihalar majmuasi. Gaming, ijtimoiy-strategik formatlar va yagona axborot maydonini bitta yaxlit ekotizimda birlashtiradi.</p>
+    <div class="hero-actions">
+      <a href="https://t.me/AlmexMafiaBot" class="btn btn-primary">Almex Mafia'ni sinab ko'rish</a>
+      <a href="https://almexblack.com" class="btn btn-ghost">AlmexBlack.com</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="num">70,000+</div>
+        <div class="label">Faol foydalanuvchi</div>
+      </div>
+      <div class="stat">
+        <div class="num">02</div>
+        <div class="label">Flagman loyiha</div>
+      </div>
+      <div class="stat">
+        <div class="num">01</div>
+        <div class="label">Rasmiy axborot kanali</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="ekotizim">
+    <div class="section-head">
+      <div class="eyebrow">Ekotizim haqida</div>
+      <h2>Mustaqil loyihalar, yagona identifikatsiya.</h2>
+    </div>
+    <div class="about-grid">
+      <div>
+        <p>Almex — o'z tarkibida bir nechta raqamli loyihani birlashtiruvchi mustaqil ekotizim. Har bir loyiha alohida mahsulot sifatida ishlab chiqiladi va rivojlantiriladi, ammo umumiy <strong>Almex</strong> brendi, infratuzilmasi va foydalanuvchi tajribasi asosida birlashadi.</p>
+        <p>Ekotizim tarkibida ijtimoiy-strategik Telegram o'yin loyihalari — <strong>Almex Mafia</strong> va <strong>Almex Black</strong> — faoliyat yuritadi. Loyihalarning yagona rasmiy axborot maydoni sifatida <strong>Almex News</strong> kanali xizmat qiladi.</p>
+      </div>
+      <div class="pillar-list">
+        <div class="pillar">
+          <div class="idx">01</div>
+          <div class="txt">
+            <h4>Mustaqil infratuzilma</h4>
+            <p>Har bir loyiha o'z backend arxitekturasi asosida, real vaqt rejimida minglab foydalanuvchini birdek qo'llab-quvvatlaydi.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="idx">02</div>
+          <div class="txt">
+            <h4>Yagona brend maydoni</h4>
+            <p>Turli loyihalar bitta vizual va kommunikatsiya identifikatsiyasi ostida rivojlanadi.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="idx">03</div>
+          <div class="txt">
+            <h4>Ochiq axborot siyosati</h4>
+            <p>Almex News kanali orqali barcha yangiliklar va yangilanishlar shaffof tarzda e'lon qilinadi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="projects" id="loyihalar">
+    <div class="section-head">
+      <div class="eyebrow">Loyihalar</div>
+      <h2>Ekotizim tarkibidagi yo'nalishlar.</h2>
+      <p>Almex bayrog'i ostida rivojlanayotgan mahsulotlar — har biri o'z auditoriyasi va formatiga ega.</p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card wine">
+        <div class="tag">Gaming · Telegram</div>
+        <h3>Almex Mafia</h3>
+        <p>Klassik ijtimoiy-strategik o'yin formatidagi Telegram loyihasi. Guruhlarda minglab o'yinchini birlashtirib, real vaqtda mafia formatidagi o'yinlarni tashkil qiladi.</p>
+        <div class="stat-row"><span class="dot"></span>29,000+ o'yinchi</div>
+        <a href="https://t.me/AlmexMafiaBot" class="card-link">@AlmexMafiaBot <span class="arrow">→</span></a>
+      </div>
+
+      <div class="card">
+        <div class="tag">Premium · Eksklyuziv</div>
+        <h3>Almex Black</h3>
+        <p>Ekotizimning kengaytirilgan yo'nalishi — maxsus funksiyalar va tanlangan auditoriya uchun mo'ljallangan platforma.</p>
+        <div class="stat-row"><span class="dot"></span>41,000+ foydalanuvchi</div>
+        <a href="https://almexblack.com" class="card-link">AlmexBlack.com <span class="arrow">→</span></a>
+      </div>
+
+      <div class="card">
+        <div class="tag">Media · Rasmiy kanal</div>
+        <h3>Almex News</h3>
+        <p>Ekotizimdagi barcha loyihalar bo'yicha yagona rasmiy axborot manbai — yangiliklar, yangilanishlar va e'lonlar shu yerda.</p>
+        <div class="stat-row"><span class="dot"></span>Rasmiy manba</div>
+        <a href="https://t.me/Almex_News" class="card-link">@Almex_News <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="tech">
+    <div class="tech-row">
+      <div class="big">Har bir loyiha <em>real vaqt</em> infratuzilmasi ustida ishlaydi — minglab foydalanuvchini bir vaqtning o'zida barqaror qo'llab-quvvatlaydi.</div>
+      <div class="tech-note">BACKEND · REAL-TIME<br>INFRATUZILMA</div>
+    </div>
+  </section>
+
+  <section class="contact" id="aloqa">
+    <div class="eyebrow">Hamkorlik va media</div>
+    <h2>Almex jamoasi bilan bog'laning</h2>
+    <p>Ekotizim, uning tarixi, texnologik yechimlari yoki hamkorlik imkoniyatlari haqida qo'shimcha ma'lumot kerakmi — rasmiy kanal orqali murojaat qiling.</p>
+    <div class="contact-links">
+      <a href="https://t.me/Almex_News" class="btn btn-primary">@Almex_News orqali yozish</a>
+      <a href="https://almexblack.com" class="btn btn-ghost">AlmexBlack.com</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>© 2026 ALMEX — Barcha huquqlar himoyalangan</div>
+    <div class="footer-links">
+      <a href="https://t.me/AlmexMafiaBot">Almex Mafia</a>
+      <a href="https://almexblack.com">Almex Black</a>
+      <a href="https://t.me/Almex_News">Almex News</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
