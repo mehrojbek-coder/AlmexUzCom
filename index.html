@@ -368,6 +368,23 @@
     html{ scroll-behavior:auto; }
     .btn, .card, .card-link .arrow{ transition:none; }
   }
+
+  /* ---------- EMOJI + MOTION ---------- */
+  .emo{ display:inline-block; font-size:1.05em; line-height:1; }
+  .card .emo.big{ font-size:34px; margin-bottom:6px; display:block; animation:float 4s ease-in-out infinite; }
+  @keyframes float{ 0%,100%{ transform:translateY(0) rotate(-3deg);} 50%{ transform:translateY(-6px) rotate(3deg);} }
+  @keyframes rise{ from{ opacity:0; transform:translateY(18px);} to{ opacity:1; transform:none;} }
+  .hero .eyebrow, .hero h1, .hero p.lead, .hero-actions, .stats{ animation:rise .8s ease both; }
+  .hero h1{ animation-delay:.1s; } .hero p.lead{ animation-delay:.2s; } .hero-actions{ animation-delay:.3s; } .stats{ animation-delay:.4s; }
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+  .card.wine:hover{ box-shadow:inset 0 0 60px rgba(178,50,68,.18); }
+  .card:hover .emo.big{ animation-duration:1.6s; }
+  .stat .num .emo{ margin-right:6px; }
+  @media (prefers-reduced-motion: reduce){
+    .card .emo.big, .hero .eyebrow, .hero h1, .hero p.lead, .hero-actions, .stats{ animation:none; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+  }
 </style>
 </head>
 <body>
@@ -381,7 +398,7 @@
       <a href="#loyihalar">Loyihalar</a>
       <a href="#aloqa">Aloqa</a>
     </nav>
-    <a href="https://t.me/almexnews" class="btn btn-ghost" style="padding:9px 18px; font-size:13px;">Kanalga o'tish</a>
+    <a href="https://t.me/almexnews" class="btn btn-ghost" style="padding:9px 18px; font-size:13px;">📰 Kanalga o'tish</a>
   </div>
 </header>
 
@@ -392,21 +409,21 @@
     <h1>Bitta ekotizim,<br>bir nechta <em>raqamli dunyo.</em></h1>
     <p class="lead">Almex — Telegram va boshqa raqamli platformalarda mustaqil tarzda rivojlanayotgan loyihalar majmuasi. Gaming, ijtimoiy-strategik formatlar va yagona axborot maydonini bitta yaxlit ekotizimda birlashtiradi.</p>
     <div class="hero-actions">
-      <a href="https://t.me/AlmexMafiaBot" class="btn btn-primary">Almex Mafia'ni o'ynash</a>
-      <a href="https://t.me/AlmexBlackBot" class="btn btn-ghost">@AlmexBlackBot</a>
+      <a href="https://t.me/AlmexMafiaBot" class="btn btn-primary">🎭 Almex Mafia'ni o'ynash</a>
+      <a href="https://t.me/AlmexBlackBot" class="btn btn-ghost">🖤 @AlmexBlackBot</a>
     </div>
 
     <div class="stats">
       <div class="stat">
-        <div class="num">54,000+</div>
+        <div class="num"><span class="emo">👥</span>54,000+</div>
         <div class="label">Oylik foydalanuvchi</div>
       </div>
       <div class="stat">
-        <div class="num">02</div>
+        <div class="num"><span class="emo">🎮</span>02</div>
         <div class="label">Flagman loyiha</div>
       </div>
       <div class="stat">
-        <div class="num">01</div>
+        <div class="num"><span class="emo">📰</span>01</div>
         <div class="label">Rasmiy axborot kanali</div>
       </div>
     </div>
@@ -426,21 +443,21 @@
         <div class="pillar">
           <div class="idx">01</div>
           <div class="txt">
-            <h4>Mustaqil infratuzilma</h4>
+            <h4>⚡ Mustaqil infratuzilma</h4>
             <p>Har bir loyiha o'z backend arxitekturasi asosida, real vaqt rejimida minglab foydalanuvchini birdek qo'llab-quvvatlaydi.</p>
           </div>
         </div>
         <div class="pillar">
           <div class="idx">02</div>
           <div class="txt">
-            <h4>Yagona brend maydoni</h4>
+            <h4>👑 Yagona brend maydoni</h4>
             <p>Turli loyihalar bitta vizual va kommunikatsiya identifikatsiyasi ostida rivojlanadi.</p>
           </div>
         </div>
         <div class="pillar">
           <div class="idx">03</div>
           <div class="txt">
-            <h4>Ochiq axborot siyosati</h4>
+            <h4>📢 Ochiq axborot siyosati</h4>
             <p>Almex News kanali orqali barcha yangiliklar va yangilanishlar shaffof tarzda e'lon qilinadi.</p>
           </div>
         </div>
@@ -458,23 +475,23 @@
     <div class="card-grid">
       <div class="card wine">
         <div class="tag">Gaming · Telegram</div>
-        <h3>Almex Mafia</h3>
+        <span class="emo big">🎭</span><h3>Almex Mafia</h3>
         <p>Telegram guruhlarida o'ynaladigan mafia. Almex va Baku rejimlari (guruhda /mode), turnirlar, PRO imkoniyatlari va avtomatik to'lov.</p>
-        <div class="stat-row"><span class="dot"></span>18,900+ o'yinchi</div>
+        <div class="stat-row"><span class="dot"></span>🔥 18,900+ o'yinchi</div>
         <a href="https://t.me/AlmexMafiaBot" class="card-link">@AlmexMafiaBot <span class="arrow">→</span></a>
       </div>
 
       <div class="card">
         <div class="tag">Gaming · Telegram</div>
-        <h3>Almex Black</h3>
+        <span class="emo big">🖤</span><h3>Almex Black</h3>
         <p>Almex Mafia bilan bir ekotizimda ishlaydigan ikkinchi bot. PRO, almaz va dollar balansi ikkala botda umumiy, o'yin esa har botda alohida.</p>
-        <div class="stat-row"><span class="dot"></span>34,900+ foydalanuvchi</div>
+        <div class="stat-row"><span class="dot"></span>💎 34,900+ foydalanuvchi</div>
         <a href="https://t.me/AlmexBlackBot" class="card-link">@AlmexBlackBot <span class="arrow">→</span></a>
       </div>
 
       <div class="card">
         <div class="tag">Media · Rasmiy kanal</div>
-        <h3>Almex News</h3>
+        <span class="emo big">📰</span><h3>Almex News</h3>
         <p>Ekotizimdagi barcha loyihalar bo'yicha yagona rasmiy axborot manbai — yangiliklar, yangilanishlar va e'lonlar shu yerda.</p>
         <div class="stat-row"><span class="dot"></span>Rasmiy manba</div>
         <a href="https://t.me/almexnews" class="card-link">@almexnews <span class="arrow">→</span></a>
@@ -494,7 +511,7 @@
     <h2>Almex jamoasi bilan bog'laning</h2>
     <p>Ekotizim, uning tarixi, texnologik yechimlari yoki hamkorlik imkoniyatlari haqida qo'shimcha ma'lumot kerakmi — rasmiy kanal orqali murojaat qiling.</p>
     <div class="contact-links">
-      <a href="https://t.me/almexnews" class="btn btn-primary">@almexnews orqali yozish</a>
+      <a href="https://t.me/almexnews" class="btn btn-primary">📨 @almexnews orqali yozish</a>
       <a href="https://t.me/AlmexBlackBot" class="btn btn-ghost">@AlmexBlackBot</a>
     </div>
   </section>
@@ -512,5 +529,16 @@
   </div>
 </footer>
 
+<script>
+(function(){
+  var els=document.querySelectorAll('.section-head,.pillar,.card,.tech-row,.contact > *');
+  els.forEach(function(e){ e.classList.add('reveal'); });
+  if(!('IntersectionObserver' in window)){ els.forEach(function(e){ e.classList.add('in'); }); return; }
+  var io=new IntersectionObserver(function(en){
+    en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } });
+  },{threshold:.12});
+  els.forEach(function(e){ io.observe(e); });
+})();
+</script>
 </body>
 </html>
