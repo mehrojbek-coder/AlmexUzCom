@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel — Almex</title>
+<meta name="theme-color" content="#ebe6db">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ebe6db; --paper-2:#e2dccf; --ink:#15130f; --muted:#6b655a;
+    --line:rgba(21,19,15,.16); --red:#8c2a1e; --gold:#9a7b2f; --ok:#2f6b3a;
+    --serif:'Instrument Serif','Times New Roman',serif;
+    --sans:'Hanken Grotesk',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --paper:#100f0d; --paper-2:#171512; --ink:#ece6d9; --muted:#9a9384; --line:rgba(236,230,217,.16); --red:#d0553f; --gold:#c9a24b; --ok:#6fbf7e; }
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--paper); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.5; -webkit-font-smoothing:antialiased; min-height:100vh; }
+  a{ color:inherit; text-decoration:none; }
+  button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+  button:disabled{ cursor:not-allowed; opacity:.35; }
+  :focus-visible{ outline:2px solid var(--red); outline-offset:3px; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 24px; }
+  .mono{ font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+
+  header{ border-bottom:1px solid var(--line); }
+  .top{ display:flex; align-items:center; justify-content:space-between; height:64px; gap:16px; }
+  .logo{ font-family:var(--serif); font-size:26px; letter-spacing:-.01em; }
+  .who{ text-align:right; line-height:1.25; min-width:0; }
+  .who b{ display:block; font-weight:500; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:52vw; }
+
+  .intro{ padding:clamp(36px,6vw,68px) 0 28px; }
+  .intro h1{ font-family:var(--serif); font-weight:400; font-size:clamp(40px,7vw,84px); line-height:.95; letter-spacing:-.03em; margin-top:14px; }
+  .intro p{ margin-top:14px; color:var(--muted); max-width:560px; }
+  .pill{ display:inline-block; margin-left:8px; padding:2px 10px; border:1px solid var(--line); border-radius:99px; font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); vertical-align:middle; }
+
+  .tabs{ display:flex; gap:6px; flex-wrap:wrap; padding:18px 0; border-top:1px solid var(--line); }
+  .tabs button{ padding:10px 18px; border:1px solid var(--line); border-radius:99px; font-size:15px; font-weight:500; transition:background .15s,color .15s,border-color .15s; }
+  .tabs button:hover{ border-color:var(--ink); }
+  .tabs button[aria-selected="true"]{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+
+  .ctrl{ display:flex; align-items:flex-end; gap:clamp(20px,5vw,64px); flex-wrap:wrap; padding:8px 0 30px; }
+  .count{ display:flex; align-items:baseline; gap:12px; }
+  .count output{ font-family:var(--serif); font-size:clamp(76px,11vw,120px); line-height:.85; letter-spacing:-.04em; min-width:1.15em; }
+  .slider{ flex:1; min-width:220px; padding-bottom:8px; }
+  .slider label{ display:block; margin-bottom:12px; }
+  input[type=range]{ -webkit-appearance:none; appearance:none; width:100%; height:24px; background:transparent; cursor:pointer; }
+  input[type=range]::-webkit-slider-runnable-track{ height:1px; background:var(--ink); }
+  input[type=range]::-moz-range-track{ height:1px; background:var(--ink); }
+  input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:22px; height:22px; border-radius:50%; background:var(--red); border:4px solid var(--paper); box-shadow:0 0 0 1px var(--ink); margin-top:-11px; }
+  input[type=range]::-moz-range-thumb{ width:14px; height:14px; border-radius:50%; background:var(--red); border:4px solid var(--paper); box-shadow:0 0 0 1px var(--ink); }
+  .ticks{ display:flex; justify-content:space-between; margin-top:8px; }
+
+  .bar{ display:flex; height:10px; border-radius:99px; overflow:hidden; background:var(--paper-2); }
+  .bar i{ display:block; height:100%; transition:width .35s cubic-bezier(.3,.7,.2,1); }
+  .bar .m{ background:var(--red); } .bar .t{ background:var(--ink); } .bar .n{ background:var(--gold); }
+  .legend{ display:flex; gap:clamp(18px,4vw,40px); flex-wrap:wrap; margin:16px 0 34px; }
+  .legend div{ display:flex; align-items:baseline; gap:9px; }
+  .legend b{ font-family:var(--serif); font-weight:400; font-size:40px; line-height:1; }
+  .legend small{ color:var(--muted); font-size:14px; }
+
+  .groups{ display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(22px,4vw,52px); }
+  @media (max-width:900px){ .groups{ grid-template-columns:1fr; gap:30px; } }
+  .group h3{ display:flex; align-items:center; gap:10px; font-family:var(--mono); font-weight:500; font-size:12px; letter-spacing:.1em; text-transform:uppercase; padding-bottom:12px; border-bottom:1px solid var(--ink); }
+  .group h3::before{ content:""; width:9px; height:9px; background:var(--c); }
+  .group h3 span{ margin-left:auto; color:var(--muted); }
+  .row{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); }
+  .row .nm{ font-size:16px; min-width:0; }
+  .row .nm small{ display:block; color:var(--muted); font-size:12.5px; line-height:1.35; margin-top:1px; }
+  .step{ display:flex; align-items:center; gap:2px; flex-shrink:0; }
+  .step button{ width:34px; height:34px; border:1px solid var(--line); border-radius:50%; font-size:18px; line-height:1; transition:border-color .15s,background .15s; }
+  .step button:hover:not(:disabled){ border-color:var(--ink); background:var(--paper-2); }
+  .step output{ min-width:30px; text-align:center; font-family:var(--mono); font-size:15px; }
+  .row.auto .step output{ color:var(--muted); }
+  .row.zero .nm{ color:var(--muted); }
+
+  .dock{ position:sticky; bottom:0; margin-top:44px; background:color-mix(in srgb,var(--paper) 92%,transparent); backdrop-filter:blur(10px); border-top:1px solid var(--line); }
+  .dock .in{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:14px 0; }
+  .status{ flex:1; min-width:180px; font-size:14px; color:var(--muted); }
+  .status b{ color:var(--ink); font-weight:600; }
+  .status.err{ color:var(--red); } .status.ok{ color:var(--ok); }
+  .btn{ padding:13px 24px; border:1px solid var(--ink); border-radius:99px; font-size:15px; font-weight:500; transition:background .15s,color .15s,border-color .15s; }
+  .btn.fill{ background:var(--ink); color:var(--paper); }
+  .btn.fill:hover:not(:disabled){ background:var(--red); border-color:var(--red); }
+  .btn:not(.fill):hover:not(:disabled){ background:var(--ink); color:var(--paper); }
+
+  .msg{ padding:clamp(60px,12vw,140px) 0; max-width:520px; }
+  .msg h1{ font-family:var(--serif); font-weight:400; font-size:clamp(36px,6vw,60px); line-height:1; letter-spacing:-.02em; }
+  .msg p{ margin-top:16px; color:var(--muted); }
+  .msg ol{ margin:16px 0 0 20px; color:var(--muted); }
+  .msg .btn{ display:inline-block; margin-top:24px; }
+  .hidden{ display:none !important; }
+  footer{ border-top:1px solid var(--line); padding:26px 0 34px; margin-top:0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap top">
+    <a href="/" class="logo">Almex</a>
+    <div class="who" id="who"><span class="mono">Boshqaruv paneli</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="msg hidden" id="bad">
+    <div class="mono">Havola yaroqsiz</div>
+    <h1 id="badTitle">Panel havolasi topilmadi.</h1>
+    <p id="badText">Panelni faqat botdan olingan havola orqali ochish mumkin.</p>
+    <ol>
+      <li>Guruhda <b>/setting</b> yozing (admin bo'lishingiz kerak).</li>
+      <li>Bot shaxsiy chatga menyu yuboradi.</li>
+      <li>«Boshqaruv paneli» → «Web panelni ochish» ni bosing.</li>
+    </ol>
+    <a class="btn" href="/">Bosh sahifa</a>
+  </section>
+
+  <div id="app" class="hidden">
+    <section class="intro">
+      <div class="mono">Guruh sozlamalari</div>
+      <h1>Turnir sozlamalari</h1>
+      <p>Har bir o'yin turi va o'yinchilar soni uchun rollar tarkibini o'zingiz belgilang. Saqlangan tarkib shu guruhning keyingi o'yinlarida ishlatiladi.<span class="pill" id="modePill"></span></p>
+    </section>
+
+    <div class="tabs" role="tablist" aria-label="O'yin turi" id="tabs"></div>
+
+    <div class="ctrl">
+      <div class="count"><output id="n" for="rng" aria-live="polite">12</output><span class="mono">o'yinchi</span></div>
+      <div class="slider">
+        <label class="mono" for="rng">O'yinchilar soni</label>
+        <input id="rng" type="range" min="4" max="40" value="12">
+        <div class="ticks mono"><span>4</span><span>10</span><span>20</span><span>30</span><span>40</span></div>
+      </div>
+    </div>
+
+    <div class="bar" aria-hidden="true"><i class="m" id="bm"></i><i class="t" id="bt"></i><i class="n" id="bn"></i></div>
+    <div class="legend" id="legend"></div>
+    <div class="groups" id="groups"></div>
+  </div>
+</main>
+
+<div class="dock hidden" id="dock">
+  <div class="wrap in">
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+    <button class="btn" id="reset" type="button">Standartga qaytarish</button>
+    <button class="btn fill" id="save" type="button">Saqlash</button>
+  </div>
+</div>
+
+<footer><div class="wrap mono">© 2026 Almex</div></footer>
+
+<script>
+(function(){
+  "use strict";
+  var API_OK = "https://api.almexuz.com";
+
+  /* ---------- havola parametrlari ---------- */
+  var q = new URLSearchParams(location.search);
+  function store(k,v){ try{ if(v) sessionStorage.setItem(k,v); return sessionStorage.getItem(k)||""; }catch(e){ return v||""; } }
+  var gid   = store("almex_g", q.get("g"));
+  var token = store("almex_t", q.get("t"));
+  var bot   = store("almex_b", q.get("bot"));
+  var apiRaw= store("almex_a", q.get("api")) || API_OK;
+  var startType = q.get("type") || "";
+  if(q.has("t")){ try{ history.replaceState(null,"",location.pathname); }catch(e){} }   /* token manzil satrida qolmasin */
+
+  function showBad(title,text){
+    document.getElementById("bad").classList.remove("hidden");
+    document.getElementById("app").classList.add("hidden");
+    document.getElementById("dock").classList.add("hidden");
+    if(title) document.getElementById("badTitle").textContent=title;
+    if(text) document.getElementById("badText").textContent=text;
+  }
+
+  /* API manzili faqat bizning serverimiz bo'lishi shart (token boshqa joyga ketib qolmasin) */
+  var API = "";
+  try{
+    var u = new URL(apiRaw);
+    if(u.origin === API_OK && (u.pathname === "/" || u.pathname === "" || u.pathname === "/black" || u.pathname === "/black/")){
+      API = API_OK + (u.pathname.indexOf("/black")===0 ? "/black" : "");
+    }
+  }catch(e){}
+  if(!/^-?\d{5,20}$/.test(gid) || !/^[A-Za-z0-9]{16,64}$/.test(token) || !API){
+    showBad(); return;
+  }
+
+  /* ---------- ma'lumotlar ---------- */
+  /* [kalit, nom, jamoa (m/t/n), tavsif] */
+  var R = [
+    ["sherif","Komissar Kattani","t","Shaharning asosiy himoyachisi. Har tunda tekshiradi yoki o'ldiradi."],
+    ["don","Don","m","Mafiya sardori. Har tunda kim o'lishini hal qiladi."],
+    ["mafia","Mafia","m","Donga bo'ysunadi, unga qarshilik qilganlarni o'ldiradi."],
+    ["advokat","Advokat","m","Mafiyani himoya qiladi: Komissar uni tanib olmaydi."],
+    ["yollanma_qotil","Yollanma qotil","m","Istalgan odamni o'ldiradi, qurbonini hech kim qutqara olmaydi."],
+    ["zaharchi","Zaharchi","m","Mafiya sherigi. Zaharlangan odam ertasi tongda o'ladi (Tabib davolamasa)."],
+    ["savdogar","Savdogar","m","Mafiya tomonida. Qutilar sotadi: mukofot yoki o'lim."],
+    ["aka","Aka","m","Uka bilan birga harakat qiladi. Ikkalasi bir odamni tanlasa, u o'ladi."],
+    ["uka","Uka","m","Aka bilan birga harakat qiladi. Biri o'lsa, ikkinchisi ham o'ladi."],
+    ["tinch_aholi","Tinch aholi","t","Mafiyani topish va kunduzgi ovozda osish uning vazifasi."],
+    ["doktor","Doktor","t","Har tunda kimnidir davolaydi. O'zini faqat bir marta davolay oladi."],
+    ["tabib","Tabib","t","Bir kishini davolaydi va zaharlanganlarni asrab qoladi."],
+    ["serjant","Serjant","t","Komissarning yordamchisi. Komissar o'lsa, uning o'rnini egallaydi."],
+    ["kezuvchi","Kezuvchi","t","Kimga tashrif buyursa, u ertasi kuni ovoz bera olmaydi."],
+    ["daydi","Daydi","t","Istalgan odamnikiga boradi va qotillikning guvohi bo'lib qolishi mumkin."],
+    ["afsungar","Afsungar","t","Hujum qilganni o'ldiradi yoki afv etadi. Kunduz osilsa, bir kishini olib ketishi mumkin."],
+    ["heir","Voris","t","Mafiya o'ldirsa, keyingi tunda mafiyaga aylanadi. Komissar o'ldirsa — Serjantga."],
+    ["janob","Janob","t","Kunduzgi ovoz berishda ovozi ikkitaga teng."],
+    ["omadli","Omadli","t","Birinchi hujumda 100% omon qoladi."],
+    ["ovchi","Ovchi","t","Har tunda tekshiradi yoki o'ldiradi. Tinch aholiga zarar bersa, jarima to'laydi."],
+    ["jurnalist","Jurnalist","t","Intervyuga boradi va o'sha odamnikiga kelgan har bir o'yinchini ko'radi."],
+    ["donishmand","Donishmand","t","Mafiya va Komissar jamoalari yozishmalarini ko'radi (kimligini emas)."],
+    ["qorovul","Qarovul","t","Tanlagan odami kunduz osilmoqchi bo'lsa, omon qoladi. O'zini himoya qila olmaydi."],
+    ["podshoh","Podshoh","t","Shaharning ramzi. Kunduz osilib, Qarovul himoyasi bo'lmasa, mafiya yutadi."],
+    ["jodugar","Jodugar","t","Tanlagan o'yinchining ertangi ovozini tasodifiy qiladi yoki o'chiradi."],
+    ["qotil","Qotil","n","Yolg'iz o'ynaydi: o'zidan tashqari hamma o'lishi kerak."],
+    ["vampir","Vampir","n","Har tunda birovni o'ldiradi, himoya ham qutqarmaydi."],
+    ["haqiqiy_vampir","Haqiqiy vampir","n","Har tunda o'ldiradi. Uni faqat kunduzgi osish yo'q qiladi."],
+    ["bori","Bo'ri","n","Tishlab o'ldiradi. Haqiqiy vampirni tishlasa, yengilmas Gibridga aylanadi."],
+    ["gazabkor","G'azabkor","n","Kamida 3 qurbon va o'zining o'limi bilan yutadi."],
+    ["sehrgar","Sehrgar","n","O'z qonunlari bilan yashaydi. Maqsadi — omon qolish."],
+    ["konchi","Konchi","n","Tunnel qazib dollar yoki olmos topadi. Tirik qolsa, yutadi."],
+    ["banker","Banker","n","Konchi yoki Savdogardan 10% soliq oladi."],
+    ["ogri","Qaroqchi","n","Tartibsizlik chiqaradi, yolg'on ma'lumot beradi, o'g'irlik qiladi."],
+    ["aferist","Aferist","n","Har tunda biror o'yinchining ovozini o'g'irlaydi."],
+    ["suidsid","Suitsid","n","Uni osib o'ldirishsa, aynan u yutadi."],
+    ["sotqin","Sotqin","n","Komissarni kuzatadi va tekshirilgan odamning rolini e'lon qiladi."],
+    ["tulki","Tulki","n","Kunduz osilsa, unga birinchi ovoz bergan ham o'ladi va Tulki yutadi."],
+    ["reviver","Reviver","n","Butun o'yinda bir marta o'liklardan birini tiriltiradi."],
+    ["qorbobo","Qorbobo","n","Sovg'alar ulashadi. O'yin oxirigacha tirik qolsa, yutadi."]
+  ];
+  var BY = {}; R.forEach(function(r){ BY[r[0]] = r; });
+  var TYPES = [
+    ["tourgame","Turnir","baku"],
+    ["paratour","Para turnir","baku"],
+    ["teamgame","Jamoa o'yini","almex"],
+    ["parateam","Para jamoa","almex"]
+  ];
+  var TEAMS = [["m","Mafiya","var(--red)"],["t","Tinch tomon","var(--ink)"],["n","Neytral","var(--gold)"]];
+  var MIN1 = {sherif:1, don:1};
+  /* Baku/turnirda ba'zi rollar boshqacha nom bilan chiqadi */
+  var BAKU_NAME = {heir:"Bo'ri", yollanma_qotil:"Ubiysa"};
+
+  var type = "", n = 12, counts = {}, loaded = {}, dirty = false, busy = false, extra = {};
+  var $ = function(id){ return document.getElementById(id); };
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+
+  function setStatus(html, cls){ var s=$("status"); s.className="status "+(cls||""); s.innerHTML=html; }
+
+  function api(method, path, body){
+    return fetch(API + path, {
+      method: method,
+      headers: body ? {"Content-Type":"application/json"} : {},
+      body: body ? JSON.stringify(body) : undefined,
+      cache: "no-store",
+      referrerPolicy: "no-referrer"
+    }).then(function(r){
+      return r.json().catch(function(){ return {success:false, error:"Server javobi noto'g'ri"}; })
+        .then(function(j){ if(r.status===403 || (j && /token/i.test(j.error||""))) j.denied = true; return j; });
+    });
+  }
+  var tq = encodeURIComponent(token);
+
+  /* ---------- hisob ---------- */
+  function sumOthers(){ var s=0; for(var k in counts){ if(k!=="tinch_aholi") s+=counts[k]; } return s; }
+  function tinch(){ return n - sumOthers(); }
+  function nameOf(k){
+    if(BAKU_NAME[k] && /^(tourgame|paratour)$/.test(type)) return BAKU_NAME[k];
+    return BY[k] ? BY[k][1] : k;
+  }
+  function teamOf(k){ return BY[k] ? BY[k][2] : "n"; }
+
+  function render(){
+    $("n").textContent = n;
+    var t = tinch(), over = t < 0;
+    var tot = {m:0,t:0,n:0};
+    Object.keys(counts).forEach(function(k){ if(k!=="tinch_aholi") tot[teamOf(k)] += counts[k]; });
+    tot.t += Math.max(0,t);
+    $("bm").style.width = (tot.m/n*100)+"%"; $("bt").style.width = (tot.t/n*100)+"%"; $("bn").style.width = (tot.n/n*100)+"%";
+    $("legend").innerHTML = TEAMS.map(function(g){
+      return '<div><b>'+tot[g[0]]+'</b><small>'+g[1]+' · '+Math.round(tot[g[0]]/n*100)+'%</small></div>';
+    }).join("");
+
+    var keys = R.map(function(r){ return r[0]; });
+    Object.keys(extra).forEach(function(k){ if(keys.indexOf(k)<0) keys.push(k); });
+    $("groups").innerHTML = TEAMS.map(function(g){
+      var rows = keys.filter(function(k){ return teamOf(k)===g[0]; });
+      var cnt = 0;
+      var html = rows.map(function(k){
+        var auto = k==="tinch_aholi";
+        var v = auto ? Math.max(0,t) : (counts[k]||0);
+        cnt += v;
+        var minv = MIN1[k]||0;
+        var canInc = !auto && t > 0;
+        var canDec = !auto && v > minv;
+        var d = BY[k] ? BY[k][3] : "Maxsus rol";
+        return '<div class="row'+(auto?' auto':'')+(v===0?' zero':'')+'"><div class="nm">'+esc(nameOf(k))+'<small>'+esc(d)+'</small></div>'+
+          '<div class="step">'+(auto?'':'<button type="button" data-k="'+k+'" data-d="-1" aria-label="'+esc(nameOf(k))+' kamaytirish"'+(canDec?'':' disabled')+'>−</button>')+
+          '<output>'+v+'</output>'+
+          (auto?'':'<button type="button" data-k="'+k+'" data-d="1" aria-label="'+esc(nameOf(k))+' ko\'paytirish"'+(canInc?'':' disabled')+'>+</button>')+'</div></div>';
+      }).join("");
+      return '<div class="group" style="--c:'+g[2]+'"><h3>'+g[1]+'<span>'+cnt+'</span></h3>'+html+'</div>';
+    }).join("");
+
+    $("save").disabled = busy || over || !dirty;
+    $("reset").disabled = busy;
+    if(over) setStatus("Rollar <b>"+(-t)+"</b> taga ortiqcha. Ba'zilarini kamaytiring.", "err");
+    else if(dirty) setStatus("Saqlanmagan o'zgarishlar bor. Tinch aholi avtomatik: <b>"+t+"</b>.");
+    else if(!busy) setStatus("Hozirgi tarkib shu guruh o'yinlarida ishlatiladi.");
+  }
+
+  /* ---------- yuklash / saqlash ---------- */
+  function load(){
+    busy = true; dirty = false; setStatus("Yuklanmoqda…"); render();
+    var tp = type, np = n;
+    return api("GET","/api/panel/roles/"+gid+"/"+tp+"/"+np+"?token="+tq).then(function(j){
+      if(tp!==type || np!==n) return;                      /* oraliqda boshqa tanlov bo'lgan */
+      busy = false;
+      if(!j || !j.success){
+        if(j && j.denied){ showBad("Havola eskirgan.","Botdan yangi havola oling."); return; }
+        setStatus((j && j.error) || "Yuklab bo'lmadi.", "err"); return;
+      }
+      counts = {}; extra = {};
+      Object.keys(j.roles||{}).forEach(function(k){
+        var v = j.roles[k]|0; if(v<=0) return;
+        counts[k] = v; if(!BY[k]) extra[k] = 1;
+      });
+      /* tinch aholi avtomatik hisoblanadi; boshqa rollar yig'indisi n dan oshmasin */
+      delete counts.tinch_aholi;
+      loaded = JSON.parse(JSON.stringify(counts));
+      render();
+    }).catch(function(){
+      busy = false; setStatus("Server bilan aloqa yo'q. Birozdan so'ng qayta urinib ko'ring.", "err"); render();
+    });
+  }
+
+  function save(){
+    if(busy || tinch()<0) return;
+    var roles = {}; Object.keys(counts).forEach(function(k){ if(counts[k]>0) roles[k]=counts[k]; });
+    if(tinch()>0) roles.tinch_aholi = tinch();
+    busy = true; setStatus("Saqlanmoqda…"); render();
+    api("POST","/api/panel/roles/"+gid+"/"+type+"/"+n+"?token="+tq, {roles:roles}).then(function(j){
+      busy = false;
+      if(j && j.success){ dirty=false; loaded=JSON.parse(JSON.stringify(counts)); render(); setStatus("Saqlandi. Keyingi o'yindan boshlab ishlaydi.","ok"); }
+      else { render(); setStatus((j && j.error)||"Saqlab bo'lmadi.","err"); }
+    }).catch(function(){ busy=false; render(); setStatus("Server bilan aloqa yo'q.","err"); });
+  }
+
+  function reset(){
+    if(busy) return;
+    if(!confirm("Bu o'yin turi va "+n+" kishi uchun tarkib standartga qaytarilsinmi?")) return;
+    busy = true; setStatus("Qaytarilmoqda…"); render();
+    api("DELETE","/api/panel/role_config/"+gid+"/"+type+"/"+n+"?t="+tq).then(function(j){
+      busy = false;
+      if(j && j.success){ load().then(function(){ setStatus("Standart tarkib tiklandi.","ok"); }); }
+      else { render(); setStatus((j && j.error)||"Qaytarib bo'lmadi.","err"); }
+    }).catch(function(){ busy=false; render(); setStatus("Server bilan aloqa yo'q.","err"); });
+  }
+
+  function guardLeave(){
+    return !dirty || confirm("Saqlanmagan o'zgarishlar yo'qoladi. Davom etamizmi?");
+  }
+
+  /* ---------- hodisalar ---------- */
+  $("groups").addEventListener("click", function(e){
+    var b = e.target.closest("button[data-k]"); if(!b || busy) return;
+    var k = b.dataset.k, d = +b.dataset.d, cur = counts[k]||0, nx = cur + d;
+    if(nx < (MIN1[k]||0) || (d>0 && tinch()<=0)) return;
+    if(nx===0) delete counts[k]; else counts[k]=nx;
+    dirty = JSON.stringify(sortObj(counts)) !== JSON.stringify(sortObj(loaded));
+    render();
+  });
+  function sortObj(o){ var r={}; Object.keys(o).sort().forEach(function(k){ r[k]=o[k]; }); return r; }
+
+  var rng = $("rng"), t0;
+  rng.addEventListener("input", function(){ $("n").textContent = rng.value; });
+  rng.addEventListener("change", function(){
+    var nv = +rng.value;
+    if(nv===n) return;
+    if(!guardLeave()){ rng.value = n; $("n").textContent = n; return; }
+    n = nv; load();
+  });
+  $("save").addEventListener("click", save);
+  $("reset").addEventListener("click", reset);
+  window.addEventListener("beforeunload", function(e){ if(dirty){ e.preventDefault(); e.returnValue=""; } });
+
+  function buildTabs(mode){
+    $("tabs").innerHTML = TYPES.map(function(t){
+      return '<button type="button" role="tab" data-t="'+t[0]+'" aria-selected="'+(t[0]===type)+'">'+t[1]+'</button>';
+    }).join("");
+  }
+  $("tabs").addEventListener("click", function(e){
+    var b = e.target.closest("button[data-t]"); if(!b || b.dataset.t===type) return;
+    if(!guardLeave()) return;
+    type = b.dataset.t;
+    $("tabs").querySelectorAll("button").forEach(function(x){ x.setAttribute("aria-selected", x.dataset.t===type); });
+    load();
+  });
+
+  /* ---------- boshlash ---------- */
+  api("GET","/api/panel/auth_check?group_id="+encodeURIComponent(gid)+"&token="+tq).then(function(j){
+    if(!j || !j.success){ showBad("Havola eskirgan yoki noto'g'ri.","Botdan yangi havola oling."); return; }
+    $("who").innerHTML = '<b>'+esc(j.group_name||gid)+'</b><span class="mono">'+esc(bot ? "@"+bot : "Boshqaruv paneli")+'</span>';
+    var mode = j.mode==="baku" ? "baku" : "almex";
+    $("modePill").textContent = "Guruh rejimi: " + (mode==="baku" ? "Baku" : "Almex");
+    type = TYPES.some(function(t){ return t[0]===startType; }) ? startType : (mode==="baku" ? "tourgame" : "teamgame");
+    buildTabs(mode);
+    $("app").classList.remove("hidden"); $("dock").classList.remove("hidden");
+    load();
+  }).catch(function(){
+    showBad("Server bilan aloqa yo'q.","Birozdan so'ng qayta urinib ko'ring yoki botdan yangi havola oling.");
+  });
+})();
+</script>
+</body>
+</html>
