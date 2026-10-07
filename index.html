@@ -3,298 +3,696 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#08110f">
-<title>Almex — Telegram mafia o'yinlari</title>
-<meta name="description" content="Almex — Telegram'dagi mafia. Kartangizni tanlang, rolingizni bilib oling, o'yinchilar soniga qarab rollar tarqatilishini ko'ring.">
+<title>Almex — Telegramdagi mafia</title>
+<meta name="description" content="Almex — Telegramdagi mafia o'yini. 41 ta rol, Almex va Baku rejimlari, jamoaviy o'yin, turnirlar va PRO. Bir tunni kuzating, kartangizni torting, qaysi rol ekaningizni bilib oling.">
+<meta name="theme-color" content="#07070a">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://almexuz.com/">
+<meta property="og:title" content="Almex — Telegramdagi mafia">
+<meta property="og:description" content="Shahar uxlaydi. Mafiya esa — yo'q. 41 ta rol, ikki bot, bitta hisob.">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307070a'/%3E%3Cpath d='M32 10 52 54H42l-3.8-9H25.8L22 54H12z' fill='%23ff3b30'/%3E%3Cpath d='M28.6 37h6.8L32 28.4z' fill='%2307070a'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800;900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --felt:#08110f; --felt-2:#0e1c19; --felt-3:#16292a;
-    --ivory:#ebe3cf; --ivory-2:#d9cfb6; --ink:#101a18;
-    --moon:#a9bfd0; --crimson:#b32430; --ochre:#c79a3b; --teal:#2c5a58;
-    --txt:#ebe3cf; --dim:#8fa19b;
-    --disp:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
-    --body:'Onest',system-ui,sans-serif;
-    --cw:clamp(104px,30vw,220px);            /* hero karta kengligi */
+    --bg:#07070a; --bg2:#0d0d13; --card:#111118; --card2:#17171f;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.16);
+    --tx:#f2eee7; --mu:#9d99a6; --dim:#5f5c68;
+    --red:#ff3b30; --gold:#f5b942;
+    --t:#7fb2ff; --m:#ff4a3d; --n:#c39bff;
+    --disp:'Unbounded',system-ui,sans-serif;
+    --body:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+    color-scheme:dark;
   }
-  *{ box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
-  html{ background:var(--felt); scroll-behavior:smooth; overflow-x:hidden; overflow-x:clip; }
-  body{ background:var(--felt); color:var(--txt); font-family:var(--body); font-size:17px; line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden; overflow-x:clip; min-height:100vh; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  body{ background:var(--bg); color:var(--tx); font-family:var(--body); font-size:17px; line-height:1.55; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
   a{ color:inherit; text-decoration:none; }
-  button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
-  :focus-visible{ outline:2px solid var(--moon); outline-offset:4px; border-radius:6px; }
-  ::selection{ background:var(--ivory); color:var(--ink); }
-  .wrap{ width:min(1180px,100% - 40px); margin-inline:auto; }
+  button{ font:inherit; color:inherit; background:none; border:0; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+  :focus-visible{ outline:2px solid var(--red); outline-offset:3px; border-radius:8px; }
+  ::selection{ background:var(--red); color:#fff; }
+  .wrap{ max-width:1200px; margin:0 auto; padding:0 16px; }
+  @media (min-width:720px){ .wrap{ padding:0 32px; } }
+  .c-m{ --c:var(--m); } .c-t{ --c:var(--t); } .c-n{ --c:var(--n); }
 
-  /* ---- fon: sukno, oy nuri, tuman, donador ---- */
-  .bg{ position:fixed; inset:0; z-index:-1; overflow:hidden; background:
-      radial-gradient(120% 80% at 50% 0%, #11302c 0%, transparent 60%),
-      radial-gradient(90% 60% at 50% 110%, #050a09 0%, transparent 70%), var(--felt); }
-  .moon{ position:absolute; top:-8vmax; right:-6vmax; width:34vmax; height:34vmax; border-radius:50%;
-         background:radial-gradient(circle at 40% 40%, rgba(169,191,208,.32), rgba(169,191,208,.10) 40%, transparent 68%); }
-  .fog{ position:absolute; width:90vmax; height:46vmax; border-radius:50%; filter:blur(60px); opacity:.5; will-change:transform;
-        background:radial-gradient(closest-side, rgba(44,90,88,.55), transparent); }
-  .fog.a{ left:-30vmax; top:30%; animation:drift 38s ease-in-out infinite alternate; }
-  .fog.b{ right:-36vmax; top:62%; animation:drift 46s ease-in-out -12s infinite alternate-reverse; opacity:.4; }
-  @keyframes drift{ from{ transform:translate3d(-6%,0,0); } to{ transform:translate3d(14%,-8%,0); } }
-  .grain{ position:fixed; inset:-50%; z-index:50; pointer-events:none; opacity:.07; mix-blend-mode:overlay;
-          background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  /* ---------- header ---------- */
+  header{ position:fixed; inset:0 0 auto; z-index:50; transition:background .3s, border-color .3s; border-bottom:1px solid transparent; }
+  header.solid{ background:rgba(7,7,10,.78); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); border-bottom-color:var(--line); }
+  .top{ display:flex; align-items:center; justify-content:space-between; height:64px; gap:16px; }
+  .logo{ font-family:var(--disp); font-weight:900; letter-spacing:.12em; font-size:17px; display:flex; align-items:center; gap:10px; }
+  .logo i{ width:9px; height:9px; border-radius:50%; background:var(--red); box-shadow:0 0 14px var(--red); animation:pulse 2.4s infinite; }
+  @keyframes pulse{ 50%{ opacity:.3; } }
+  .nav{ display:flex; align-items:center; gap:22px; font-size:14px; font-weight:700; color:var(--mu); }
+  .nav a:hover{ color:var(--tx); }
+  .nav .go{ color:#fff; background:var(--red); padding:9px 16px; border-radius:999px; }
+  .nav .go:hover{ color:#fff; background:#ff5247; }
+  @media (max-width:900px){ .nav .l{ display:none; } }
+  .bar{ position:absolute; left:0; bottom:-1px; height:2px; width:100%; background:linear-gradient(90deg,var(--red),var(--gold)); transform-origin:0 50%; transform:scaleX(var(--sp,0)); }
 
-  /* ---- yuqori qator ---- */
-  header{ position:absolute; inset:0 0 auto 0; z-index:10; }
-  .top{ display:flex; align-items:center; justify-content:space-between; height:72px; }
-  .logo{ font-family:var(--disp); font-weight:900; font-size:28px; letter-spacing:.04em; }
-  .top nav{ display:flex; align-items:center; gap:26px; font-size:15px; color:var(--dim); }
-  .top nav a:hover{ color:var(--txt); }
-  .pill{ padding:9px 18px; border:1px solid rgba(235,227,207,.35); border-radius:99px; color:var(--txt); transition:background .2s,color .2s; }
-  .pill:hover{ background:var(--ivory); color:var(--ink) !important; }
-  @media (max-width:560px){ .top nav a.hide-m{ display:none; } }
+  /* ---------- buttons ---------- */
+  .btn{ display:inline-flex; align-items:center; justify-content:center; gap:10px; min-height:52px; padding:0 24px; border-radius:999px; font-weight:800; font-size:16px; border:1px solid var(--line2); transition:transform .2s, background .2s, border-color .2s; }
+  .btn:hover{ transform:translateY(-2px); border-color:var(--tx); }
+  .btn.red{ background:var(--red); border-color:var(--red); color:#fff; box-shadow:0 12px 40px -12px rgba(255,59,48,.8); }
+  .btn.red:hover{ background:#ff5247; }
+  .btn.sm{ min-height:44px; padding:0 18px; font-size:15px; }
 
-  /* ---- birinchi ekran ---- */
-  .hero{ min-height:100vh; min-height:100svh; display:grid; align-items:center; padding:96px 0 40px; }
-  .hero-in{ display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); grid-template-areas:"mark stage" "copy stage"; column-gap:clamp(20px,4vw,64px); row-gap:0; align-items:center; }
-  .mark{ grid-area:mark; align-self:end; } .copy{ grid-area:copy; align-self:start; } .stagewrap{ grid-area:stage; min-width:0; }
-  @media (max-width:860px){ .hero-in{ grid-template-columns:minmax(0,1fr); grid-template-areas:"mark" "stage" "copy"; row-gap:2px; } }
-  .mark{ font-family:var(--disp); font-weight:900; line-height:.8; letter-spacing:-.015em; text-transform:uppercase; white-space:nowrap;
-         font-size:96px; margin-left:-.03em; color:var(--ivory); }
-  .mark span{ display:inline-block; }
-  .lead{ margin-top:clamp(14px,2.4vw,26px); font-size:clamp(18px,2.2vw,22px); max-width:30ch; color:var(--ivory); }
-  .lead span{ color:var(--dim); }
-  .cta{ display:flex; gap:12px; flex-wrap:wrap; margin-top:clamp(22px,3vw,34px); }
-  .btn{ display:inline-flex; align-items:center; justify-content:center; min-height:52px; padding:0 26px; border-radius:99px; font-weight:600; font-size:16px; border:1px solid rgba(235,227,207,.4); transition:transform .15s,background .2s,color .2s; }
-  .btn:hover{ transform:translateY(-2px); }
-  .btn.solid{ background:var(--ivory); color:var(--ink); border-color:var(--ivory); }
-  .btn.solid:hover{ background:#fff; }
-  .btn:not(.solid):hover{ background:rgba(235,227,207,.1); }
-  @media (max-width:560px){ .cta .btn{ flex:1 1 100%; } }
+  /* ---------- hero: fonar bilan qidirish ---------- */
+  .hero{ position:relative; min-height:100vh; min-height:100svh; overflow:hidden; display:flex; align-items:flex-end; padding:96px 0 48px; touch-action:pan-y; --x:50%; --y:40%; --rad:180px; }
+  .hero .glow{ position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(circle var(--rad) at var(--x) var(--y), rgba(255,228,176,.17), rgba(255,228,176,.05) 50%, transparent 72%); }
+  .hero .vig{ position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at 50% 30%, transparent 40%, rgba(0,0,0,.65)); }
+  .crowd{ position:absolute; inset:0; }
+  .fc{ position:absolute; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; gap:5px; --l:0; pointer-events:none; }
+  .fc .e{ font-size:clamp(30px,4vw,48px); line-height:1; filter:grayscale(calc(1 - var(--l))) brightness(calc(.14 + var(--l) * .86)); transform:scale(calc(.9 + var(--l) * .14)); }
+  .fc .tg{ font-family:var(--mono); font-size:11px; white-space:nowrap; opacity:var(--l); padding:3px 9px; border-radius:999px; background:rgba(0,0,0,.7); border:1px solid var(--line2); }
+  .fc .tg b{ font-weight:500; color:var(--c); }
+  .fc.found .e{ filter:none; transform:scale(1.25); }
+  .fc.found .tg{ opacity:1; border-color:var(--red); }
+  .fc.found::before{ content:""; position:absolute; left:50%; top:30%; width:96px; height:96px; margin:-48px 0 0 -48px; border-radius:50%; border:2px solid var(--red); animation:ring 1.4s ease-out infinite; }
+  @keyframes ring{ from{ transform:scale(.5); opacity:1; } to{ transform:scale(1.4); opacity:0; } }
+  .hero-in{ position:relative; z-index:2; width:100%; pointer-events:none; }
+  .hero-in a, .hero-in button{ pointer-events:auto; }
+  .hero-copy{ max-width:780px; }
+  .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--mu); display:flex; gap:12px; align-items:center; }
+  .eyebrow::before{ content:""; width:28px; height:1px; background:var(--red); }
+  h1{ font-family:var(--disp); font-weight:900; font-size:clamp(44px,min(7.6vw,12.5vh),118px); line-height:.9; letter-spacing:-.04em; margin:18px 0 22px; text-shadow:0 6px 50px #000; }
+  h1 span{ display:block; }
+  h1 em{ font-style:normal; color:var(--red); display:block; }
+  .lead{ font-size:clamp(17px,2vw,21px); color:#d4cfd8; max-width:560px; text-shadow:0 2px 24px #000; }
+  .cta{ display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+  .hunt{ margin-top:26px; display:inline-flex; flex-wrap:wrap; align-items:center; gap:10px 14px; font-family:var(--mono); font-size:13px; color:var(--mu); padding:10px 14px; border:1px dashed var(--line2); border-radius:14px; background:rgba(7,7,10,.6); }
+  .hunt b{ color:var(--tx); font-weight:500; }
+  .hunt button{ color:var(--red); text-decoration:underline; text-underline-offset:3px; font-family:var(--mono); font-size:13px; }
+  .stats{ display:flex; flex-wrap:wrap; gap:16px 36px; margin-top:36px; }
+  .stats b{ display:block; font-family:var(--disp); font-size:clamp(22px,2.8vw,32px); font-weight:800; line-height:1.1; }
+  .stats span{ font-size:13px; color:var(--mu); }
+  @media (max-width:600px){ .stats{ display:grid; grid-template-columns:1fr 1fr; gap:14px 24px; margin-top:28px; } }
+  .cue{ position:absolute; right:32px; bottom:40px; z-index:2; font-family:var(--mono); font-size:12px; color:var(--mu); writing-mode:vertical-rl; letter-spacing:.14em; text-transform:uppercase; display:flex; align-items:center; gap:12px; }
+  .cue::after{ content:""; width:1px; height:64px; background:linear-gradient(var(--mu),transparent); animation:drip 2s infinite; }
+  @keyframes drip{ from{ transform:scaleY(0); transform-origin:top; } 50%{ transform:scaleY(1); transform-origin:top; } 51%{ transform-origin:bottom; } to{ transform:scaleY(0); transform-origin:bottom; } }
+  @media (max-width:720px){ .cue{ display:none; } }
 
-  /* ---- karta (umumiy) ---- */
-  .card{ perspective:1100px; }
-  .flip{ position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .75s cubic-bezier(.2,.75,.2,1); }
-  .card.open .flip{ transform:rotateY(180deg); }
-  .face{ position:absolute; inset:0; border-radius:calc(var(--w,150px) * .07); backface-visibility:hidden; -webkit-backface-visibility:hidden; overflow:hidden; }
-  .face.back{
-    background:
-      radial-gradient(circle at 50% 50%, rgba(169,191,208,.16), transparent 55%),
-      repeating-linear-gradient(45deg, rgba(169,191,208,.07) 0 2px, transparent 2px 9px),
-      repeating-linear-gradient(-45deg, rgba(169,191,208,.07) 0 2px, transparent 2px 9px), var(--felt-3);
-    border:1px solid rgba(169,191,208,.35); box-shadow:0 18px 40px -12px rgba(0,0,0,.7);
-  }
-  .face.back::after{ content:""; position:absolute; inset:7%; border:1px solid rgba(169,191,208,.35); border-radius:calc(var(--w,150px) * .05); }
-  .face.back i{ position:absolute; inset:0; display:grid; place-items:center; font-style:normal; font-family:var(--disp); font-weight:900; font-size:calc(var(--w,150px) * .46); color:rgba(169,191,208,.6); letter-spacing:-.02em; }
-  .face.front{
-    transform:rotateY(180deg); background:var(--ivory); color:var(--ink); --c:var(--teal);
-    box-shadow:0 22px 50px -14px rgba(0,0,0,.8), inset 0 0 0 1px rgba(0,0,0,.15);
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
-  }
-  .face.front::before{ content:""; position:absolute; inset:5%; border:1.5px solid var(--c); border-radius:calc(var(--w,150px) * .04); opacity:.55; }
-  .face.front::after{ content:""; position:absolute; inset:0; pointer-events:none; background:radial-gradient(circle at var(--mx,30%) var(--my,20%), rgba(255,255,255,.55), transparent 45%); mix-blend-mode:soft-light; opacity:var(--sh,0); transition:opacity .25s; }
-  .face.t-m{ --c:var(--crimson); } .face.t-t{ --c:var(--teal); } .face.t-n{ --c:var(--ochre); }
-  .corner{ position:absolute; left:11%; top:8%; display:flex; flex-direction:column; align-items:center; color:var(--c); line-height:1; }
-  .corner b{ font-family:var(--disp); font-weight:900; font-size:calc(var(--w,150px) * .2); }
-  .corner svg{ width:calc(var(--w,150px) * .12); height:calc(var(--w,150px) * .12); margin-top:2px; fill:currentColor; }
-  .corner.br{ left:auto; top:auto; right:11%; bottom:8%; transform:rotate(180deg); }
-  .pic{ position:absolute; inset:0; display:grid; place-items:center; color:var(--c); }
-  .pic svg{ width:46%; height:46%; fill:currentColor; opacity:.14; }
-  .nm{ position:absolute; left:8%; right:8%; top:50%; transform:translateY(-50%); text-align:center; font-family:var(--disp); font-weight:800; line-height:.92; text-transform:uppercase; color:var(--ink); font-size:calc(var(--w,150px) * .2); hyphens:none; }
-  .nm.m{ font-size:calc(var(--w,150px) * .165); } .nm.l{ font-size:calc(var(--w,150px) * .135); } .nm.xl{ font-size:calc(var(--w,150px) * .115); }
-  .dsc{ position:absolute; inset:0; padding:12% 11%; display:flex; flex-direction:column; justify-content:center; gap:6px; background:var(--felt-2); color:var(--ivory); border:1px solid color-mix(in srgb,var(--c) 70%,transparent); font-size:calc(var(--w,150px) * .077); line-height:1.4; }
-  .dsc b{ font-family:var(--disp); font-weight:800; text-transform:uppercase; font-size:calc(var(--w,150px) * .15); line-height:1; color:color-mix(in srgb,var(--c) 40%,var(--ivory)); }
-  .face.front.up{ transform:none; }
-  .face.dsc{ transform:rotateY(180deg); }
+  /* ---------- ticker ---------- */
+  .ticker{ border-block:1px solid var(--line); background:#0b0b10; overflow:hidden; white-space:nowrap; }
+  .ticker div{ display:inline-flex; gap:48px; padding:16px 0; animation:tick 60s linear infinite; font-family:var(--mono); font-size:13px; color:var(--mu); }
+  .ticker span b{ color:var(--tx); font-weight:500; }
+  .ticker span i{ font-style:normal; color:var(--red); margin-right:10px; }
+  @keyframes tick{ to{ transform:translateX(-50%); } }
 
-  /* ---- birinchi ekrandagi uch karta ---- */
-  .stage{ position:relative; height:calc(var(--cw) * 1.4 + 70px); width:100%; perspective:1400px; }
-  .hc{ --w:var(--cw); position:absolute; left:50%; top:20px; width:var(--cw); height:calc(var(--cw) * 1.4); margin-left:calc(var(--cw) / -2);
-       transform:translate3d(var(--x),var(--y,0),0) rotate(var(--r)); transition:transform .7s cubic-bezier(.2,.8,.2,1), opacity .5s;
-       animation:deal .95s cubic-bezier(.2,.85,.25,1) var(--d) backwards; will-change:transform; }
-  .hc:nth-child(1){ --x:-62%; --r:-9deg; --d:.15s; } .hc:nth-child(2){ --x:0%; --r:0deg; --y:-10px; --d:.3s; } .hc:nth-child(3){ --x:62%; --r:9deg; --d:.45s; }
-  @keyframes deal{ from{ transform:translate3d(60vw,-90vh,0) rotate(calc(var(--r) * 6 + 40deg)) scale(.7); opacity:0; } }
-  .hc button{ position:absolute; inset:0; width:100%; height:100%; border-radius:calc(var(--cw) * .07); }
-  .hc:not(.open):hover{ transform:translate3d(var(--x),calc(var(--y,0px) - 14px),0) rotate(calc(var(--r) * .6)); }
-  .stage.picked .hc:not(.open){ opacity:.22; transform:translate3d(calc(var(--x) * 1.5),30px,0) rotate(var(--r)) scale(.86); pointer-events:none; }
-  .stage.picked .hc.open{ z-index:5; transform:translate3d(0,-6px,0) rotate(0deg) scale(1.1); }
-  @media (max-width:860px){ .hc:nth-child(1){ --x:-58%; } .hc:nth-child(3){ --x:58%; } }
-
-  .reveal{ min-height:120px; margin-top:clamp(10px,2vw,28px); text-align:center; }
-  .reveal p.hint{ color:var(--dim); font-size:16px; }
-  .reveal .out{ display:none; }
-  .stage.picked + .reveal .hint{ display:none; }
-  .stage.picked + .reveal .out{ display:block; animation:rise .6s .35s cubic-bezier(.2,.8,.2,1) backwards; }
-  @keyframes rise{ from{ opacity:0; transform:translateY(14px); } }
-  .out h2{ font-family:var(--disp); font-weight:900; font-size:clamp(34px,5vw,54px); line-height:1; text-transform:uppercase; }
-  .out .tm{ display:inline-block; margin:8px 0 6px; font-size:14px; color:var(--dim); }
-  .out p{ max-width:36ch; margin:0 auto; color:var(--ivory); }
-  .again{ margin-top:14px; display:inline-flex; align-items:center; min-height:44px; padding:0 20px; border:1px solid rgba(235,227,207,.4); border-radius:99px; font-size:15px; font-weight:500; transition:background .2s,color .2s; }
-  .again:hover{ background:var(--ivory); color:var(--ink); }
-
-  /* ---- bo'limlar ---- */
-  section.s{ padding:clamp(72px,11vw,150px) 0; }
-  h2.big{ font-family:var(--disp); font-weight:900; font-size:clamp(46px,9vw,118px); line-height:.88; letter-spacing:-.01em; text-transform:uppercase; max-width:14ch; }
-  .sub{ margin-top:18px; color:var(--dim); max-width:46ch; }
-
-  /* botlar */
-  .bots{ margin-top:clamp(30px,5vw,60px); }
-  .bot{ display:grid; grid-template-columns:1fr auto; align-items:end; gap:8px 24px; padding:clamp(22px,3.4vw,38px) 0; border-top:1px solid rgba(235,227,207,.16); transition:padding .3s cubic-bezier(.2,.8,.2,1); }
-  .bot:last-child{ border-bottom:1px solid rgba(235,227,207,.16); }
-  .bot:hover{ padding-left:14px; }
-  .bot h3{ font-family:var(--disp); font-weight:900; font-size:clamp(44px,8vw,104px); line-height:.9; text-transform:uppercase; }
-  .bot p{ grid-column:1; color:var(--dim); max-width:44ch; }
-  .bot .st{ grid-row:1 / span 2; grid-column:2; text-align:right; align-self:center; }
-  .bot .st b{ display:block; font-family:var(--disp); font-weight:800; font-size:clamp(26px,3.6vw,42px); line-height:1; color:var(--ivory); }
-  .bot .st span{ color:var(--dim); font-size:14px; }
-  @media (max-width:640px){ .bot{ grid-template-columns:1fr; } .bot .st{ grid-row:auto; grid-column:1; text-align:left; margin-top:6px; } .bot:hover{ padding-left:0; } }
-
-  /* rollar stoli */
-  .ctrl{ display:flex; align-items:flex-end; gap:clamp(18px,4vw,56px); flex-wrap:wrap; margin:clamp(30px,5vw,56px) 0 clamp(28px,4vw,48px); }
-  .seg{ display:inline-flex; padding:4px; border:1px solid rgba(235,227,207,.35); border-radius:99px; }
-  .seg button{ min-height:44px; padding:0 22px; border-radius:99px; font-weight:600; font-size:15px; transition:background .2s,color .2s; }
-  .seg button[aria-pressed="true"]{ background:var(--ivory); color:var(--ink); }
-  .num{ display:flex; align-items:baseline; gap:12px; }
-  .num output{ font-family:var(--disp); font-weight:900; font-size:clamp(92px,15vw,170px); line-height:.78; min-width:1.2ch; }
-  .num span{ color:var(--dim); }
-  .slider{ flex:1 1 260px; min-width:220px; padding-bottom:6px; }
-  input[type=range]{ -webkit-appearance:none; appearance:none; width:100%; height:44px; background:transparent; cursor:pointer; touch-action:pan-y; }
-  input[type=range]::-webkit-slider-runnable-track{ height:3px; border-radius:3px; background:rgba(235,227,207,.3); }
-  input[type=range]::-moz-range-track{ height:3px; border-radius:3px; background:rgba(235,227,207,.3); }
-  input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:30px; height:42px; border-radius:7px; background:var(--ivory); border:0; margin-top:-20px; box-shadow:0 6px 18px rgba(0,0,0,.6); }
-  input[type=range]::-moz-range-thumb{ width:30px; height:42px; border-radius:7px; background:var(--ivory); border:0; box-shadow:0 6px 18px rgba(0,0,0,.6); }
-  .ends{ display:flex; justify-content:space-between; color:var(--dim); font-size:13px; }
-
-  .deck{ position:relative; width:46px; height:64px; margin-left:auto; }
-  .deck i{ position:absolute; inset:0; border-radius:6px; background:var(--felt-3); border:1px solid rgba(169,191,208,.4); }
-  .deck i:nth-child(2){ transform:translate(3px,-3px); } .deck i:nth-child(3){ transform:translate(6px,-6px); }
-  @media (max-width:640px){ .deck{ display:none; } }
-
-  .team{ margin-top:clamp(26px,4vw,46px); }
-  .team h4{ display:flex; align-items:center; gap:12px; font-family:var(--disp); font-weight:900; text-transform:uppercase; font-size:clamp(28px,4vw,40px); line-height:1; margin-bottom:16px; }
-  .team h4 svg{ width:22px; height:22px; fill:var(--c); }
-  .team h4 small{ font-family:var(--body); font-weight:500; font-size:15px; text-transform:none; color:var(--dim); margin-left:auto; }
-  .row{ display:grid; grid-template-columns:repeat(auto-fill,minmax(var(--rw),1fr)); gap:clamp(10px,1.6vw,20px); --rw:clamp(138px,42vw,196px); }
-  @media (min-width:900px){ .row{ --rw:176px; } }
-  .rc{ --w:176px; position:relative; width:100%; aspect-ratio:5/7; }
-  .rc .card{ position:absolute; inset:0; }
-  .rc button{ position:absolute; inset:0; width:100%; height:100%; border-radius:12px; }
-  .rc .face{ border-radius:12px; }
-  .note{ margin-top:30px; color:var(--dim); font-size:15px; max-width:56ch; }
-  .note code{ color:var(--ivory); }
-
-  /* aloqa */
-  .talk a.huge{ display:inline-block; margin-top:clamp(22px,4vw,44px); font-family:var(--disp); font-weight:900; font-size:clamp(54px,12vw,160px); line-height:.86; text-transform:uppercase; border-bottom:.06em solid var(--crimson); transition:color .2s; }
-  .talk a.huge:hover{ color:var(--moon); }
-  footer{ padding:34px 0 46px; border-top:1px solid rgba(235,227,207,.14); color:var(--dim); font-size:14px; }
-  .foot{ display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
-  .foot nav{ display:flex; gap:22px; flex-wrap:wrap; } .foot a:hover{ color:var(--txt); }
-
-  .io{ opacity:0; transform:translateY(24px); transition:opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1); }
+  /* ---------- section basics ---------- */
+  .sec{ position:relative; padding:clamp(88px,12vw,160px) 0; scroll-margin-top:84px; }
+  .kick{ font-family:var(--mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--red); display:flex; gap:12px; align-items:center; margin-bottom:18px; }
+  .kick span{ color:var(--mu); }
+  h2{ font-family:var(--disp); font-weight:800; font-size:clamp(32px,6vw,76px); line-height:.98; letter-spacing:-.035em; max-width:16ch; }
+  h2 em{ font-style:normal; color:var(--red); }
+  .sub{ color:var(--mu); font-size:clamp(16px,1.8vw,19px); max-width:620px; margin-top:18px; }
+  .next{ display:inline-flex; gap:10px; align-items:center; margin-top:56px; font-family:var(--mono); font-size:13px; color:var(--mu); border-bottom:1px dashed var(--line2); padding-bottom:4px; transition:color .2s, gap .2s; }
+  .next:hover{ color:var(--tx); gap:16px; }
+  .io{ opacity:0; transform:translateY(28px); transition:opacity .8s, transform .8s cubic-bezier(.2,.8,.2,1); }
   .io.in{ opacity:1; transform:none; }
 
-  @media (prefers-reduced-motion: reduce){
-    html{ scroll-behavior:auto; } .fog{ animation:none; }
-    .hc{ animation:none; } .flip{ transition:none; } .io{ opacity:1; transform:none; transition:none; }
-    .stage.picked + .reveal .out{ animation:none; }
+  /* ---------- 02 bir tun (scroll hikoya) ---------- */
+  .story{ position:relative; height:calc(var(--n,8) * 85vh); }
+  .st{ position:sticky; top:0; height:100vh; height:100svh; overflow:hidden; display:flex; align-items:center; }
+  .sky, .sky i{ position:absolute; inset:0; }
+  .sky i{ opacity:0; transition:opacity 1.2s; }
+  .sky .k-reg{ background:radial-gradient(ellipse at 75% -10%,#231b3a,#07070a 62%); }
+  .sky .k-night{ background:radial-gradient(ellipse at 75% -10%,#14204a,#04050b 64%); }
+  .sky .k-dawn{ background:linear-gradient(180deg,#3b1830 0%,#1a0d1c 45%,#07070a 100%); }
+  .sky .k-day{ background:linear-gradient(180deg,#3a2810 0%,#1a1209 50%,#08070a 100%); }
+  .sky .k-dusk{ background:linear-gradient(180deg,#3a0f12 0%,#170709 50%,#060507 100%); }
+  .st[data-ph=reg] .k-reg, .st[data-ph=night] .k-night, .st[data-ph=dawn] .k-dawn, .st[data-ph=day] .k-day, .st[data-ph=dusk] .k-dusk{ opacity:1; }
+  .stars{ position:absolute; inset:0; opacity:0; transition:opacity 1.2s;
+    background-image:radial-gradient(1px 1px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 32% 8%,#fff,transparent),radial-gradient(1.5px 1.5px at 58% 22%,#fff,transparent),radial-gradient(1px 1px at 76% 12%,#fff,transparent),radial-gradient(1px 1px at 88% 30%,#fff,transparent),radial-gradient(1px 1px at 22% 38%,#fff,transparent),radial-gradient(1.5px 1.5px at 44% 44%,#fff,transparent),radial-gradient(1px 1px at 66% 52%,#fff,transparent),radial-gradient(1px 1px at 8% 62%,#fff,transparent),radial-gradient(1px 1px at 94% 58%,#fff,transparent); }
+  .st[data-ph=night] .stars, .st[data-ph=dusk] .stars, .st[data-ph=reg] .stars{ opacity:.55; }
+  .orb{ position:absolute; right:8%; top:12%; width:clamp(70px,10vw,130px); aspect-ratio:1; border-radius:50%; transition:transform 1.4s cubic-bezier(.2,.8,.2,1), background 1.2s, box-shadow 1.2s;
+    background:radial-gradient(circle at 35% 35%,#fffbe8,#d9d2b8 60%,#a39d86); box-shadow:0 0 80px rgba(255,248,220,.35); }
+  .st[data-ph=reg] .orb{ transform:translateY(30vh) scale(.8); }
+  .st[data-ph=dawn] .orb{ transform:translateY(46vh); background:radial-gradient(circle,#ffd3a1,#ff7a45); box-shadow:0 0 120px rgba(255,122,69,.6); }
+  .st[data-ph=day] .orb{ transform:translateY(0); background:radial-gradient(circle,#fff6d6,#ffc64a); box-shadow:0 0 140px rgba(255,198,74,.55); }
+  .st[data-ph=dusk] .orb{ transform:translateY(56vh); background:radial-gradient(circle,#ff9f80,#d0301f); box-shadow:0 0 120px rgba(208,48,31,.6); }
+  .sg{ position:relative; z-index:2; width:100%; display:grid; grid-template-columns:minmax(0,1fr) minmax(320px,400px); gap:56px; align-items:center; }
+  .narr .ph{ display:inline-flex; gap:8px; align-items:center; font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; padding:7px 12px; border:1px solid var(--line2); border-radius:999px; background:rgba(0,0,0,.3); }
+  .narr h3{ font-family:var(--disp); font-weight:800; font-size:clamp(26px,4.4vw,58px); line-height:1.02; letter-spacing:-.03em; margin:20px 0 14px; max-width:14ch; }
+  .narr p{ color:#d0cbd5; font-size:clamp(15px,1.6vw,19px); max-width:470px; }
+  .narr .sw{ animation:sw .5s ease; }
+  @keyframes sw{ from{ opacity:0; transform:translateY(10px); } }
+  .narr .cta{ margin-top:22px; }
+  .narr .cta[hidden]{ display:none; }
+  .dots{ display:flex; gap:6px; margin-top:28px; }
+  .dots i{ width:20px; height:4px; border-radius:2px; background:var(--line2); transition:background .3s, width .3s; }
+  .dots i.on{ background:rgba(255,255,255,.55); }
+  .dots i.now{ width:40px; background:var(--red); }
+  .phone{ height:min(640px,78vh); border-radius:36px; background:#050608; border:1px solid var(--line2); box-shadow:0 50px 120px -30px #000; display:flex; flex-direction:column; overflow:hidden; padding:7px; }
+  .tgh{ display:flex; align-items:center; gap:12px; padding:14px 16px; background:#161a23; border-radius:30px 30px 0 0; }
+  .tgh .av{ width:40px; height:40px; flex:none; border-radius:50%; background:linear-gradient(135deg,var(--red),#5a0d09); display:grid; place-items:center; font-family:var(--disp); font-weight:900; font-size:16px; }
+  .tgh b{ display:block; font-size:15px; line-height:1.2; }
+  .tgh small{ color:var(--mu); font-size:12.5px; }
+  .chat{ flex:1; min-height:0; display:flex; flex-direction:column; justify-content:flex-end; gap:7px; padding:14px 12px; overflow:hidden; border-radius:0 0 30px 30px;
+    background:#0c1017 radial-gradient(circle at 20% 20%,rgba(127,178,255,.06),transparent 50%); }
+  .msg{ display:none; max-width:88%; background:#1d2331; border-radius:16px 16px 16px 5px; padding:8px 12px 6px; font-size:14px; line-height:1.42; flex:none; }
+  .msg.on{ display:block; animation:pop .45s cubic-bezier(.2,.9,.3,1.25); }
+  @keyframes pop{ from{ opacity:0; transform:translateY(14px) scale(.96); } }
+  .msg .who{ display:block; font-size:13px; font-weight:800; color:#6fb6ff; margin-bottom:1px; }
+  .msg time{ display:block; text-align:right; font-size:11px; color:#6c7283; margin-top:1px; }
+  .msg.me{ align-self:flex-end; background:#2b5278; border-radius:16px 16px 5px 16px; }
+  .msg.me time{ color:#9ab8d4; }
+  .msg.dm{ align-self:stretch; max-width:none; background:linear-gradient(135deg,#2c1214,#170c0e); border:1px solid rgba(255,59,48,.35); border-radius:14px; }
+  .msg.dm .who{ color:var(--red); font-family:var(--mono); font-weight:500; font-size:11px; letter-spacing:.06em; text-transform:uppercase; }
+  .msg .kb{ display:grid; grid-auto-flow:column; grid-auto-columns:1fr; gap:4px; margin-top:7px; }
+  .msg .kb span{ background:rgba(255,255,255,.09); text-align:center; border-radius:10px; padding:7px 6px; font-weight:700; font-size:13px; }
+  .msg.sys{ align-self:center; background:rgba(0,0,0,.5); font-size:12.5px; border-radius:999px; padding:5px 14px; color:#cfd3db; }
+  @media (max-width:860px){
+    .st{ align-items:stretch; }
+    .sg{ display:flex; flex-direction:column; gap:14px; height:100%; padding-top:76px; padding-bottom:14px; }
+    .narr h3{ margin:10px 0 6px; font-size:clamp(22px,6.4vw,30px); }
+    .narr p{ font-size:14.5px; }
+    .narr .cta{ margin-top:12px; }
+    .dots{ margin-top:10px; }
+    .phone{ height:auto; flex:1; min-height:0; border-radius:28px; }
+    .tgh{ border-radius:22px 22px 0 0; padding:10px 14px; }
+    .chat{ border-radius:0 0 22px 22px; }
+    .orb{ top:9%; right:5%; }
+  }
+
+  /* ---------- 03 karta tortish ---------- */
+  .draw{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(24px,5vw,64px); align-items:center; margin-top:56px; }
+  .felt{ position:relative; aspect-ratio:1/1.05; width:100%; max-width:480px; border-radius:30px; background:radial-gradient(ellipse at 50% 38%,#2c0e0c,#120607 72%); border:1px solid rgba(255,59,48,.2); display:grid; place-items:center; overflow:hidden; cursor:pointer; }
+  .felt::before{ content:""; position:absolute; inset:18px; border:1px dashed rgba(255,59,48,.18); border-radius:22px; pointer-events:none; }
+  .pile{ position:absolute; width:min(56%,240px); aspect-ratio:5/7; }
+  .pile i{ position:absolute; inset:0; border-radius:18px; background:repeating-linear-gradient(45deg,#1b0a0a 0 8px,#240e0d 8px 16px); border:1px solid rgba(255,59,48,.3); }
+  .pile i:nth-child(1){ transform:translate(10px,10px) rotate(4deg); }
+  .pile i:nth-child(2){ transform:translate(5px,5px) rotate(2deg); }
+  .pc{ position:relative; width:min(56%,240px); aspect-ratio:5/7; perspective:1200px; }
+  .pc .in{ position:absolute; inset:0; transition:transform .85s cubic-bezier(.2,.8,.2,1); transform-style:preserve-3d; }
+  .pc.open .in{ transform:rotateY(180deg); }
+  .side{ position:absolute; inset:0; border-radius:18px; -webkit-backface-visibility:hidden; backface-visibility:hidden; overflow:hidden; }
+  .back{ background:repeating-linear-gradient(45deg,#1b0a0a 0 8px,#250e0d 8px 16px); border:1px solid rgba(255,59,48,.45); display:grid; place-items:center; box-shadow:0 30px 60px -20px #000; }
+  .back::before{ content:""; position:absolute; inset:10px; border:1px solid rgba(255,59,48,.3); border-radius:12px; }
+  .back b{ font-family:var(--disp); font-weight:900; font-size:64px; color:var(--red); text-shadow:0 0 30px rgba(255,59,48,.55); }
+  .front{ transform:rotateY(180deg); background:linear-gradient(160deg,#1e1e29,#0e0e14); border:1.5px solid var(--c); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:18px; text-align:center; box-shadow:0 30px 80px -20px var(--c); }
+  .front .tm{ position:absolute; top:14px; left:16px; font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--c); }
+  .front .cn{ position:absolute; bottom:12px; right:14px; font-size:18px; transform:rotate(180deg); opacity:.8; }
+  .front .em{ font-size:clamp(60px,9vw,96px); line-height:1; }
+  .front .nm{ font-family:var(--disp); font-weight:800; font-size:clamp(17px,2.2vw,24px); line-height:1.1; }
+  .tap{ position:absolute; bottom:22px; left:0; right:0; text-align:center; font-family:var(--mono); font-size:12px; color:rgba(255,255,255,.45); letter-spacing:.08em; pointer-events:none; }
+  .res .rt{ font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--c,var(--mu)); }
+  .res h3{ font-family:var(--disp); font-weight:800; font-size:clamp(30px,4.6vw,54px); line-height:1; letter-spacing:-.03em; margin:12px 0 14px; }
+  .res > p{ color:#cfcad4; font-size:17px; max-width:460px; min-height:3.1em; }
+  .res .badge{ display:inline-block; margin-top:14px; font-family:var(--mono); font-size:12px; padding:6px 10px; border-radius:8px; background:rgba(245,185,66,.12); color:var(--gold); }
+  .res .badge[hidden]{ display:none; }
+  .res .row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+  .coll{ margin-top:36px; padding-top:24px; border-top:1px solid var(--line); }
+  .coll .ch{ display:flex; justify-content:space-between; align-items:baseline; font-size:14px; color:var(--mu); }
+  .coll .ch b{ font-family:var(--disp); font-size:20px; color:var(--tx); }
+  .cbar{ height:6px; border-radius:3px; background:var(--line); margin:10px 0 14px; overflow:hidden; }
+  .cbar i{ display:block; height:100%; width:0; background:linear-gradient(90deg,var(--red),var(--gold)); transition:width .6s cubic-bezier(.2,.8,.2,1); }
+  .cgrid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(34px,1fr)); gap:6px; }
+  .cg{ aspect-ratio:1; border-radius:9px; display:grid; place-items:center; background:rgba(255,255,255,.03); border:1px solid var(--line); color:var(--dim); font-family:var(--mono); font-size:12px; }
+  button.cg{ font-size:18px; border-color:var(--c); background:rgba(255,255,255,.05); }
+  .cg.new{ animation:flash 1.2s ease; }
+  @keyframes flash{ 0%,40%{ box-shadow:0 0 0 3px var(--gold); transform:scale(1.2); } }
+  @media (max-width:860px){ .draw{ grid-template-columns:1fr; } .felt{ margin:0 auto; max-width:380px; } }
+
+  /* ---------- 04 rollar ensiklopediyasi ---------- */
+  .filters{ display:flex; flex-wrap:wrap; gap:8px; margin:44px 0 22px; align-items:center; }
+  .chip{ padding:9px 16px; border-radius:999px; border:1px solid var(--line2); font-size:14px; font-weight:700; color:var(--mu); transition:background .2s,color .2s; }
+  .chip small{ font-family:var(--mono); font-weight:500; opacity:.7; margin-left:6px; }
+  .chip[aria-pressed=true]{ background:var(--tx); color:var(--bg); border-color:var(--tx); }
+  .search{ flex:1; min-width:200px; max-width:320px; margin-left:auto; background:var(--card); border:1px solid var(--line2); border-radius:999px; padding:11px 18px; color:var(--tx); font:inherit; font-size:15px; }
+  .search::placeholder{ color:var(--dim); }
+  @media (max-width:640px){ .search{ margin-left:0; max-width:none; width:100%; order:-1; } }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(232px,1fr)); gap:12px; }
+  .rc{ text-align:left; background:var(--card); border:1px solid var(--line); border-radius:20px; padding:18px; display:flex; flex-direction:column; gap:7px; transition:transform .25s, border-color .25s, background .25s; position:relative; overflow:hidden; }
+  .rc:hover{ transform:translateY(-4px); border-color:var(--c); background:var(--card2); }
+  .rc::after{ content:""; position:absolute; right:-34px; top:-34px; width:100px; height:100px; border-radius:50%; background:var(--c); opacity:.09; filter:blur(12px); }
+  .rc .em{ font-size:38px; line-height:1.1; }
+  .rc .h{ font-family:var(--disp); font-weight:700; font-size:17px; line-height:1.2; }
+  .rc .tl{ font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--c); }
+  .rc .d{ font-size:14px; color:var(--mu); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+  .empty{ color:var(--mu); padding:24px 0; }
+  @media (max-width:520px){ .grid{ grid-template-columns:1fr 1fr; gap:8px; } .rc{ padding:14px; } .rc .d{ display:none; } .rc .h{ font-size:15px; } }
+
+  dialog{ margin:auto; border:1px solid var(--line2); border-radius:26px; background:#111118; color:var(--tx); width:min(520px,calc(100% - 32px)); max-height:calc(100% - 32px); padding:0; box-shadow:0 40px 120px #000; }
+  dialog::backdrop{ background:rgba(0,0,0,.72); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); }
+  dialog[open]{ animation:dlg .35s cubic-bezier(.2,.9,.3,1.2); }
+  @keyframes dlg{ from{ opacity:0; transform:translateY(20px) scale(.97); } }
+  .dlg{ padding:28px; position:relative; border-top:3px solid var(--c,var(--red)); border-radius:26px; }
+  .dlg .em{ font-size:64px; line-height:1.1; }
+  .dlg .tl{ font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--c); margin-top:10px; }
+  .dlg h3{ font-family:var(--disp); font-size:30px; font-weight:800; margin:6px 0 10px; line-height:1.1; }
+  .dlg p{ color:#d0cbd5; }
+  .dlg .meta{ display:grid; gap:10px; margin-top:20px; padding-top:18px; border-top:1px solid var(--line); }
+  .dlg .meta div{ display:flex; justify-content:space-between; gap:12px; font-size:14px; color:var(--mu); }
+  .dlg .meta b{ color:var(--tx); text-align:right; font-weight:700; }
+  .dlg .note{ margin-top:14px; font-size:13.5px; color:var(--gold); }
+  .dlg .note:empty{ display:none; }
+  .dlg .btn{ margin-top:22px; width:100%; }
+  .x{ position:absolute; top:14px; right:14px; width:40px; height:40px; border-radius:50%; border:1px solid var(--line2); font-size:22px; line-height:1; display:grid; place-items:center; }
+  .x:hover{ border-color:var(--tx); }
+
+  /* ---------- 05 stol ---------- */
+  .tbl{ display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); gap:clamp(24px,5vw,64px); align-items:center; margin-top:48px; }
+  .ring{ position:relative; aspect-ratio:1; width:100%; max-width:560px; margin:0 auto; --s:44px; }
+  .ring .felt2{ position:absolute; inset:13%; border-radius:50%; background:radial-gradient(circle,#18281c,#0a110c 72%); box-shadow:inset 0 0 70px #000, 0 0 0 10px #1b130d, 0 0 0 11px rgba(255,255,255,.07), 0 40px 80px -20px #000; }
+  .ctr{ position:absolute; inset:24%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:6px; }
+  .ctr .big{ font-family:var(--disp); font-weight:900; font-size:clamp(40px,8vw,76px); line-height:1; }
+  .ctr .em{ font-size:clamp(40px,7vw,64px); line-height:1; }
+  .ctr .nm{ font-family:var(--disp); font-weight:800; font-size:clamp(15px,2vw,20px); }
+  .ctr small{ color:var(--mu); font-size:13px; }
+  .ctr .ds{ font-size:12.5px; color:#cfcad4; line-height:1.4; max-width:22ch; }
+  .tbar{ display:flex; height:8px; border-radius:4px; overflow:hidden; width:min(180px,80%); margin-top:8px; background:var(--line); }
+  .tbar i{ display:block; height:100%; transition:width .5s; }
+  .tleg{ display:flex; gap:12px; font-size:12px; color:var(--mu); margin-top:4px; flex-wrap:wrap; justify-content:center; }
+  .tleg span::before{ content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--c); margin-right:5px; }
+  .seat{ position:absolute; width:var(--s); height:var(--s); transform:translate(-50%,-50%); border-radius:50%; background:#15151d; border:2px solid var(--c); display:grid; place-items:center; font-size:calc(var(--s) * .52); line-height:1; transition:transform .2s, box-shadow .2s; }
+  .seat.pop{ animation:seat .5s cubic-bezier(.2,.9,.3,1.3) backwards; }
+  @keyframes seat{ from{ opacity:0; transform:translate(-50%,-50%) scale(.2); } }
+  .seat:hover, .seat.sel{ transform:translate(-50%,-50%) scale(1.2); z-index:2; box-shadow:0 0 0 4px rgba(255,255,255,.12); }
+  .ctrl{ display:grid; gap:22px; }
+  .seg{ display:inline-flex; padding:4px; border-radius:999px; background:var(--card); border:1px solid var(--line2); width:max-content; }
+  .seg button{ padding:10px 22px; border-radius:999px; font-weight:800; font-size:14px; color:var(--mu); }
+  .seg button[aria-pressed=true]{ background:var(--tx); color:var(--bg); }
+  .num{ display:flex; align-items:baseline; gap:10px; }
+  .num output{ font-family:var(--disp); font-weight:900; font-size:clamp(48px,6vw,72px); line-height:1; }
+  .num span{ color:var(--mu); }
+  input[type=range]{ -webkit-appearance:none; appearance:none; width:100%; height:6px; border-radius:3px; background:linear-gradient(90deg,var(--red) var(--f,22%),var(--line2) var(--f,22%)); outline:none; }
+  input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:28px; height:28px; border-radius:50%; background:#fff; border:5px solid var(--red); cursor:grab; box-shadow:0 4px 14px rgba(0,0,0,.5); }
+  input[type=range]::-moz-range-thumb{ width:20px; height:20px; border-radius:50%; background:#fff; border:5px solid var(--red); cursor:grab; }
+  .ends{ display:flex; justify-content:space-between; font-family:var(--mono); font-size:12px; color:var(--dim); margin-top:8px; }
+  .legend{ display:flex; flex-wrap:wrap; gap:6px; }
+  .legend button{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:10px; background:var(--card); border:1px solid var(--line); border-left:3px solid var(--c); font-size:13px; font-weight:600; }
+  .legend button b{ font-family:var(--mono); font-weight:500; color:var(--mu); }
+  .tnote{ font-size:13.5px; color:var(--mu); }
+  @media (max-width:860px){ .tbl{ grid-template-columns:1fr; } }
+
+  /* ---------- 06 test ---------- */
+  .quiz{ margin-top:48px; max-width:780px; background:var(--card); border:1px solid var(--line); border-radius:30px; padding:clamp(22px,4vw,44px); position:relative; overflow:hidden; min-height:420px; }
+  .quiz::before{ content:""; position:absolute; right:-80px; top:-80px; width:260px; height:260px; border-radius:50%; background:var(--red); opacity:.08; filter:blur(40px); pointer-events:none; }
+  .qp{ display:flex; gap:6px; margin-bottom:26px; }
+  .qp i{ flex:1; height:4px; border-radius:2px; background:var(--line2); transition:background .3s; }
+  .qp i.on{ background:var(--red); }
+  .qn{ font-family:var(--mono); font-size:12px; color:var(--mu); letter-spacing:.12em; text-transform:uppercase; }
+  .qq{ font-family:var(--disp); font-weight:700; font-size:clamp(21px,3vw,32px); line-height:1.18; margin:10px 0 24px; letter-spacing:-.02em; }
+  .qa{ display:grid; gap:10px; }
+  .qa button{ text-align:left; padding:16px 18px; border-radius:16px; border:1px solid var(--line2); background:rgba(255,255,255,.02); font-weight:600; font-size:16px; transition:border-color .2s, background .2s, transform .2s; display:flex; gap:14px; align-items:center; }
+  .qa button i{ font-style:normal; font-family:var(--mono); font-size:12px; color:var(--dim); width:22px; height:22px; flex:none; border:1px solid var(--line2); border-radius:6px; display:grid; place-items:center; }
+  .qa button:hover{ border-color:var(--tx); background:rgba(255,255,255,.05); transform:translateX(4px); }
+  .qs{ animation:sw .45s ease; }
+  .qres{ display:grid; grid-template-columns:auto 1fr; gap:28px; align-items:center; }
+  .qres .em{ font-size:clamp(84px,14vw,140px); line-height:1; filter:drop-shadow(0 20px 40px rgba(0,0,0,.6)); }
+  .qres .tl{ font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--c); }
+  .qres h3{ font-family:var(--disp); font-weight:800; font-size:clamp(28px,4.4vw,48px); line-height:1.02; margin:8px 0 12px; letter-spacing:-.03em; }
+  .qres p{ color:#cfcad4; }
+  .qres .row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+  @media (max-width:600px){ .qres{ grid-template-columns:1fr; gap:10px; } }
+
+  /* ---------- 07 rejimlar ---------- */
+  .modes{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:12px; margin-top:48px; }
+  .md{ background:var(--card); border:1px solid var(--line); border-radius:24px; padding:26px; display:flex; flex-direction:column; gap:12px; min-height:250px; transition:transform .25s, border-color .25s; }
+  .md:hover{ transform:translateY(-4px); border-color:var(--line2); }
+  .md .ic{ font-size:38px; line-height:1; }
+  .md h3{ font-family:var(--disp); font-weight:800; font-size:23px; letter-spacing:-.02em; }
+  .md p{ color:var(--mu); font-size:15px; }
+  .md code{ margin-top:auto; font-family:var(--mono); font-size:13px; color:var(--gold); }
+  .md.hl{ background:linear-gradient(160deg,#2a0e0c,#111118 62%); border-color:rgba(255,59,48,.35); }
+
+  /* ---------- 08 hamyon ---------- */
+  .eco{ display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); gap:12px; margin-top:48px; }
+  .pro{ border-radius:30px; padding:clamp(24px,4vw,44px); background:radial-gradient(ellipse at 100% 0%,rgba(245,185,66,.26),transparent 60%),linear-gradient(160deg,#1e1708,#0e0c08); border:1px solid rgba(245,185,66,.35); position:relative; overflow:hidden; }
+  .pro .crown{ font-size:44px; }
+  .pro h3{ font-family:var(--disp); font-weight:900; font-size:clamp(34px,5vw,56px); color:var(--gold); letter-spacing:-.02em; line-height:1; margin:10px 0 8px; }
+  .pro > p{ color:#d8cfb8; }
+  .pro ul{ list-style:none; display:grid; gap:10px; margin-top:22px; }
+  .pro li{ display:flex; gap:12px; font-size:15px; color:#e9e1cc; }
+  .pro li::before{ content:"✦"; color:var(--gold); flex:none; }
+  .price{ display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; }
+  .price div{ padding:12px 16px; border-radius:16px; background:rgba(0,0,0,.35); border:1px solid rgba(245,185,66,.25); font-size:13px; color:#cbbf9f; }
+  .price b{ display:block; font-family:var(--disp); font-size:20px; color:#fff; }
+  .shop{ background:var(--card); border:1px solid var(--line); border-radius:30px; padding:clamp(22px,3vw,32px); }
+  .shop h3{ font-family:var(--disp); font-weight:800; font-size:22px; }
+  .shop > p{ color:var(--mu); font-size:14px; margin-top:4px; }
+  .shop ul{ list-style:none; margin-top:14px; }
+  .shop li{ display:flex; justify-content:space-between; gap:12px; padding:12px 0; border-bottom:1px solid var(--line); font-size:15px; }
+  .shop li:last-child{ border-bottom:0; }
+  .shop li small{ display:block; color:var(--mu); font-size:12.5px; }
+  .shop li > span:last-child{ font-family:var(--mono); white-space:nowrap; }
+  .mono{ font-family:var(--mono); }
+  .cur{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:12px; }
+  .cur div{ background:var(--card); border:1px solid var(--line); border-radius:22px; padding:22px; }
+  .cur b{ display:block; font-size:30px; }
+  .cur h4{ font-family:var(--disp); font-weight:700; font-size:18px; margin:8px 0 4px; }
+  .cur p{ color:var(--mu); font-size:14px; }
+  @media (max-width:860px){ .eco{ grid-template-columns:1fr; } .cur{ grid-template-columns:1fr; } }
+
+  /* ---------- 09 boshlash ---------- */
+  .steps{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:48px; }
+  .stp{ padding:26px; border-radius:24px; border:1px solid var(--line); background:var(--card); }
+  .stp b{ display:block; font-family:var(--disp); font-size:58px; font-weight:900; color:transparent; -webkit-text-stroke:1.5px var(--red); line-height:1; }
+  .stp h3{ font-family:var(--disp); font-weight:700; font-size:20px; margin:16px 0 6px; }
+  .stp p{ color:var(--mu); font-size:15px; }
+  .stp code, .tnote code{ font-family:var(--mono); color:var(--gold); }
+  @media (max-width:860px){ .steps{ grid-template-columns:1fr; } }
+  .cmdh{ font-family:var(--disp); font-weight:700; font-size:20px; margin:56px 0 4px; }
+  .cmdh + p{ color:var(--mu); font-size:14px; }
+  .cmds{ display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:8px; margin-top:18px; }
+  .cmd{ display:flex; gap:12px; align-items:baseline; padding:12px 14px; border-radius:14px; background:rgba(255,255,255,.02); border:1px solid var(--line); text-align:left; font-size:14px; color:var(--mu); transition:border-color .2s, background .2s; }
+  .cmd:hover{ border-color:var(--line2); background:rgba(255,255,255,.05); }
+  .cmd code{ font-family:var(--mono); color:var(--tx); font-size:14px; }
+  .langs{ display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
+  .langs span{ padding:8px 14px; border-radius:999px; border:1px solid var(--line2); font-size:14px; font-weight:600; }
+
+  /* ---------- 10 botlar + final ---------- */
+  .bots{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:48px; }
+  .bot{ position:relative; display:flex; flex-direction:column; gap:10px; padding:28px; border-radius:26px; background:var(--card); border:1px solid var(--line); min-height:240px; overflow:hidden; transition:transform .25s, border-color .25s; }
+  .bot:hover{ transform:translateY(-4px); border-color:var(--red); }
+  .bot h3{ font-family:var(--disp); font-weight:800; font-size:24px; }
+  .bot p{ color:var(--mu); font-size:15px; }
+  .bot .st2{ margin-top:auto; display:flex; align-items:baseline; gap:8px; }
+  .bot .st2 b{ font-family:var(--disp); font-weight:800; font-size:28px; }
+  .bot .st2 span{ color:var(--mu); font-size:13px; }
+  .bot .ar{ position:absolute; top:24px; right:24px; width:40px; height:40px; border-radius:50%; border:1px solid var(--line2); display:grid; place-items:center; transition:background .2s, transform .2s; }
+  .bot:hover .ar{ background:var(--red); border-color:var(--red); transform:rotate(-45deg); }
+  @media (max-width:860px){ .bots{ grid-template-columns:1fr; } .bot{ min-height:0; } }
+  .final{ text-align:center; padding:clamp(110px,16vw,200px) 0; position:relative; overflow:hidden; }
+  .final::before{ content:""; position:absolute; left:50%; top:50%; width:min(900px,140vw); aspect-ratio:1; transform:translate(-50%,-50%); border-radius:50%; background:radial-gradient(circle,rgba(255,59,48,.22),transparent 62%); pointer-events:none; }
+  .final h2{ margin:0 auto; max-width:14ch; font-size:clamp(38px,8vw,110px); }
+  .final p{ color:var(--mu); margin:22px auto 0; max-width:480px; }
+  .final .cta{ justify-content:center; }
+
+  footer{ border-top:1px solid var(--line); padding:32px 0 calc(32px + env(safe-area-inset-bottom)); }
+  .foot{ display:flex; flex-wrap:wrap; gap:16px 28px; justify-content:space-between; align-items:center; font-size:14px; color:var(--mu); }
+  .foot nav{ display:flex; flex-wrap:wrap; gap:18px; }
+  .foot a:hover{ color:var(--tx); }
+
+  .toast{ position:fixed; left:50%; bottom:calc(24px + env(safe-area-inset-bottom)); z-index:80; transform:translate(-50%,160%); opacity:0; visibility:hidden; pointer-events:none; background:#1b1b24; border:1px solid var(--line2); padding:12px 18px; border-radius:14px; font-size:14px; font-weight:600; box-shadow:0 20px 50px rgba(0,0,0,.6); transition:transform .35s cubic-bezier(.2,.9,.3,1.2), opacity .25s, visibility .35s; max-width:calc(100% - 32px); text-align:center; }
+  .toast.on{ transform:translate(-50%,0); opacity:1; visibility:visible; }
+
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; }
+    *, *::before, *::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+    .io{ opacity:1; transform:none; }
   }
 </style>
 </head>
 <body>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="s-m" viewBox="0 0 24 24"><path d="M12 1.5C9.4 7 3 9.4 3 14.2a4.3 4.3 0 0 0 7.4 3c-.2 2.1-1 3.6-2.4 5.3h8c-1.4-1.7-2.2-3.2-2.4-5.3a4.3 4.3 0 0 0 7.4-3C21 9.4 14.6 7 12 1.5z"/></symbol>
-  <symbol id="s-t" viewBox="0 0 24 24"><path d="M12 21.5S2.6 15.8 2.6 9A5.2 5.2 0 0 1 12 6.2 5.2 5.2 0 0 1 21.4 9c0 6.8-9.4 12.5-9.4 12.5z"/></symbol>
-  <symbol id="s-n" viewBox="0 0 24 24"><path d="M12 1.5l8.6 10.5L12 22.5 3.4 12z"/></symbol>
-</svg>
-
-<div class="bg" aria-hidden="true"><div class="moon"></div><div class="fog a"></div><div class="fog b"></div></div>
-<div class="grain" aria-hidden="true"></div>
-
-<header>
+<header id="hdr">
   <div class="wrap top">
-    <a class="logo" href="#top" aria-label="Almex">ALMEX</a>
-    <nav>
-      <a class="hide-m" href="#rollar">Rollar</a>
-      <a class="hide-m" href="#botlar">Botlar</a>
-      <a class="pill" href="https://t.me/almexnews">Yangiliklar</a>
+    <a class="logo" href="#top" aria-label="Almex — bosh sahifa"><i></i>ALMEX</a>
+    <nav class="nav" aria-label="Bo'limlar">
+      <a class="l" href="#tun">Bir tun</a>
+      <a class="l" href="#karta">Karta</a>
+      <a class="l" href="#rollar">Rollar</a>
+      <a class="l" href="#stol">Stol</a>
+      <a class="l" href="#test">Test</a>
+      <a class="l" href="#hamyon">PRO</a>
+      <a class="go" href="https://t.me/AlmexMafiaBot">O'ynash</a>
     </nav>
   </div>
+  <div class="bar" aria-hidden="true"></div>
 </header>
 
 <main id="top">
 
-  <section class="hero">
+  <!-- 01 · Fonar -->
+  <section class="hero" id="hero">
+    <div class="crowd" id="crowd" aria-hidden="true"></div>
+    <div class="glow" aria-hidden="true"></div>
+    <div class="vig" aria-hidden="true"></div>
     <div class="wrap hero-in">
-      <h1 class="mark" id="mark"><span>Almex</span></h1>
-      <div class="copy">
-        <p class="lead">Telegramdagi mafia. <span>Karta tanlang, rolingizni biling.</span></p>
+      <div class="hero-copy" id="heroCopy">
+        <p class="eyebrow">Telegramdagi mafia</p>
+        <h1><span>Shahar uxlaydi.</span><em>Mafiya — yo'q.</em></h1>
+        <p class="lead">Qorong'ida o'tirganlarning biri — Don. Fonar sizning qo'lingizda. Uni topa olasizmi?</p>
+        <div class="hunt" role="status" aria-live="polite">
+          <span id="huntHint">🔦 Kursorni yuriting — Don qayerda?</span>
+          <b id="huntStatus"></b>
+          <button type="button" id="huntAgain" hidden>Yana qidirish</button>
+        </div>
         <div class="cta">
-          <a class="btn solid" href="https://t.me/AlmexMafiaBot">Almex Mafia'da o'ynash</a>
-          <a class="btn" href="https://t.me/AlmexBlackBot">Almex Black</a>
+          <a class="btn red" href="https://t.me/AlmexMafiaBot">Almex Mafia'da o'ynash</a>
+          <a class="btn" href="#tun">Bir tunni ko'rish ↓</a>
+        </div>
+        <div class="stats">
+          <div><b>18 900+</b><span>o'yinchi</span></div>
+          <div><b>34 900+</b><span>foydalanuvchi</span></div>
+          <div><b>41</b><span>rol</span></div>
+          <div><b>8</b><span>til</span></div>
         </div>
       </div>
-      <div class="stagewrap">
-        <div class="stage" id="stage" aria-label="Uchta yopiq karta">
-          <div class="card hc" id="hc0"><button type="button" aria-label="1-kartani ochish"><div class="flip"></div></button></div>
-          <div class="card hc" id="hc1"><button type="button" aria-label="2-kartani ochish"><div class="flip"></div></button></div>
-          <div class="card hc" id="hc2"><button type="button" aria-label="3-kartani ochish"><div class="flip"></div></button></div>
+    </div>
+    <div class="cue" aria-hidden="true">Pastga — tun boshlanadi</div>
+  </section>
+
+  <div class="ticker" aria-hidden="true"><div id="ticker"></div></div>
+
+  <!-- 02 · Bir tun -->
+  <section class="story" id="tun" aria-label="Bir tun: o'yin qanday o'tadi">
+    <div class="st" id="st" data-ph="reg">
+      <div class="sky" aria-hidden="true"><i class="k-reg"></i><i class="k-night"></i><i class="k-dawn"></i><i class="k-day"></i><i class="k-dusk"></i></div>
+      <div class="stars" aria-hidden="true"></div>
+      <div class="orb" aria-hidden="true"></div>
+      <div class="wrap sg">
+        <div class="narr">
+          <div class="kick">02 <span>/ Bir tun</span></div>
+          <div id="sBox">
+            <span class="ph" id="sTag">21:00 · Ro'yxat</span>
+            <h3 id="sTitle">Guruhda o'yin ochiladi</h3>
+            <p id="sText"></p>
+          </div>
+          <div class="cta" id="sCta" hidden>
+            <a class="btn red sm" href="https://t.me/AlmexMafiaBot">Keyingi tunni o'ynash</a>
+            <a class="btn sm" href="#karta">Kartangizni torting ↓</a>
+          </div>
+          <div class="dots" id="sDots" aria-hidden="true"></div>
         </div>
-        <div class="reveal" aria-live="polite">
-          <p class="hint">Bitta kartani bosing. Rolingiz shu yerda ochiladi.</p>
-          <div class="out" id="out"></div>
+        <div class="phone" aria-label="Guruhdagi o'yin chati">
+          <div class="tgh"><div class="av">A</div><div><b>Almex · Kechki o'yin</b><small id="sSub">12 o'yinchi · ro'yxat</small></div></div>
+          <div class="chat" id="chat">
+            <div class="msg" data-s="0"><span class="who">Almex Mafia</span>🎲 <b>Ro'yxatga olish boshlandi!</b><div class="kb"><span>🎮 Qo'shilish</span></div><time>21:00</time></div>
+            <div class="msg" data-s="0"><span class="who">Almex Mafia</span><b>Ro'yxatdan o'tganlar:</b><br>Aziz, Malika, Sardor, Dilnoza, Jasur, Kamola, Bekzod, Nodira, Otabek, Shahzod, Zarina, <u>Siz</u><br><b>Jami: 12 kishi</b><time>21:02</time></div>
+            <div class="msg" data-s="1"><span class="who">Almex Mafia</span>🌚🌃 <b>Tun</b><br>Ko'chaga faqat jasur va qo'rqmas odamlar chiqishdi.<br>Ertalab tirik qolganlarni sanaymiz...<time>21:03</time></div>
+            <div class="msg dm" data-s="1"><span class="who">🔒 Shaxsiy xabar</span>Siz - 🕵🏼 <b>Komissar Kattani</b> siz!<br>Shaharning asosiy himoyachisi va mafiya kushandasi.<div class="kb"><span>🔍 Tekshirish</span><span>🔫 O'ldirish</span></div></div>
+            <div class="msg" data-s="2"><span class="who">Almex Mafia</span>🤵🏻 <b>Don</b> navbatdagi o'ljasini tanladi...<time>21:04</time></div>
+            <div class="msg" data-s="3"><span class="who">Almex Mafia</span>🕵🏼 <b>Komissar Kattani</b> hujjatlarni tekshirishga ketdi...<time>21:04</time></div>
+            <div class="msg" data-s="3"><span class="who">Almex Mafia</span>🧙🏼 <b>Daydi</b> kimningdir uyidan ichkilik olib borish uchun ketdi...<time>21:05</time></div>
+            <div class="msg dm" data-s="3"><span class="who">🔒 Shaxsiy xabar</span>Sardor — 🤵🏼 <b>Mafia</b>!</div>
+            <div class="msg" data-s="4"><span class="who">Almex Mafia</span>🌝 <b>Xayrli tong</b><br>🌄 <b>Kun</b><br>Shamollar tundagi mish-mishlarni butun shaharga yetkazmoqda...<time>21:06</time></div>
+            <div class="msg" data-s="4"><span class="who">Almex Mafia</span>Tunda 🎖 <b>Janob</b> - Aziz...<br>vaxshiylarcha o'ldirildi.<br>Aytishlaricha unikiga 🤵🏻 <b>Don</b> kelgan<time>21:06</time></div>
+            <div class="msg" data-s="5"><span class="who" style="color:#ff8ac2">Malika</span>Sardor kecha juda jim edi 🤔<time>21:07</time></div>
+            <div class="msg" data-s="5"><span class="who" style="color:#7ee0a1">Sardor</span>Men tinch aholiman, qasamyod qilaman!<time>21:07</time></div>
+            <div class="msg me" data-s="5">Kecha Sardorni tekshirdim. U — mafia.<time>21:08 ✓✓</time></div>
+            <div class="msg" data-s="6"><span class="who">Almex Mafia</span><b>Aybdorlarni aniqlash va jazolash vaqti keldi!</b><br><b>Ovoz berish uchun 45 sekund</b><div class="kb"><span>🗳 Ovoz berish</span></div><time>21:08</time></div>
+            <div class="msg" data-s="6"><span class="who">Almex Mafia</span>📊 <b>Tasdiqlash natijalari:</b><br>9 👍 | 3 👎<br><br>Sardor kunduzgi yig'ilishda osildi!<br>U 🤵🏼 <b>Mafia</b> edi..<time>21:09</time></div>
+            <div class="msg" data-s="7"><span class="who">Almex Mafia</span>🌚🌃 <b>Tun</b><br>Ko'chaga faqat jasur va qo'rqmas odamlar chiqishdi...<time>21:10</time></div>
+            <div class="msg sys" data-s="7">Tirik: 10 kishi · Don hali o'yinda</div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="s" id="botlar">
+  <!-- 03 · Karta -->
+  <section class="sec" id="karta">
     <div class="wrap">
-      <h2 class="big io">Ikkita bot, bitta hisob</h2>
-      <p class="sub io">PRO, almaz va dollar balansi ikkala botda umumiy. O'yin esa har botda alohida.</p>
-      <div class="bots io">
-        <a class="bot" href="https://t.me/AlmexMafiaBot">
-          <h3>Almex Mafia</h3><p>Almex va Baku rejimlari, turnirlar, PRO va avtomatik to'lov.</p>
-          <div class="st"><b>18 900+</b><span>o'yinchi</span></div>
-        </a>
-        <a class="bot" href="https://t.me/AlmexBlackBot">
-          <h3>Almex Black</h3><p>Ikkinchi bot: bir xil hisob, alohida o'yinlar va guruhlar.</p>
-          <div class="st"><b>34 900+</b><span>foydalanuvchi</span></div>
-        </a>
-        <a class="bot" href="https://t.me/almexnews">
-          <h3>Almex News</h3><p>Yangiliklar va yangilanishlar uchun yagona rasmiy kanal.</p>
-          <div class="st"><b>@almexnews</b><span>kanal</span></div>
-        </a>
+      <div class="kick io">03 <span>/ Karta</span></div>
+      <h2 class="io">Bugun kechqurun <em>kim</em> bo'lasiz?</h2>
+      <p class="sub io">Har tortilgan karta kolleksiyangizga qo'shiladi. 41 ta rolning hammasini yig'a olasizmi?</p>
+      <div class="draw">
+        <div class="felt" id="felt" role="button" tabindex="0" aria-label="Karta tortish">
+          <div class="pile" aria-hidden="true"><i></i><i></i></div>
+          <div class="pc" id="pc"><div class="in"><div class="side back"><b>A</b></div><div class="side front" id="pcFront"></div></div></div>
+          <div class="tap" id="tap">Kartani bosing</div>
+        </div>
+        <div class="res" aria-live="polite">
+          <div class="rt" id="dTeam">Yopiq karta</div>
+          <h3 id="dName">Kartangizni torting</h3>
+          <p id="dDesc">Botda ham xuddi shunday: rolingiz shaxsiy xabarda keladi va uni faqat siz bilasiz.</p>
+          <span class="badge" id="dBadge" hidden></span>
+          <div class="row">
+            <button type="button" class="btn red" id="drawBtn">Karta tortish</button>
+            <button type="button" class="btn" id="dMore" hidden>Batafsil</button>
+          </div>
+          <div class="coll">
+            <div class="ch"><span>Kolleksiya</span><b id="cCount">0/41</b></div>
+            <div class="cbar"><i id="cBar"></i></div>
+            <div class="cgrid" id="cGrid"></div>
+          </div>
+        </div>
+      </div>
+      <a class="next" href="#rollar">Keyingi bob: 41 ta rol →</a>
+    </div>
+  </section>
+
+  <!-- 04 · Rollar -->
+  <section class="sec" id="rollar" style="padding-top:0">
+    <div class="wrap">
+      <div class="kick io">04 <span>/ Rollar</span></div>
+      <h2 class="io">41 ta rol. <em>Uch</em> tomon.</h2>
+      <p class="sub io">Tinch aholi mafiyani topishga, mafiya shaharni egallashga intiladi. Yakka o'yinchilar esa faqat o'zlari uchun o'ynaydi. Kartani bosing — u nima qilishi va qachon stolga tushishi ochiladi.</p>
+      <div class="filters" id="filters">
+        <button type="button" class="chip" data-f="all" aria-pressed="true">Hammasi<small></small></button>
+        <button type="button" class="chip" data-f="t" aria-pressed="false">Tinch aholi<small></small></button>
+        <button type="button" class="chip" data-f="m" aria-pressed="false">Mafiya<small></small></button>
+        <button type="button" class="chip" data-f="n" aria-pressed="false">Yakka<small></small></button>
+        <input class="search" id="search" type="search" placeholder="Rolni qidirish…" aria-label="Rolni qidirish" autocomplete="off">
+      </div>
+      <div class="grid" id="grid"></div>
+      <a class="next" href="#stol">Keyingi bob: stolga nechta kishi o'tirdi? →</a>
+    </div>
+  </section>
+
+  <!-- 05 · Stol -->
+  <section class="sec" id="stol" style="padding-top:0">
+    <div class="wrap">
+      <div class="kick io">05 <span>/ Stol</span></div>
+      <h2 class="io">Stolga <em>nechta</em> kishi o'tirdi?</h2>
+      <p class="sub io">Sonni tanlang — bot rollarni xuddi shu tartibda tarqatadi. Bu botdagi taqsimot algoritmining aynan o'zi. O'rindiqni bossangiz, u kimligi ochiladi.</p>
+      <div class="tbl">
+        <div class="ring" id="ring">
+          <div class="felt2"></div>
+          <div class="ctr" id="ctr" aria-live="polite"></div>
+          <div id="seats"></div>
+        </div>
+        <div class="ctrl">
+          <div class="seg" role="group" aria-label="O'yin rejimi">
+            <button type="button" data-mode="almex" aria-pressed="true">Almex</button>
+            <button type="button" data-mode="baku" aria-pressed="false">Baku</button>
+          </div>
+          <div>
+            <div class="num"><output id="nOut" for="rng">12</output><span>o'yinchi</span></div>
+            <input id="rng" type="range" min="4" max="40" value="12" aria-label="O'yinchilar soni" style="margin-top:14px">
+            <div class="ends"><span>4</span><span>40</span></div>
+          </div>
+          <div class="legend" id="legend"></div>
+          <div><button type="button" class="btn sm" id="reshuffle">🔀 Qayta tarqatish</button></div>
+          <p class="tnote">Rejimni guruhda <code>/mode</code> bilan almashtirasiz. Guruh admini web panel orqali har bir son uchun rollarni o'zgartira oladi.</p>
+        </div>
+      </div>
+      <a class="next" href="#test">Keyingi bob: qaysi rol sizniki? →</a>
+    </div>
+  </section>
+
+  <!-- 06 · Test -->
+  <section class="sec" id="test" style="padding-top:0">
+    <div class="wrap">
+      <div class="kick io">06 <span>/ Test</span></div>
+      <h2 class="io">Siz aslida <em>kimsiz?</em></h2>
+      <p class="sub io">Oltita savol. Halol javob bering — natija sizni ajablantirishi mumkin.</p>
+      <div class="quiz" id="quiz" aria-live="polite"></div>
+      <a class="next" href="#rejimlar">Keyingi bob: o'yin rejimlari →</a>
+    </div>
+  </section>
+
+  <!-- 07 · Rejimlar -->
+  <section class="sec" id="rejimlar" style="padding-top:0">
+    <div class="wrap">
+      <div class="kick io">07 <span>/ Rejimlar</span></div>
+      <h2 class="io">Bir o'yin. <em>Besh</em> xil kecha.</h2>
+      <div class="modes">
+        <div class="md hl io"><div class="ic">🤵🏻</div><h3>Almex</h3><p>Asosiy rejim. 12 kishidan Advokat qo'shiladi. Qarovul, Tulki, Podshoh va Jodugar bilan — har tun yangi jumboq.</p><code>/mode → Almex</code></div>
+        <div class="md io"><div class="ic">🕴</div><h3>Baku</h3><p>Advokatsiz, lekin Janob, Yollanma qotil, Aferist va G'azabkor bilan. Tezroq va qonliroq.</p><code>/mode → Baku</code></div>
+        <div class="md io"><div class="ic">🔵🔴</div><h3>Jamoaviy</h3><p>Ikki jamoa bir-biriga qarshi. Jamoalar teng bo'lmasa, o'yin boshlanmaydi.</p><code>/teamgame</code></div>
+        <div class="md io"><div class="ic">🏆</div><h3>Turnir</h3><p>Eng kuchlilar bellashuvi: bir stol, bitta g'olib.</p><code>/tourgame</code></div>
+        <div class="md io"><div class="ic">❤️</div><h3>Para turnir</h3><p>Faqat paralar qo'shiladi — 15 tagacha para, 30 o'yinchi. Avval /couple bilan para bo'ling.</p><code>/paratour</code></div>
+      </div>
+      <a class="next" href="#hamyon">Keyingi bob: PRO va do'kon →</a>
+    </div>
+  </section>
+
+  <!-- 08 · Hamyon -->
+  <section class="sec" id="hamyon" style="padding-top:0">
+    <div class="wrap">
+      <div class="kick io">08 <span>/ Hamyon</span></div>
+      <h2 class="io">Ikki bot. <em>Bitta</em> hamyon.</h2>
+      <p class="sub io">PRO va olmoslaringiz Almex Mafia'da ham, Almex Black'da ham bir xil ishlaydi.</p>
+      <div class="eco">
+        <div class="pro io">
+          <div class="crown">👑</div>
+          <h3>PRO</h3>
+          <p>O'yinda bo'lmasangiz ham shaharning bir qismi bo'lib qolasiz.</p>
+          <ul>
+            <li>⭐ Ismingiz yonida PRO belgisi</li>
+            <li>🏷️ O'z laqabingiz — <span class="mono">/nickname</span></li>
+            <li>💬 O'yinda bo'lmasangiz ham guruhda yozish</li>
+            <li>🚪 Lobbydan chiqish — <span class="mono">/leave</span></li>
+            <li>✨ Premium dizaynli profil va reytingda maxsus ko'rinish</li>
+            <li>⚡ Sovg'a va o'tkazmalarda PRO nishon</li>
+          </ul>
+          <div class="price">
+            <div><b>15 💎</b>7 kun, olmos bilan</div>
+            <div><b>75 ⭐</b>7 kun, Stars bilan</div>
+            <div><b>💳</b>Click orqali</div>
+          </div>
+          <div class="cta"><a class="btn red" href="https://t.me/AlmexMafiaBot">/pro — PRO olish</a></div>
+        </div>
+        <div class="shop io">
+          <h3>🛒 Do'kon</h3>
+          <p>Tunda omon qolish uchun — <span class="mono">/dokon</span></p>
+          <ul>
+            <li><span>🛡 Himoya<small>Bir marta hayotingizni saqlab qoladi</small></span><span>140 💵</span></li>
+            <li><span>📁 Hujjatlar<small>Rolingizni tekshirishsa — soxta hujjat yordam beradi</small></span><span>190 💵</span></li>
+            <li><span>🌿 Verbena giyohi<small>Vampir hujumidan qutqaradi</small></span><span>145 💵</span></li>
+            <li><span>🎭 Maska</span><span>1 💎</span></li>
+            <li><span>🔫 Miltiq</span><span>1 💎</span></li>
+            <li><span>⚖️ Ovoz berishdan himoya</span><span>1 💎</span></li>
+            <li><span>⛑ Qotildan himoya</span><span>2 💎</span></li>
+            <li><span>🥉 🥈 🥇 Sandiqlar</span><span>400 💵 · 5 💎 · 15 💎</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="cur">
+        <div class="io"><b>💵</b><h4>Dollar</h4><p>O'yinlarda yutiladi, Konchi tunnelda topadi, Qaroqchi o'g'irlaydi. Do'konda sarflanadi.</p></div>
+        <div class="io"><b>💎</b><h4>Olmos</h4><p>Kamyob valyuta: PRO, miltiq, maska va sandiqlar uchun. Guruhga <span class="mono">/donate</span> qilsa ham bo'ladi.</p></div>
+        <div class="io"><b>⭐</b><h4>Telegram Stars</h4><p>PRO'ni to'g'ridan-to'g'ri Telegram ichida, bir bosishda oling.</p></div>
+      </div>
+      <a class="next" href="#boshlash">Keyingi bob: 30 soniyada boshlash →</a>
+    </div>
+  </section>
+
+  <!-- 09 · Boshlash -->
+  <section class="sec" id="boshlash" style="padding-top:0">
+    <div class="wrap">
+      <div class="kick io">09 <span>/ Boshlash</span></div>
+      <h2 class="io">30 soniyada <em>o'yin</em> boshlang.</h2>
+      <div class="steps">
+        <div class="stp io"><b>1</b><h3>Botni guruhga qo'shing</h3><p>@AlmexMafiaBot ni guruhingizga qo'shing va admin qiling.</p></div>
+        <div class="stp io"><b>2</b><h3>Ro'yxatni oching</h3><p><code>/game</code> yozing. Kamida 4 kishi «Qo'shilish»ni bossin.</p></div>
+        <div class="stp io"><b>3</b><h3>Tun tushadi</h3><p>Rollar shaxsiy xabarda keladi. Qolganini bot o'zi boshqaradi.</p></div>
+      </div>
+      <h3 class="cmdh io">Asosiy buyruqlar</h3>
+      <p>Bosing — buyruq nusxalanadi.</p>
+      <div class="cmds" id="cmds"></div>
+      <h3 class="cmdh io">Bot 8 tilda gapiradi</h3>
+      <p>Tilni <span class="mono">/lang</span> bilan almashtirasiz.</p>
+      <div class="langs">
+        <span>🇺🇿 O'zbek</span><span>🇷🇺 Русский</span><span>🇬🇧 English</span><span>🇦🇿 Azərbaycan</span><span>🇹🇷 Türkçe</span><span>🇺🇦 Українська</span><span>🇰🇿 Қазақ</span><span>🇮🇩 Indonesia</span>
       </div>
     </div>
   </section>
 
-  <section class="s" id="rollar">
+  <!-- 10 · Botlar -->
+  <section class="sec" id="botlar" style="padding-top:0">
     <div class="wrap">
-      <h2 class="big io">Stolga nechta kishi o'tirdi?</h2>
-      <p class="sub io">Sonni tanlang va bot qaysi kartalarni tarqatishini ko'ring. Kartani bossangiz, roli nima qilishi ochiladi.</p>
-
-      <div class="ctrl">
-        <div class="seg" role="group" aria-label="O'yin rejimi">
-          <button type="button" data-mode="almex" aria-pressed="true">Almex</button>
-          <button type="button" data-mode="baku" aria-pressed="false">Baku</button>
-        </div>
-        <div class="num"><output id="n" for="rng" aria-live="polite">12</output><span>o'yinchi</span></div>
-        <div class="slider">
-          <input id="rng" type="range" min="4" max="40" value="12" aria-label="O'yinchilar soni">
-          <div class="ends"><span>4</span><span>40</span></div>
-        </div>
-        <div class="deck" id="deck" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="kick io">10 <span>/ Botlar</span></div>
+      <h2 class="io">Qaysi stolga o'tirasiz?</h2>
+      <div class="bots">
+        <a class="bot io" href="https://t.me/AlmexMafiaBot"><span class="ar">↗</span><h3>Almex Mafia</h3><p>Almex va Baku rejimlari, turnirlar, PRO va avtomatik to'lov.</p><div class="st2"><b>18 900+</b><span>o'yinchi</span></div></a>
+        <a class="bot io" href="https://t.me/AlmexBlackBot"><span class="ar">↗</span><h3>Almex Black</h3><p>Ikkinchi bot: bir xil hisob, alohida o'yinlar va guruhlar.</p><div class="st2"><b>34 900+</b><span>foydalanuvchi</span></div></a>
+        <a class="bot io" href="https://t.me/almexnews"><span class="ar">↗</span><h3>Almex News</h3><p>Yangiliklar, yangi rollar va yangilanishlar uchun yagona rasmiy kanal.</p><div class="st2"><b>@almexnews</b><span>kanal</span></div></a>
       </div>
-
-      <div id="table"></div>
-      <p class="note">Rejimni guruhda <code>/mode</code> bilan almashtirish mumkin. Voris mafiya qo'lida o'lsa, mafiyaga aylanadi, Komissar o'ldirsa — Serjantga.</p>
     </div>
   </section>
 
-  <section class="s talk">
+  <section class="final">
     <div class="wrap">
-      <h2 class="big io">Savol yoki taklif bormi?</h2>
-      <a class="huge io" href="https://t.me/almexnews">@almexnews</a>
+      <h2 class="io">Tun yaqinlashmoqda.</h2>
+      <p class="io">Stolda sizga joy bor. Faqat bitta savol: siz ov qilasizmi yoki ov bo'lasizmi?</p>
+      <div class="cta io"><a class="btn red" href="https://t.me/AlmexMafiaBot">Hoziroq o'ynash</a><a class="btn" href="https://t.me/almexnews">@almexnews</a></div>
     </div>
   </section>
 
@@ -303,198 +701,530 @@
 <footer>
   <div class="wrap foot">
     <div>© 2026 Almex</div>
-    <nav><a href="https://t.me/AlmexMafiaBot">Almex Mafia</a><a href="https://t.me/AlmexBlackBot">Almex Black</a><a href="https://t.me/almexnews">Almex News</a></nav>
+    <nav aria-label="Havolalar"><a href="https://t.me/AlmexMafiaBot">Almex Mafia</a><a href="https://t.me/AlmexBlackBot">Almex Black</a><a href="https://t.me/almexnews">Almex News</a></nav>
   </div>
 </footer>
+
+<dialog id="dlg" aria-labelledby="dlgName">
+  <div class="dlg" id="dlgBox">
+    <button type="button" class="x" id="dlgX" aria-label="Yopish">×</button>
+    <div class="em" id="dlgEm"></div>
+    <div class="tl" id="dlgTeam"></div>
+    <h3 id="dlgName"></h3>
+    <p id="dlgDesc"></p>
+    <div class="meta" id="dlgMeta"></div>
+    <p class="note" id="dlgNote"></p>
+    <a class="btn red" href="https://t.me/AlmexMafiaBot">Botda o'ynash</a>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 (function(){
   "use strict";
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var $ = function(id){ return document.getElementById(id); };
-  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
-  function buzz(){ try{ if(navigator.vibrate) navigator.vibrate(14); }catch(e){} }
-
-  /* [kalit, nom, jamoa, tavsif] — jamoa: m Mafiya, t Tinch tomon, n Neytral */
-  var R = {
-    don:["Don","m","Mafiya sardori. Har tunda kim o'lishini aynan u hal qiladi."],
-    mafia:["Mafia","m","Donga bo'ysunadi va unga qarshilik qilganlarni o'ldiradi."],
-    advokat:["Advokat","m","Har tunda kimnidir himoya qiladi. Mafiyani tanlasa, Komissar uni tanib olmaydi."],
-    yollanma_qotil:["Yollanma qotil","m","Istalgan odamni o'ldiradi. Uning qurbonini hech narsa qutqara olmaydi."],
-    sherif:["Komissar Kattani","t","Shaharning asosiy himoyachisi. Har tunda bir kishini tekshiradi yoki o'ldiradi."],
-    tinch_aholi:["Tinch aholi","t","Mafiyani topish va kunduzgi ovozda osish uning vazifasi."],
-    doktor:["Doktor","t","Har tunda kimnidir davolaydi. O'zini faqat bir marta davolay oladi."],
-    tabib:["Tabib","t","Har tunda bir kishini davolaydi va zaharlanganlarni asrab qoladi."],
-    serjant:["Serjant","t","Komissarning yordamchisi. Komissar o'lsa, uning o'rnini egallaydi."],
-    kezuvchi:["Kezuvchi","t","Kimga tashrif buyursa, unga uyqu dorisi beradi. U ertasi kuni ovoz bera olmaydi."],
-    daydi:["Daydi","t","Istalgan odamnikiga ichkilik olib boradi va qotillikning guvohi bo'lib qolishi mumkin."],
-    afsungar:["Afsungar","t","Tunda hujum qilishsa, hujumchini o'ldiradi yoki afv etadi. Kunduz osilsa, bir kishini o'zi bilan olib ketadi."],
-    heir:["Voris","t","Mafiya uni o'ldirsa, keyingi tunda mafiyaga aylanadi. Komissar o'ldirsa — Serjantga."],
-    janob:["Janob","t","Kunduzgi ovoz berishda uning ovozi ikkitaga teng."],
-    omadli:["Omadli","t","Birinchi hujumda 100% omon qoladi."],
-    ovchi:["Ovchi","t","Har tunda tekshiradi yoki o'ldiradi. Tinch aholiga zarar bersa, jarima to'laydi."],
-    jurnalist:["Jurnalist","t","Har tunda intervyuga boradi va o'sha odamnikiga kelgan har bir o'yinchini ko'radi."],
-    donishmand:["Donishmand","t","Mafiya va Komissar jamoalari orasidagi yozishmalarni ko'radi, lekin kimligini emas."],
-    qorovul:["Qarovul","t","Har tunda bir kishini tanlaydi: u kunduz osilmoqchi bo'lsa, omon qoladi."],
-    podshoh:["Podshoh","t","Shaharning ramzi. Kunduz osilsa va Qarovul himoyasi bo'lmasa, mafiya yutadi."],
-    jodugar:["Jodugar","t","Har tunda bir o'yinchini tanlaydi: uning ertangi ovozi tasodifiy odamga ketadi yoki o'chadi."],
-    qotil:["Qotil","n","Yolg'iz o'ynaydi: o'zidan tashqari hamma o'lishi kerak."],
-    haqiqiy_vampir:["Haqiqiy vampir","n","Har tunda birovni o'ldiradi. Uni faqat kunduzgi osish yo'q qila oladi."],
-    gazabkor:["G'azabkor","n","Kamida 3 qurbon va o'zining o'limi bilan yutadi."],
-    sehrgar:["Sehrgar","n","O'z qonunlari bilan yashaydi. Maqsadi shunchaki omon qolish."],
-    konchi:["Konchi","n","Har tunda tunnel qazadi: dollar yoki olmos topishi mumkin. Tirik qolsa, yutadi."],
-    banker:["Banker","n","Konchi yoki Savdogarga boradi va ularning topgan pulidan 10% soliq oladi."],
-    ogri:["Qaroqchi","n","Tartibsizlik chiqaradi, yolg'on ma'lumot beradi va o'g'irlik qiladi."],
-    aferist:["Aferist","n","Har tunda biror o'yinchining ovozini o'g'irlaydi."],
-    suidsid:["Suitsid","n","Uni osib o'ldirishsa, aynan u yutadi."],
-    sotqin:["Sotqin","n","Komissarni kuzatadi. Tekshirilgan odamning rolini bilib, guruhga e'lon qiladi."],
-    tulki:["Tulki","n","Kunduz osilsa, unga birinchi ovoz bergan ham o'ladi va Tulki yutadi."],
-    reviver:["Reviver","n","Butun o'yinda faqat bir marta o'liklardan birini tiriltiradi."]
+  var fine = window.matchMedia && matchMedia("(hover: hover) and (pointer: fine)").matches;
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function buzz(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms || 12); }catch(e){} }
+  function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.random()*(i+1)|0, t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+  var store = {
+    get:function(k,d){ try{ var v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+    set:function(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
   };
-  var ORDER = ["don","mafia","advokat","yollanma_qotil","sherif","doktor","tabib","serjant","qorovul","podshoh","jodugar","kezuvchi","daydi","afsungar","heir","janob","omadli","ovchi","jurnalist","donishmand","tinch_aholi","qotil","haqiqiy_vampir","gazabkor","sehrgar","konchi","banker","ogri","aferist","suidsid","sotqin","tulki","reviver"];
-  var TEAM = {m:["Mafiya","s-m"], t:["Tinch tomon","s-t"], n:["Neytral","s-n"]};
+  var toastEl = $("toast"), toastT;
+  function toast(msg){ toastEl.textContent = msg; toastEl.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(function(){ toastEl.classList.remove("on"); }, 2800); }
 
-  function cardHTML(k, count, up){
-    var r = R[k], L = Math.max.apply(null, r[0].split(" ").map(function(w){ return w.length; })), sz = L<=5 ? "" : L<=7 ? " m" : L<=9 ? " l" : " xl";
-    var c = count ? '<div class="corner"><b>'+count+'</b><svg><use href="#'+TEAM[r[1]][1]+'"/></svg></div><div class="corner br"><b>'+count+'</b><svg><use href="#'+TEAM[r[1]][1]+'"/></svg></div>' :
-                    '<div class="corner"><svg><use href="#'+TEAM[r[1]][1]+'"/></svg></div><div class="corner br"><svg><use href="#'+TEAM[r[1]][1]+'"/></svg></div>';
-    return '<div class="face front'+(up?' up':'')+' t-'+r[1]+'">'+c+'<div class="pic"><svg><use href="#'+TEAM[r[1]][1]+'"/></svg></div><div class="nm'+sz+'">'+esc(r[0])+'</div></div>';
-  }
+  /* ================= ROLLAR (bot: ROLE_DESCS, *_description, TEAM_MAPPING) =================
+     [emoji, nom, jamoa, tavsif] — jamoa: m Mafiya, t Tinch aholi, n Yakka */
+  var R = {
+    don:["🤵🏻","Don","m","Mafiya sardori. Har tunda kim o'lishini aynan u hal qiladi. Maqsadi — tinch aholini yo'q qilish."],
+    mafia:["🤵🏼","Mafia","m","Donga bo'ysunadi va unga qarshilik qilganlarni o'ldiradi. Don o'lsa, yangi Don bo'lishi mumkin."],
+    advokat:["👨🏼‍💼","Advokat","m","Har tunda kimnidir himoya qiladi. Mafiyadan birini tanlasa, Komissar uni Tinch aholi deb ko'radi."],
+    yollanma_qotil:["🕴","Yollanma qotil","m","Mafiyaning asosiy quroli. Uning qurbonini hech narsa va hech kim qutqara olmaydi."],
+    jurnalist:["👩🏼‍💻","Jurnalist","m","Mafiyaning agenti. Har tunda intervyuga boradi, u yerga kelgan har bir o'yinchini ko'radi va ma'lumotni mafiyaga yetkazadi."],
+    zaharchi:["🧑‍🎤","Zaharchi","m","Mafiyaning yashirin sherigi. Har tunda kimnidir zaharlaydi — Tabib davolamasa, u keyingi tongda o'ladi."],
+    savdogar:["🧔🏻‍♂️","Savdogar","m","Mafiyaning yashirin a'zosi. Tinch odamni qora bozorga jalb qiladi — qutilardan biri o'lim qutisi."],
+    aka:["👥","Aka","m","Uka bilan juft bo'lib ov qiladi. Ikkalasi bir odamni tanlasa — u o'ladi. Biri o'lsa, ikkinchisi ham ketadi."],
+    uka:["👥","Uka","m","Aka bilan juft. Tanlovlari mos kelsagina qurbon o'ladi. Kezuvchi bittasini uxlatsa — hujum bo'lmaydi."],
+    sherif:["🕵🏼","Komissar Kattani","t","Shaharning asosiy himoyachisi va mafiya kushandasi. Har tunda bir kishini tekshiradi yoki o'ldiradi."],
+    serjant:["👮🏼","Serjant","t","Komissarning yordamchisi — u qilayotgan ishlardan xabardor. Komissar o'lsa, o'rnini egallaydi."],
+    doktor:["👨🏼‍⚕️","Doktor","t","Har tunda bir kishini davolaydi. O'zini faqat bir marta davolay oladi."],
+    tabib:["👨🏻‍⚕️","Tabib","t","Har tunda bir kishini davolaydi va Zaharchi zaharlaganlarni o'limdan asrab qoladi."],
+    kezuvchi:["💃","Kezuvchi","t","Kimga tashrif buyursa, unga uyqu dori beradi — u ertasi kuni ovoz bera olmaydi. Donni uxlatish — eng katta yutug'i."],
+    daydi:["🧙🏼","Daydi","t","Kimningdir uyiga ichkilik olib boradi va qotillikning guvohi bo'lib qolishi mumkin: qurbon ustida kim turganini ko'radi."],
+    afsungar:["💣","Afsungar","t","Tunda unga hujum qilishsa — hujumchini o'ldirish yoki afv etishni tanlaydi. Kunduz osilsa, bir kishini o'zi bilan olib ketadi."],
+    heir:["🧑🏻‍💼","Voris","t","Mafiya o'ldirsa — keyingi tunda mafiyaga aylanadi. Komissar o'ldirsa — Serjantga. Qotil o'ldirsa — shunchaki o'ladi."],
+    janob:["🎖","Janob","t","Kunduzgi ovoz berishda uning ovozi ikkitaga teng."],
+    omadli:["🍀","Omadli","t","Qolganlardan omadliroq: birinchi hujumdan 100% omon qoladi. Baxt — uning eng katta quroli."],
+    ovchi:["🏹","Ovchi","t","Har tunda tekshiradi yoki o'ldiradi. Tinch aholiga zarar bersa, jarima to'laydi. Gibridni faqat u o'ldira oladi."],
+    donishmand:["👨🏼‍🏫","Donishmand","t","Mafiya va Komissar jamoalarining tungi yozishmalarini o'qiydi — kim yozganini emas, faqat nima yozilganini."],
+    qorovul:["👨‍🦳","Qarovul","t","Har tunda bir kishini tanlaydi: u kunduz osilmoqchi bo'lsa — omon qoladi. O'zini himoya qila olmaydi."],
+    podshoh:["🤴🏻","Podshoh","t","Shaharning ramzi. Kunduz Qarovul himoyasisiz osilsa — mafiya va tirik neytrallar yutadi. Tunda o'lsa, o'yin davom etadi."],
+    suidsid:["🤦🏼","Suitsid","t","G'alati tinch odam: uni kunduz osib o'ldirishsa — aynan u yutadi."],
+    sotqin:["🤓","Sotqin","t","Har tunda Komissarni kuzatadi. Komissar tekshirgan odamni u ham tanlasa — rolini bilib, guruhga e'lon qiladi."],
+    tinch_aholi:["👨🏼","Tinch aholi","t","Kuchi — ovozida. Mafiyani topib, kunduzgi yig'ilishda osish uning vazifasi. Tinchlar yutsa, u ham yutadi."],
+    qotil:["🔪","Qotil","n","Faqat o'zi uchun o'ynaydi: shahardagi hamma o'lishi kerak — undan tashqari, albatta."],
+    haqiqiy_vampir:["🧛🏻‍♂️","Haqiqiy vampir","n","Har tunda birovni o'ldiradi. Hech qanday qurol uni o'ldira olmaydi — faqat kunduzgi osish."],
+    vampir:["🧛🏻","Vampir","n","Har kecha birovni tishlaydi. Doktor davolamasa yoki verbena bo'lmasa — qurbon o'ladi. Yollanma qotilga ta'sir qilmaydi."],
+    bori:["🐺","Bo'ri","n","Har tunda tishlab o'ldiradi. Vampirni tishlasa — o'zi o'ladi, Haqiqiy vampirni tishlasa — yengilmas Gibridga aylanadi."],
+    gibrid:["🧛🏿‍♂️","Gibrid","n","Bo'ri Haqiqiy vampirni tishlaganda tug'iladi. Har tunda o'ldiradi, uni esa faqat Ovchi o'ldira oladi."],
+    gazabkor:["🧟","G'azabkor","n","Har tunda bitta qurbon tanlaydi. Kamida 3 qurbondan keyin o'zini o'ldirsa — g'alaba (jami 4 o'lim)."],
+    sehrgar:["🧙","Sehrgar","n","O'z qonunlari bilan yashaydi. Don, Qotil yoki Komissar unga hujum qilsa — behuda: rahm qilish yoki o'ldirishni o'zi tanlaydi."],
+    konchi:["👷🏻‍♂️","Konchi","n","Har tunda tunnel qazadi: 10 dan 2000 gacha dollar yoki 3 tagacha olmos topadi. Oxirigacha tirik qolsa — yutadi."],
+    banker:["👨🏻‍💻","Banker","n","Har tunda Konchi yoki Savdogarga boradi va ular topgan puldan 10% soliq oladi."],
+    ogri:["🦹🏻‍♂️","Qaroqchi","n","Tunda birovning uyiga kirib pul (10–500$), verbena, temir qalqon yoki ovoz berish huquqini o'g'irlaydi."],
+    aferist:["🤹🏻","Aferist","n","Har tunda bir o'yinchining shu kechadagi harakatini o'g'irlaydi. Tirik qolsa, har qanday g'olib bilan birga yutadi."],
+    tulki:["🦊","Tulki","n","Kunduz osilsa — unga birinchi ovoz bergan ham o'ladi va Tulki yutadi. Tunda o'lsa — oddiy o'lim."],
+    jodugar:["🧞‍♀️","Jodugar","n","Har tunda bir o'yinchini tanlaydi: ertasi uning ovozi tasodifiy odamga ketadi yoki butunlay o'chadi."],
+    reviver:["🧜🏻‍♂️","Reviver","n","2-tundan o'liklarni ko'radi va butun o'yinda faqat bir marta bittasini tiriltiradi. Tirik qolsa, g'olib bilan birga yutadi."],
+    qorbobo:["🎅","Qorbobo","n","Hammaga sovg'a ulashib, shaharni xursand qiladi. O'yin oxirigacha tirik qolsa — g'alaba uniki."]
+  };
+  var KEYS = Object.keys(R);
+  var TEAM = { t:"Tinch aholi", m:"Mafiya", n:"Yakka o'yinchi" };
+  var PANEL_ONLY = { savdogar:1, zaharchi:1, aka:1, uka:1, vampir:1, bori:1, qorbobo:1 };
 
-  /* sarlavha har qanday shriftda ham ustun kengligiga sig'sin */
-  var mark = $("mark"), msp = mark.firstElementChild;
-  function fitMark(){
-    mark.style.fontSize = "100px";
-    var w = msp.getBoundingClientRect().width, t = mark.clientWidth;
-    if(w>0) mark.style.fontSize = Math.max(72, Math.min(300, 100 * t / w * .985)) + "px";
-  }
-  fitMark(); window.addEventListener("resize", fitMark);
-  if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitMark);
-
-  /* ---------- 1. Birinchi ekran: uchta yopiq karta ---------- */
-  var stage = $("stage"), out = $("out"), hcs = [0,1,2].map(function(i){ return $("hc"+i); });
-  var pool = Object.keys(R);
-  function backHTML(){ return '<div class="face back"><i>A</i></div>'; }
-
-  function dealHero(){
-    stage.classList.remove("picked");
-    var picks = [];
-    while(picks.length<3){ var k = pool[Math.floor(Math.random()*pool.length)]; if(picks.indexOf(k)<0) picks.push(k); }
-    hcs.forEach(function(h,i){
-      h.classList.remove("open");
-      h.querySelector(".flip").innerHTML = backHTML() + cardHTML(picks[i]);
-      h.dataset.k = picks[i];
-      h.querySelector("button").setAttribute("aria-label",(i+1)+"-kartani ochish");
-      /* qayta tarqatish animatsiyasi */
-      if(!reduce){ h.style.animation="none"; void h.offsetWidth; h.style.animation=""; }
-    });
-    out.innerHTML="";
-  }
-  hcs.forEach(function(h){
-    var btn = h.querySelector("button");
-    btn.addEventListener("click", function(){
-      if(stage.classList.contains("picked")) return;
-      var k = h.dataset.k, r = R[k];
-      h.classList.add("open"); stage.classList.add("picked"); buzz();
-      out.innerHTML = '<h2>'+esc(r[0])+'</h2><span class="tm">'+TEAM[r[1]][0]+'</span><p>'+esc(r[2])+'</p><button type="button" class="again" id="again">Yana tortish</button>';
-      $("again").addEventListener("click", function(){ dealHero(); });
-    });
-    /* yaltiroq: kursor/barmoq kartada yursa */
-    h.addEventListener("pointermove", function(e){
-      var f = h.querySelector(".face.front"); if(!f) return;
-      var b = h.getBoundingClientRect();
-      f.style.setProperty("--mx", ((e.clientX-b.left)/b.width*100)+"%");
-      f.style.setProperty("--my", ((e.clientY-b.top)/b.height*100)+"%");
-      f.style.setProperty("--sh", "1");
-    });
-    h.addEventListener("pointerleave", function(){ var f=h.querySelector(".face.front"); if(f) f.style.setProperty("--sh","0"); });
-  });
-  dealHero();
-
-  /* ---------- 2. Rollar stoli (botdagi taqsimot algoritmining aynan o'zi) ---------- */
+  /* ===== Taqsimot: almex.py → get_advanced_roles_for_bot() bilan bir xil ===== */
   var SPEC = {
     almex:["doktor","kezuvchi","qorovul","tulki","podshoh","jodugar","serjant","heir","jurnalist","donishmand","konchi","ovchi","daydi","qotil","afsungar","sehrgar","tabib","haqiqiy_vampir","sotqin","serjant","afsungar","omadli","banker","ogri","suidsid","reviver"],
     baku:["doktor","afsungar","kezuvchi","daydi","serjant","heir","omadli","qorovul","suidsid","jurnalist","sehrgar","gazabkor","qotil","janob","yollanma_qotil","aferist","sotqin","serjant","afsungar","ogri","banker","reviver","tabib","haqiqiy_vampir","donishmand","konchi"]
   };
   function sum(o){ var s=0; for(var k in o) s+=o[k]; return s; }
   function rolesFor(n, mode){
-    var r={sherif:1, don:1}, side = n<8 ? 1 : Math.floor(n/4);
-    var adv = n >= (mode==="almex" ? 12 : 99), extra = side-1-(adv?1:0);
-    if(extra>0) r.mafia=extra; if(adv) r.advokat=1;
-    var free = n - sum(r) - (1+Math.floor(n/10));
-    SPEC[mode].slice(0, Math.max(0,free)).forEach(function(k){ r[k]=(r[k]||0)+1; });
+    var r = { sherif:1, don:1 }, side = n < 8 ? 1 : Math.floor(n/4);
+    var adv = n >= (mode === "almex" ? 12 : 99), extra = side - 1 - (adv ? 1 : 0);
+    if(extra > 0) r.mafia = extra;
+    if(adv) r.advokat = 1;
+    var free = n - sum(r) - (1 + Math.floor(n/10));
+    SPEC[mode].slice(0, Math.max(0, free)).forEach(function(k){ r[k] = (r[k] || 0) + 1; });
     r.tinch_aholi = n - sum(r);
     return r;
   }
-
-  var mode="almex", n=12, tableEl=$("table"), rng=$("rng"), lastN=null, tick=null;
-
-  function renderTable(animate){
-    var r = rolesFor(n,mode);
-    $("n").textContent = n;
-    var html = "";
-    ["m","t","n"].forEach(function(t){
-      var keys = ORDER.filter(function(k){ return r[k] && R[k][1]===t; });
-      if(!keys.length) return;
-      var tot = keys.reduce(function(a,k){ return a+r[k]; },0);
-      html += '<div class="team t-'+t+'" style="--c:'+(t==="m"?"var(--crimson)":t==="t"?"var(--moon)":"var(--ochre)")+'"><h4><svg><use href="#'+TEAM[t][1]+'"/></svg>'+TEAM[t][0]+'<small>'+tot+' ta · '+Math.round(tot/n*100)+'%</small></h4><div class="row">'+
-        keys.map(function(k){
-          var rr = R[k];
-          return '<div class="rc"><div class="card" data-k="'+k+'"><button type="button" aria-label="'+esc(rr[0])+', '+r[k]+' ta. Tavsifini ochish"><div class="flip">'+
-            cardHTML(k, r[k], true)+
-            '<div class="face dsc t-'+rr[1]+'"><b>'+esc(rr[0])+'</b>'+esc(rr[2])+'</div>'+
-            '</div></button></div></div>';
-        }).join("")+'</div></div>';
-    });
-    tableEl.innerHTML = html;
-    if(animate && !reduce) deal();
-  }
-
-  /* kartalar "deck"dan tarqatilgandek uchib keladi (FLIP) */
-  function deal(){
-    var d = $("deck").getBoundingClientRect(), cards = tableEl.querySelectorAll(".rc");
-    var ox = d.left + d.width/2, oy = d.top + d.height/2;
-    if(!d.width){ ox = window.innerWidth/2; oy = tableEl.getBoundingClientRect().top - 40; }
-    Array.prototype.forEach.call(cards, function(c,i){
-      var b = c.getBoundingClientRect();
-      var dx = ox-(b.left+b.width/2), dy = oy-(b.top+b.height/2);
-      c.animate([
-        {transform:"translate("+dx+"px,"+dy+"px) rotate("+((i%2?1:-1)*(18+i%5*6))+"deg) scale(.45)", opacity:0},
-        {opacity:1, offset:.25},
-        {transform:"none", opacity:1}
-      ],{duration:520, delay:Math.min(i,24)*30, easing:"cubic-bezier(.2,.85,.25,1)", fill:"backwards"});
-    });
-  }
-
-  tableEl.addEventListener("click", function(e){
-    var c = e.target.closest(".card"); if(!c) return;
-    c.classList.toggle("open"); buzz();
+  function expand(r){ var out=[]; KEYS.forEach(function(k){ for(var i=0;i<(r[k]||0);i++) out.push(k); }); return out; }
+  var MIN = {};
+  KEYS.forEach(function(k){ MIN[k] = { almex:null, baku:null }; });
+  ["almex","baku"].forEach(function(m){
+    for(var n=4;n<=40;n++){ var r = rolesFor(n,m); for(var k in r){ if(MIN[k] && MIN[k][m] === null) MIN[k][m] = n; } }
   });
+
+  var hdr = $("hdr");
+
+  /* ================= 01 · Fonar: Donni topish ================= */
+  var hero = $("hero"), crowd = $("crowd"), heroCopy = $("heroCopy");
+  var NAMES = ["Aziz","Malika","Sardor","Dilnoza","Jasur","Kamola","Bekzod","Nodira","Otabek","Shahzod","Zarina","Javohir","Madina","Sherzod","Laylo","Doston","Gulnoza","Rustam","Sevara","Bobur","Feruza","Ulug'bek","Nilufar","Akmal","Yulduz","Temur","Munisa","Sanjar"];
+  var faces = [], spot = { x:0, y:0 }, userAt = -1e9, found = false, dwell = 0, rad = 180, lastT = 0, heroOn = true, heroW = 0, heroH = 0;
+  $("huntHint").textContent = fine ? "🔦 Kursorni yuriting — Don qayerda?" : "🔦 Ekranga teging — Don qayerda?";
+
+  function layoutCrowd(){
+    var W = hero.clientWidth, H = hero.clientHeight; heroW = W; heroH = H;
+    rad = W < 600 ? 120 : 180; hero.style.setProperty("--rad", rad + "px");
+    var hb = hero.getBoundingClientRect(), cb = heroCopy.getBoundingClientRect();
+    var ex = { l:cb.left-hb.left-20, t:cb.top-hb.top-30, r:cb.right-hb.left+20, b:cb.bottom-hb.top+10 };
+    var cell = W < 600 ? 82 : 116, top = 70;
+    var cols = Math.max(3, Math.floor(W/cell)), rows = Math.max(3, Math.floor((H-top)/cell));
+    var spots = [];
+    for(var r=0;r<rows;r++) for(var c=0;c<cols;c++){
+      var cw = W/cols, ch = (H-top)/rows;
+      var x = (c+.5)*cw + (Math.random()-.5)*cw*.5, y = top + (r+.5)*ch + (Math.random()-.5)*ch*.5;
+      if(x > ex.l && x < ex.r && y > ex.t && y < ex.b) continue;
+      if(x < 28 || x > W-28 || y > H-24) continue;
+      spots.push([x,y]);
+    }
+    shuffle(spots); spots = spots.slice(0, 28);
+    while(spots.length < 4) spots.push([W*(.15 + .23*spots.length), top + 30]);
+    var n = spots.length;
+    var roles = shuffle(expand(rolesFor(Math.max(4, Math.min(40, n)), "almex"))).slice(0, n);
+    if(roles.indexOf("don") < 0) roles[0] = "don";
+    var names = shuffle(NAMES.slice());
+    crowd.innerHTML = ""; faces = [];
+    spots.forEach(function(p, i){
+      var k = roles[i], r = R[k], el = document.createElement("div"), nm = names[i % names.length];
+      el.className = "fc c-" + r[2];
+      el.style.left = p[0] + "px"; el.style.top = p[1] + "px";
+      el.innerHTML = '<span class="e">' + r[0] + '</span><span class="tg">' + esc(nm) + ' · <b>' + esc(r[1]) + '</b></span>';
+      crowd.appendChild(el);
+      faces.push({ el:el, x:p[0], y:p[1], k:k, name:nm });
+    });
+    found = false; dwell = 0;
+    $("huntStatus").textContent = ""; $("huntAgain").hidden = true;
+    if(!spot.x){ spot.x = W*.62; spot.y = H*.35; }
+    paintSpot();
+  }
+  function paintSpot(){
+    hero.style.setProperty("--x", spot.x + "px"); hero.style.setProperty("--y", spot.y + "px");
+    for(var i=0;i<faces.length;i++){
+      var f = faces[i], dx = f.x - spot.x, dy = f.y - spot.y, d = Math.sqrt(dx*dx + dy*dy);
+      var l = Math.min(1, Math.max(0, 1 - d/rad) * 1.7);
+      f.el.style.setProperty("--l", l.toFixed(3));
+    }
+  }
+  function foundDon(f){
+    found = true; f.el.classList.add("found"); buzz(40);
+    var c = store.get("almex_dons", 0) + 1; store.set("almex_dons", c);
+    $("huntStatus").textContent = "Topildi! " + f.name + " — 🤵🏻 Don." + (c > 1 ? " (" + c + "-marta)" : "");
+    $("huntAgain").hidden = false;
+    toast("🤵🏻 Don topildi! Botda ham shunday topa olasizmi?");
+  }
+  function heroFrame(now){
+    var dt = lastT ? Math.min(64, now - lastT) : 16; lastT = now;
+    var user = now - userAt < 3500;
+    if(!user && !reduce){
+      var t = now/1000;
+      spot.x = heroW * (.5 + .4*Math.sin(t*.33));
+      spot.y = 70 + (heroH-70) * (.45 + .38*Math.sin(t*.51 + 1.2));
+    }
+    paintSpot();
+    if(user && !found){
+      for(var i=0;i<faces.length;i++){
+        if(faces[i].k !== "don") continue;
+        var don = faces[i], d = Math.sqrt(Math.pow(don.x-spot.x,2) + Math.pow(don.y-spot.y,2));
+        if(d < rad*.38){ dwell += dt; if(dwell > 420) foundDon(don); } else dwell = 0;
+        break;
+      }
+    }
+    if(heroOn) requestAnimationFrame(heroFrame); else lastT = 0;
+  }
+  function setSpot(e){
+    var b = hero.getBoundingClientRect();
+    spot.x = e.clientX - b.left; spot.y = e.clientY - b.top; userAt = performance.now();
+  }
+  hero.addEventListener("pointermove", setSpot);
+  hero.addEventListener("pointerdown", setSpot);
+  $("huntAgain").addEventListener("click", function(){ layoutCrowd(); toast("Yuzlar almashdi. Don yana yashirindi."); });
+  layoutCrowd();
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(function(en){
+      var was = heroOn; heroOn = en[0].isIntersecting;
+      if(heroOn && !was) requestAnimationFrame(heroFrame);
+    }).observe(hero);
+  }
+  requestAnimationFrame(heroFrame);
+  var rzT;
+  window.addEventListener("resize", function(){
+    clearTimeout(rzT);
+    rzT = setTimeout(function(){
+      if(Math.abs(hero.clientWidth - heroW) > 40 || Math.abs(hero.clientHeight - heroH) > 160) layoutCrowd();
+      renderRing(false);
+    }, 200);
+  });
+
+  /* ================= lenta: botning haqiqiy xabarlari ================= */
+  var TICK = [
+    ["🌚","Tun.","Ko'chaga faqat jasur va qo'rqmas odamlar chiqishdi."],
+    ["🔪","Tunda 🎖 Janob","vaxshiylarcha o'ldirildi."],
+    ["🌝","Xayrli tong.","Shamollar tundagi mish-mishlarni butun shaharga yetkazmoqda..."],
+    ["🤵🏻","Don","navbatdagi o'ljasini tanladi..."],
+    ["✨","Ishonish qiyin,","lekin bu tunda hech kim o'lmadi..."],
+    ["🕵🏼","Komissar Kattani","hujjatlarni tekshirishga ketdi..."],
+    ["👨🏼","Tinch aholilar","g'alaba qozondi!"],
+    ["🧙🏼","Daydi","kimningdir uyidan ichkilik olib borish uchun ketdi..."]
+  ];
+  var th = TICK.map(function(t){ return '<span><i>' + t[0] + '</i><b>' + esc(t[1]) + '</b> ' + esc(t[2]) + '</span>'; }).join("");
+  $("ticker").innerHTML = th + th;
+
+  /* ================= 02 · Bir tun ================= */
+  var STEPS = [
+    { ph:"reg",   tag:"21:00 · Ro'yxat", sub:"12 o'yinchi · ro'yxat",  t:"Guruhda o'yin ochiladi", p:"Admin /game yozadi. Har kim «Qo'shilish»ni bosadi — 4 dan 40 kishigacha." },
+    { ph:"night", tag:"🌙 1-tun",        sub:"12 tirik · tun",         t:"Tun tushdi. Rollar tarqatildi", p:"Har kimga roli shaxsiy xabarda keladi. Sizniki — Komissar Kattani. Hech kimga aytmang." },
+    { ph:"night", tag:"🌙 1-tun",        sub:"12 tirik · tun",         t:"Don o'ljasini tanladi", p:"Mafiya o'z chatida kelishadi. Oxirgi so'z — Donniki." },
+    { ph:"night", tag:"🌙 1-tun",        sub:"12 tirik · tun",         t:"Shahar ham uxlamaydi", p:"Komissar tekshiradi, Doktor davolaydi, Daydi kimningdir eshigini taqillatadi." },
+    { ph:"dawn",  tag:"🌅 Tong",         sub:"11 tirik · tong",        t:"Tong. Bitta joy bo'sh", p:"Bot tunda nima bo'lganini aytadi. Kim o'lgani ma'lum. Kim o'ldirgani — sir." },
+    { ph:"day",   tag:"☀️ 1-kun",        sub:"11 tirik · kun",         t:"Bahs boshlanadi", p:"Kunduzi hamma gapiradi. Kim yolg'on gapiryapti — siz hal qilasiz." },
+    { ph:"day",   tag:"☀️ 1-kun",        sub:"11 tirik · ovoz berish", t:"Ovoz berish", p:"Ko'pchilik ovoz bergan odam osiladi va uning roli hammaga ochiladi." },
+    { ph:"dusk",  tag:"🌆 Kech",         sub:"10 tirik · tun",         t:"Bitta mafiya ketdi. Don esa — tirik.", p:"Tun yana tushadi. Keyingi navbat kimniki? Buni faqat stolda bilib olasiz.", cta:true }
+  ];
+  var storyEl = $("tun"), stEl = $("st"), msgs = Array.prototype.slice.call(document.querySelectorAll("#chat .msg")), curStep = -1;
+  storyEl.style.setProperty("--n", STEPS.length);
+  $("sDots").innerHTML = STEPS.map(function(){ return "<i></i>"; }).join("");
+  var dots = $("sDots").children;
+  function setStep(s){
+    curStep = s; var S = STEPS[s];
+    stEl.dataset.ph = S.ph;
+    $("sTag").textContent = S.tag; $("sTitle").textContent = S.t; $("sText").textContent = S.p; $("sSub").textContent = S.sub;
+    var box = $("sBox"); box.classList.remove("sw"); void box.offsetWidth; box.classList.add("sw");
+    $("sCta").hidden = !S.cta;
+    msgs.forEach(function(m){ m.classList.toggle("on", +m.dataset.s <= s); });
+    for(var i=0;i<dots.length;i++){ dots[i].className = i < s ? "on" : i === s ? "now" : ""; }
+  }
+  function story(){
+    var r = storyEl.getBoundingClientRect(), total = r.height - innerHeight;
+    var p = total > 0 ? Math.min(1, Math.max(0, -r.top/total)) : 0;
+    var s = Math.min(STEPS.length - 1, Math.floor(p * STEPS.length));
+    if(s !== curStep) setStep(s);
+  }
+
+  var sRaf = 0;
+  function onScroll(){
+    sRaf = 0;
+    var y = window.scrollY || window.pageYOffset, h = document.documentElement.scrollHeight - innerHeight;
+    hdr.classList.toggle("solid", y > 40);
+    hdr.style.setProperty("--sp", h > 0 ? (y/h).toFixed(4) : 0);
+    story();
+  }
+  window.addEventListener("scroll", function(){ if(!sRaf) sRaf = requestAnimationFrame(onScroll); }, { passive:true });
+  onScroll();
+
+  /* ================= 03 · Karta tortish + kolleksiya ================= */
+  var coll = store.get("almex_coll", []);
+  if(!Array.isArray(coll)) coll = [];
+  coll = coll.filter(function(k, i){ return R[k] && coll.indexOf(k) === i; });
+  var pc = $("pc"), pcFront = $("pcFront"), resEl = document.querySelector(".res"), lastDraw = null, busy = false;
+  function renderColl(newKey){
+    $("cGrid").innerHTML = KEYS.map(function(k){
+      if(coll.indexOf(k) < 0) return '<span class="cg" aria-hidden="true">?</span>';
+      return '<button type="button" class="cg c-' + R[k][2] + (k === newKey ? ' new' : '') + '" data-k="' + k + '" title="' + esc(R[k][1]) + '" aria-label="' + esc(R[k][1]) + '">' + R[k][0] + '</button>';
+    }).join("");
+    $("cCount").textContent = coll.length + "/" + KEYS.length;
+    $("cBar").style.width = (coll.length / KEYS.length * 100) + "%";
+  }
+  $("cGrid").addEventListener("click", function(e){ var b = e.target.closest("button[data-k]"); if(b) openRole(b.dataset.k); });
+  function pick(){
+    var unseen = KEYS.filter(function(k){ return coll.indexOf(k) < 0; });
+    var pool = unseen.length && Math.random() < .7 ? unseen : KEYS, k;
+    do { k = pool[Math.random()*pool.length | 0]; } while(k === lastDraw && pool.length > 1);
+    return k;
+  }
+  function draw(){
+    if(busy) return; busy = true;
+    var k = pick(), r = R[k], wasOpen = pc.classList.contains("open");
+    lastDraw = k;
+    pc.classList.remove("open");
+    $("tap").textContent = "";
+    setTimeout(function(){
+      pcFront.className = "side front c-" + r[2];
+      pcFront.innerHTML = '<span class="tm">' + TEAM[r[2]] + '</span><span class="em">' + r[0] + '</span><span class="nm">' + esc(r[1]) + '</span><span class="cn">' + r[0] + '</span>';
+      pc.classList.add("open"); buzz(18);
+      setTimeout(function(){
+        resEl.className = "res c-" + r[2];
+        $("dTeam").textContent = TEAM[r[2]];
+        $("dName").textContent = r[1];
+        $("dDesc").textContent = r[3];
+        var isNew = coll.indexOf(k) < 0, badge = $("dBadge");
+        if(isNew){ coll.push(k); store.set("almex_coll", coll); }
+        badge.hidden = false;
+        badge.textContent = isNew && coll.length === KEYS.length ? "🏆 Hamma 41 ta rol yig'ildi! Siz haqiqiy Don'siz." : isNew ? "✨ Yangi rol! Kolleksiyaga qo'shildi" : "Bu rol kolleksiyangizda bor edi";
+        $("drawBtn").textContent = "Yana tortish";
+        $("dMore").hidden = false; $("dMore").dataset.k = k;
+        renderColl(isNew ? k : null);
+        $("tap").textContent = "Yana bosing";
+        busy = false;
+      }, reduce ? 0 : 480);
+    }, wasOpen ? (reduce ? 0 : 480) : 40);
+  }
+  $("drawBtn").addEventListener("click", draw);
+  $("felt").addEventListener("click", draw);
+  $("felt").addEventListener("keydown", function(e){ if(e.key === "Enter" || e.key === " "){ e.preventDefault(); draw(); } });
+  $("dMore").addEventListener("click", function(){ openRole(this.dataset.k); });
+  renderColl();
+
+  /* ================= 04 · Rollar ================= */
+  var filt = "all", q = "", grid = $("grid");
+  function norm(s){ return String(s).toLowerCase().replace(/[’ʼ‘`ʻ]/g, "'"); }
+  var chips = document.querySelectorAll("#filters .chip");
+  Array.prototype.forEach.call(chips, function(c){
+    var f = c.dataset.f, n = f === "all" ? KEYS.length : KEYS.filter(function(k){ return R[k][2] === f; }).length;
+    c.querySelector("small").textContent = n;
+    c.addEventListener("click", function(){
+      filt = f;
+      Array.prototype.forEach.call(chips, function(x){ x.setAttribute("aria-pressed", x === c); });
+      renderGrid();
+    });
+  });
+  $("search").addEventListener("input", function(){ q = norm(this.value.trim()); renderGrid(); });
+  function renderGrid(){
+    var list = KEYS.filter(function(k){
+      var r = R[k];
+      return (filt === "all" || r[2] === filt) && (!q || norm(r[1]).indexOf(q) >= 0 || norm(r[3]).indexOf(q) >= 0);
+    });
+    grid.innerHTML = list.length ? list.map(function(k){
+      var r = R[k];
+      return '<button type="button" class="rc c-' + r[2] + '" data-k="' + k + '"><span class="em">' + r[0] + '</span><span class="tl">' + TEAM[r[2]] + '</span><span class="h">' + esc(r[1]) + '</span><span class="d">' + esc(r[3]) + '</span></button>';
+    }).join("") : '<p class="empty">Bunday rol topilmadi. Boshqacha yozib ko\'ring.</p>';
+  }
+  grid.addEventListener("click", function(e){ var b = e.target.closest(".rc"); if(b) openRole(b.dataset.k); });
+  renderGrid();
+
+  var dlg = $("dlg");
+  function since(n){ return n === null ? "—" : n === 4 ? "doim bor" : n + " kishidan"; }
+  function openRole(k){
+    var r = R[k];
+    $("dlgBox").className = "dlg c-" + r[2];
+    $("dlgEm").textContent = r[0];
+    $("dlgTeam").textContent = TEAM[r[2]];
+    $("dlgName").textContent = r[1];
+    $("dlgDesc").textContent = r[3];
+    $("dlgMeta").innerHTML =
+      '<div><span>Almex rejimida</span><b>' + since(MIN[k].almex) + '</b></div>' +
+      '<div><span>Baku rejimida</span><b>' + since(MIN[k].baku) + '</b></div>';
+    $("dlgNote").textContent = k === "gibrid" ? "Avtomatik tarqatilmaydi — Bo'ri Haqiqiy vampirni tishlaganda o'yin ichida paydo bo'ladi." :
+      PANEL_ONLY[k] ? "Avtomatik taqsimotda yo'q — guruh admini uni web panel orqali stolga qo'shadi." : "";
+    if(dlg.showModal){ if(!dlg.open) dlg.showModal(); } else dlg.setAttribute("open", "");
+  }
+  function closeDlg(){ if(dlg.close) dlg.close(); else dlg.removeAttribute("open"); }
+  $("dlgX").addEventListener("click", closeDlg);
+  dlg.addEventListener("click", function(e){ if(e.target === dlg) closeDlg(); });
+
+  /* ================= 05 · Stol ================= */
+  var mode = "almex", N = 12, assign = [], sel = -1, ring = $("ring"), seats = $("seats"), rng = $("rng");
+  function deal(anim){
+    var r = rolesFor(N, mode);
+    assign = shuffle(expand(r)); sel = -1;
+    renderRing(anim); renderLegend(r); renderCenter();
+  }
+  function renderRing(anim){
+    if(!assign || !assign.length) return;
+    var W = ring.clientWidth || 320, s = Math.max(22, Math.min(54, Math.PI * W * .86 / N * .82));
+    ring.style.setProperty("--s", s.toFixed(1) + "px");
+    seats.innerHTML = assign.map(function(k, i){
+      var a = i / N * Math.PI * 2 - Math.PI/2, x = 50 + 43*Math.cos(a), y = 50 + 43*Math.sin(a), r = R[k];
+      return '<button type="button" class="seat c-' + r[2] + (anim && !reduce ? ' pop' : '') + (i === sel ? ' sel' : '') + '" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%;animation-delay:' + (i*22) + 'ms" data-i="' + i + '" aria-label="' + (i+1) + '-o\'rin: ' + esc(r[1]) + '">' + r[0] + '</button>';
+    }).join("");
+  }
+  function renderLegend(r){
+    var ks = KEYS.filter(function(k){ return r[k]; });
+    ks.sort(function(a,b){ return "mtn".indexOf(R[a][2]) - "mtn".indexOf(R[b][2]); });
+    $("legend").innerHTML = ks.map(function(k){ return '<button type="button" class="c-' + R[k][2] + '" data-k="' + k + '">' + R[k][0] + ' ' + esc(R[k][1]) + ' <b>×' + r[k] + '</b></button>'; }).join("");
+  }
+  function renderCenter(){
+    var ctr = $("ctr");
+    if(sel >= 0){
+      var r = R[assign[sel]];
+      ctr.className = "ctr c-" + r[2];
+      ctr.innerHTML = '<span class="em">' + r[0] + '</span><span class="nm">' + esc(r[1]) + '</span><small style="color:var(--c)">' + TEAM[r[2]] + '</small><span class="ds">' + esc(r[3].split(". ")[0].replace(/\.$/, "")) + '.</span>';
+      return;
+    }
+    var c = { m:0, t:0, n:0 }; assign.forEach(function(k){ c[R[k][2]]++; });
+    ctr.className = "ctr";
+    ctr.innerHTML = '<span class="big">' + N + '</span><small>o\'yinchi · ' + (mode === "almex" ? "Almex" : "Baku") + '</small>' +
+      '<div class="tbar"><i style="width:' + (c.m/N*100) + '%;background:var(--m)"></i><i style="width:' + (c.t/N*100) + '%;background:var(--t)"></i><i style="width:' + (c.n/N*100) + '%;background:var(--n)"></i></div>' +
+      '<div class="tleg"><span class="c-m">' + c.m + ' mafiya</span><span class="c-t">' + c.t + ' tinch</span><span class="c-n">' + c.n + ' yakka</span></div>';
+  }
+  seats.addEventListener("click", function(e){
+    var b = e.target.closest(".seat"); if(!b) return;
+    var i = +b.dataset.i; sel = sel === i ? -1 : i; buzz();
+    Array.prototype.forEach.call(seats.children, function(x){ x.classList.toggle("sel", +x.dataset.i === sel); });
+    renderCenter();
+  });
+  $("legend").addEventListener("click", function(e){ var b = e.target.closest("button[data-k]"); if(b) openRole(b.dataset.k); });
+  function fillRange(){ rng.style.setProperty("--f", ((N-4)/36*100) + "%"); }
+  var rT;
   rng.addEventListener("input", function(){
-    n = +rng.value; $("n").textContent = n;
-    if(tick) clearTimeout(tick);
-    tick = setTimeout(function(){ renderTable(true); }, 110);
+    N = +rng.value; $("nOut").textContent = N; fillRange();
+    clearTimeout(rT); rT = setTimeout(function(){ deal(true); }, 90);
   });
-  document.querySelectorAll(".seg button").forEach(function(b){
+  Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function(b){
     b.addEventListener("click", function(){
       mode = b.dataset.mode;
-      document.querySelectorAll(".seg button").forEach(function(x){ x.setAttribute("aria-pressed", x===b); });
-      renderTable(true);
+      Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function(x){ x.setAttribute("aria-pressed", x === b); });
+      deal(true);
     });
   });
-  renderTable(false);
+  $("reshuffle").addEventListener("click", function(){ deal(true); buzz(); });
+  fillRange(); deal(false);
 
-  /* ---------- 3. Bo'limlar sekin paydo bo'ladi (faqat sarlavhalar) ---------- */
-  var els = document.querySelectorAll(".io");
-  if(!("IntersectionObserver" in window) || reduce){ els.forEach(function(e){ e.classList.add("in"); }); }
-  else{
-    var io = new IntersectionObserver(function(en){ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.unobserve(x.target); } }); },{threshold:.12});
-    els.forEach(function(e){ io.observe(e); });
+  /* ================= 06 · Test ================= */
+  var QZ = [
+    ["Tun tushdi. Siz nima qilasiz?", [
+      ["Rejani tuzaman va buyruq beraman", {don:2}],
+      ["Kimdir xavf ostida — uni himoya qilaman", {doktor:2, advokat:1}],
+      ["Ko'chaga chiqib, kim qayerga ketayotganini kuzataman", {daydi:2, sotqin:1}],
+      ["Pichog'imni charxlayman", {qotil:2}]]],
+    ["Kunduzgi bahsda siz…", [
+      ["Hammani o'z fikrimga ishontiraman", {janob:2, don:1}],
+      ["Jim turib, faktlarni yig'aman", {sherif:2, sotqin:1}],
+      ["Ataylab shubha uyg'otaman — kim birinchi ovoz berarkin?", {tulki:3}],
+      ["Gapirmayman. Mening ishim boshqa", {konchi:1, qotil:1, kezuvchi:1}]]],
+    ["Siz uchun eng muhimi…", [
+      ["G'alaba — qanday yo'l bilan bo'lmasin", {qotil:1, don:1, tulki:1}],
+      ["Adolat", {sherif:2, ovchi:2}],
+      ["Do'stlarim omon qolishi", {doktor:2, advokat:1}],
+      ["Boylik", {konchi:3}]]],
+    ["Sizni nohaq ayblashdi. Siz…", [
+      ["Sovuqqonlik bilan aybsizligimni isbotlayman", {advokat:2, janob:1}],
+      ["Ayblovchini o'zim bilan birga olib ketaman", {tulki:3}],
+      ["Kulaman — men baribir yutaman", {qotil:1, konchi:1}],
+      ["Ertaga bilib qolasiz, kim haq edi", {sherif:1, ovchi:1, kezuvchi:1}]]],
+    ["Qaysi buyum sizga yaqinroq?", [
+      ["🔫 Miltiq", {ovchi:2, sherif:1}],
+      ["💊 Dori-darmon", {doktor:2, kezuvchi:2}],
+      ["📁 Soxta hujjatlar", {advokat:2, don:1}],
+      ["⛏ Kirka", {konchi:2}]]],
+    ["Do'stlaringiz siz haqingizda nima deydi?", [
+      ["«Uni hech qachon tushunib bo'lmaydi»", {tulki:1, sotqin:2}],
+      ["«U doim bosh»", {don:2, janob:1}],
+      ["«Tunlari umuman uxlamaydi»", {daydi:2, kezuvchi:1, ovchi:1}],
+      ["«Juda ehtiyotkor»", {doktor:1, konchi:1, advokat:1}]]]
+  ];
+  var QLINE = {
+    don:"Siz tug'ma rahbarsiz. Odamlar sizga ergashadi — hatto qayoqqa ketayotganini bilmasa ham.",
+    sherif:"Sizni aldash qiyin. Bitta qarash — va kim yolg'on gapirayotgani ayon.",
+    doktor:"Siz bor joyda odamlar xotirjam uxlaydi. Lekin o'zingizni faqat bir marta qutqara olasiz.",
+    qotil:"Sizga jamoa kerak emas. Shahar ham.",
+    janob:"Sizning bitta so'zingiz ikki kishinikiga teng. Buni hamma biladi.",
+    tulki:"Siz o'yinni boshqalar o'ylagandan ikki qadam oldinda o'ynaysiz.",
+    konchi:"Hamma bahslashayotganda, siz jimgina boyib borasiz.",
+    ovchi:"Siz adolat uchun o'q uzasiz. Faqat mo'ljal xato ketmasin.",
+    advokat:"Siz har qanday ishni yutib bera olasiz — hatto eng qorong'isini ham.",
+    kezuvchi:"Siz kelgan uyda ertasi kuni hamma jim bo'ladi.",
+    daydi:"Siz hamma narsani ko'rasiz. Lekin hamma ham sizga ishonmaydi.",
+    sotqin:"Siz sirlarni yig'asiz — va eng to'g'ri paytda ochasiz."
+  };
+  var qi = 0, score = {}, quiz = $("quiz");
+  function renderQ(){
+    if(qi >= QZ.length) return renderResult();
+    var Q = QZ[qi];
+    quiz.innerHTML = '<div class="qp">' + QZ.map(function(_, i){ return '<i class="' + (i < qi ? "on" : "") + '"></i>'; }).join("") + '</div>' +
+      '<div class="qs"><div class="qn">Savol ' + (qi+1) + ' / ' + QZ.length + '</div><div class="qq">' + esc(Q[0]) + '</div><div class="qa">' +
+      Q[1].map(function(a, i){ return '<button type="button" data-i="' + i + '"><i>' + "ABCD"[i] + '</i>' + esc(a[0]) + '</button>'; }).join("") + '</div></div>';
   }
-  /* rollar bo'limiga birinchi marta kirilganda kartalar tarqatiladi */
-  if("IntersectionObserver" in window && !reduce){
-    var first = new IntersectionObserver(function(en){ if(en[0].isIntersecting){ deal(); first.disconnect(); } },{threshold:.25});
-    first.observe(tableEl);
+  function renderResult(){
+    var best = null, bs = -1;
+    Object.keys(QLINE).forEach(function(k){ var v = score[k] || 0; if(v > bs){ bs = v; best = k; } });
+    var r = R[best];
+    quiz.innerHTML = '<div class="qp">' + QZ.map(function(){ return '<i class="on"></i>'; }).join("") + '</div>' +
+      '<div class="qres qs c-' + r[2] + '"><div class="em">' + r[0] + '</div><div><div class="tl">' + TEAM[r[2]] + '</div><h3>Siz — ' + esc(r[1]) + '</h3><p>' + esc(QLINE[best]) + '</p><p style="margin-top:10px;color:var(--mu);font-size:15px">' + esc(r[3]) + '</p>' +
+      '<div class="row"><a class="btn red sm" href="https://t.me/AlmexMafiaBot">Botda o\'ynash</a><button type="button" class="btn sm" id="qShare">Do\'stga yuborish</button><button type="button" class="btn sm" id="qAgain">Qayta</button></div></div></div>';
+    $("qAgain").addEventListener("click", function(){ qi = 0; score = {}; renderQ(); });
+    $("qShare").addEventListener("click", function(){
+      var text = "Almex testi bo'yicha men — " + r[0] + " " + r[1] + "! Siz kimsiz?";
+      var url = location.origin + location.pathname + "#test";
+      if(navigator.share){ navigator.share({ title:"Almex", text:text, url:url }).catch(function(){}); }
+      else copy(text + " " + url, "Havola nusxalandi — do'stingizga yuboring");
+    });
+  }
+  quiz.addEventListener("click", function(e){
+    var b = e.target.closest(".qa button"); if(!b) return;
+    var pts = QZ[qi][1][+b.dataset.i][1];
+    for(var k in pts) score[k] = (score[k] || 0) + pts[k];
+    qi++; buzz(); renderQ();
+  });
+  renderQ();
+
+  /* ================= 09 · Buyruqlar ================= */
+  var CMDS = [
+    ["/game","O'yin ro'yxatini ochish"], ["/start","O'yinni boshlash"], ["/stop","O'yinni to'xtatish"], ["/extend","Ro'yxat vaqtini uzaytirish"],
+    ["/roles","Barcha rollar"], ["/profile","Profil va balans"], ["/top","Guruh reytingi"], ["/dokon","Do'kon"],
+    ["/pro","PRO obuna"], ["/nickname","PRO laqab"], ["/couple","Para bo'lish"], ["/give","Dollar sovg'a qilish"],
+    ["/giveaway","Guruhda sovg'a o'yini"], ["/donate","Guruhga olmos"], ["/setting","Guruh sozlamalari"], ["/lang","Tilni almashtirish"]
+  ];
+  $("cmds").innerHTML = CMDS.map(function(c){ return '<button type="button" class="cmd" data-c="' + c[0] + '"><code>' + c[0] + '</code>' + esc(c[1]) + '</button>'; }).join("");
+  function copy(text, msg){
+    function fallback(){
+      try{ var t = document.createElement("textarea"); t.value = text; t.style.position = "fixed"; t.style.opacity = "0"; document.body.appendChild(t); t.select(); document.execCommand("copy"); document.body.removeChild(t); toast(msg); }
+      catch(e){ toast(text); }
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(function(){ toast(msg); }, fallback); }
+    else fallback();
+  }
+  $("cmds").addEventListener("click", function(e){ var b = e.target.closest(".cmd"); if(b) copy(b.dataset.c, "Nusxalandi: " + b.dataset.c); });
+
+  /* ================= bo'limlar sekin paydo bo'ladi ================= */
+  var els = document.querySelectorAll(".io");
+  if(!("IntersectionObserver" in window) || reduce){ Array.prototype.forEach.call(els, function(e){ e.classList.add("in"); }); }
+  else{
+    var io = new IntersectionObserver(function(en){ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.unobserve(x.target); } }); }, { threshold:.12, rootMargin:"0px 0px -40px 0px" });
+    Array.prototype.forEach.call(els, function(e){ io.observe(e); });
   }
 })();
 </script>
