@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Almex — Telegramdagi mafia</title>
-<meta name="description" content="Almex — Telegramdagi mafia o'yini. 41 ta rol, Almex va Baku rejimlari, jamoaviy o'yin, turnirlar va PRO. Bir tunni kuzating, kartangizni torting, qaysi rol ekaningizni bilib oling.">
+<meta name="description" content="Almex — Telegramdagi mafia o'yini. 41 ta rol, Almex va Baku rejimlari, jamoaviy o'yin, turnirlar va PRO. Bir tunni kuzating va kartangizni torting.">
 <meta name="theme-color" content="#07070a">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://almexuz.com/">
@@ -254,63 +254,7 @@
   .x{ position:absolute; top:14px; right:14px; width:40px; height:40px; border-radius:50%; border:1px solid var(--line2); font-size:22px; line-height:1; display:grid; place-items:center; }
   .x:hover{ border-color:var(--tx); }
 
-  /* ---------- 05 stol ---------- */
-  .tbl{ display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); gap:clamp(24px,5vw,64px); align-items:center; margin-top:48px; }
-  .ring{ position:relative; aspect-ratio:1; width:100%; max-width:560px; margin:0 auto; --s:44px; }
-  .ring .felt2{ position:absolute; inset:13%; border-radius:50%; background:radial-gradient(circle,#18281c,#0a110c 72%); box-shadow:inset 0 0 70px #000, 0 0 0 10px #1b130d, 0 0 0 11px rgba(255,255,255,.07), 0 40px 80px -20px #000; }
-  .ctr{ position:absolute; inset:24%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:6px; }
-  .ctr .big{ font-family:var(--disp); font-weight:900; font-size:clamp(40px,8vw,76px); line-height:1; }
-  .ctr .em{ font-size:clamp(40px,7vw,64px); line-height:1; }
-  .ctr .nm{ font-family:var(--disp); font-weight:800; font-size:clamp(15px,2vw,20px); }
-  .ctr small{ color:var(--mu); font-size:13px; }
-  .ctr .ds{ font-size:12.5px; color:#cfcad4; line-height:1.4; max-width:22ch; }
-  .tbar{ display:flex; height:8px; border-radius:4px; overflow:hidden; width:min(180px,80%); margin-top:8px; background:var(--line); }
-  .tbar i{ display:block; height:100%; transition:width .5s; }
-  .tleg{ display:flex; gap:12px; font-size:12px; color:var(--mu); margin-top:4px; flex-wrap:wrap; justify-content:center; }
-  .tleg span::before{ content:""; display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--c); margin-right:5px; }
-  .seat{ position:absolute; width:var(--s); height:var(--s); transform:translate(-50%,-50%); border-radius:50%; background:#15151d; border:2px solid var(--c); display:grid; place-items:center; font-size:calc(var(--s) * .52); line-height:1; transition:transform .2s, box-shadow .2s; }
-  .seat.pop{ animation:seat .5s cubic-bezier(.2,.9,.3,1.3) backwards; }
-  @keyframes seat{ from{ opacity:0; transform:translate(-50%,-50%) scale(.2); } }
-  .seat:hover, .seat.sel{ transform:translate(-50%,-50%) scale(1.2); z-index:2; box-shadow:0 0 0 4px rgba(255,255,255,.12); }
-  .ctrl{ display:grid; gap:22px; }
-  .seg{ display:inline-flex; padding:4px; border-radius:999px; background:var(--card); border:1px solid var(--line2); width:max-content; }
-  .seg button{ padding:10px 22px; border-radius:999px; font-weight:800; font-size:14px; color:var(--mu); }
-  .seg button[aria-pressed=true]{ background:var(--tx); color:var(--bg); }
-  .num{ display:flex; align-items:baseline; gap:10px; }
-  .num output{ font-family:var(--disp); font-weight:900; font-size:clamp(48px,6vw,72px); line-height:1; }
-  .num span{ color:var(--mu); }
-  input[type=range]{ -webkit-appearance:none; appearance:none; width:100%; height:6px; border-radius:3px; background:linear-gradient(90deg,var(--red) var(--f,22%),var(--line2) var(--f,22%)); outline:none; }
-  input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:28px; height:28px; border-radius:50%; background:#fff; border:5px solid var(--red); cursor:grab; box-shadow:0 4px 14px rgba(0,0,0,.5); }
-  input[type=range]::-moz-range-thumb{ width:20px; height:20px; border-radius:50%; background:#fff; border:5px solid var(--red); cursor:grab; }
-  .ends{ display:flex; justify-content:space-between; font-family:var(--mono); font-size:12px; color:var(--dim); margin-top:8px; }
-  .legend{ display:flex; flex-wrap:wrap; gap:6px; }
-  .legend button{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:10px; background:var(--card); border:1px solid var(--line); border-left:3px solid var(--c); font-size:13px; font-weight:600; }
-  .legend button b{ font-family:var(--mono); font-weight:500; color:var(--mu); }
-  .tnote{ font-size:13.5px; color:var(--mu); }
-  @media (max-width:860px){ .tbl{ grid-template-columns:1fr; } }
-
-  /* ---------- 06 test ---------- */
-  .quiz{ margin-top:48px; max-width:780px; background:var(--card); border:1px solid var(--line); border-radius:30px; padding:clamp(22px,4vw,44px); position:relative; overflow:hidden; min-height:420px; }
-  .quiz::before{ content:""; position:absolute; right:-80px; top:-80px; width:260px; height:260px; border-radius:50%; background:var(--red); opacity:.08; filter:blur(40px); pointer-events:none; }
-  .qp{ display:flex; gap:6px; margin-bottom:26px; }
-  .qp i{ flex:1; height:4px; border-radius:2px; background:var(--line2); transition:background .3s; }
-  .qp i.on{ background:var(--red); }
-  .qn{ font-family:var(--mono); font-size:12px; color:var(--mu); letter-spacing:.12em; text-transform:uppercase; }
-  .qq{ font-family:var(--disp); font-weight:700; font-size:clamp(21px,3vw,32px); line-height:1.18; margin:10px 0 24px; letter-spacing:-.02em; }
-  .qa{ display:grid; gap:10px; }
-  .qa button{ text-align:left; padding:16px 18px; border-radius:16px; border:1px solid var(--line2); background:rgba(255,255,255,.02); font-weight:600; font-size:16px; transition:border-color .2s, background .2s, transform .2s; display:flex; gap:14px; align-items:center; }
-  .qa button i{ font-style:normal; font-family:var(--mono); font-size:12px; color:var(--dim); width:22px; height:22px; flex:none; border:1px solid var(--line2); border-radius:6px; display:grid; place-items:center; }
-  .qa button:hover{ border-color:var(--tx); background:rgba(255,255,255,.05); transform:translateX(4px); }
-  .qs{ animation:sw .45s ease; }
-  .qres{ display:grid; grid-template-columns:auto 1fr; gap:28px; align-items:center; }
-  .qres .em{ font-size:clamp(84px,14vw,140px); line-height:1; filter:drop-shadow(0 20px 40px rgba(0,0,0,.6)); }
-  .qres .tl{ font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--c); }
-  .qres h3{ font-family:var(--disp); font-weight:800; font-size:clamp(28px,4.4vw,48px); line-height:1.02; margin:8px 0 12px; letter-spacing:-.03em; }
-  .qres p{ color:#cfcad4; }
-  .qres .row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
-  @media (max-width:600px){ .qres{ grid-template-columns:1fr; gap:10px; } }
-
-  /* ---------- 07 rejimlar ---------- */
+  /* ---------- 05 rejimlar ---------- */
   .modes{ display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:12px; margin-top:48px; }
   .md{ background:var(--card); border:1px solid var(--line); border-radius:24px; padding:26px; display:flex; flex-direction:column; gap:12px; min-height:250px; transition:transform .25s, border-color .25s; }
   .md:hover{ transform:translateY(-4px); border-color:var(--line2); }
@@ -320,7 +264,7 @@
   .md code{ margin-top:auto; font-family:var(--mono); font-size:13px; color:var(--gold); }
   .md.hl{ background:linear-gradient(160deg,#2a0e0c,#111118 62%); border-color:rgba(255,59,48,.35); }
 
-  /* ---------- 08 hamyon ---------- */
+  /* ---------- 06 hamyon ---------- */
   .eco{ display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); gap:12px; margin-top:48px; }
   .pro{ border-radius:30px; padding:clamp(24px,4vw,44px); background:radial-gradient(ellipse at 100% 0%,rgba(245,185,66,.26),transparent 60%),linear-gradient(160deg,#1e1708,#0e0c08); border:1px solid rgba(245,185,66,.35); position:relative; overflow:hidden; }
   .pro .crown{ font-size:44px; }
@@ -348,7 +292,7 @@
   .cur p{ color:var(--mu); font-size:14px; }
   @media (max-width:860px){ .eco{ grid-template-columns:1fr; } .cur{ grid-template-columns:1fr; } }
 
-  /* ---------- 09 boshlash ---------- */
+  /* ---------- 07 boshlash ---------- */
   .steps{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:48px; }
   .stp{ padding:26px; border-radius:24px; border:1px solid var(--line); background:var(--card); }
   .stp b{ display:block; font-family:var(--disp); font-size:58px; font-weight:900; color:transparent; -webkit-text-stroke:1.5px var(--red); line-height:1; }
@@ -365,7 +309,7 @@
   .langs{ display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
   .langs span{ padding:8px 14px; border-radius:999px; border:1px solid var(--line2); font-size:14px; font-weight:600; }
 
-  /* ---------- 10 botlar + final ---------- */
+  /* ---------- 08 botlar + final ---------- */
   .bots{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:48px; }
   .bot{ position:relative; display:flex; flex-direction:column; gap:10px; padding:28px; border-radius:26px; background:var(--card); border:1px solid var(--line); min-height:240px; overflow:hidden; transition:transform .25s, border-color .25s; }
   .bot:hover{ transform:translateY(-4px); border-color:var(--red); }
@@ -407,8 +351,6 @@
       <a class="l" href="#tun">Bir tun</a>
       <a class="l" href="#karta">Karta</a>
       <a class="l" href="#rollar">Rollar</a>
-      <a class="l" href="#stol">Stol</a>
-      <a class="l" href="#test">Test</a>
       <a class="l" href="#hamyon">PRO</a>
       <a class="go" href="https://t.me/AlmexMafiaBot">O'ynash</a>
     </nav>
@@ -542,56 +484,14 @@
         <input class="search" id="search" type="search" placeholder="Rolni qidirish…" aria-label="Rolni qidirish" autocomplete="off">
       </div>
       <div class="grid" id="grid"></div>
-      <a class="next" href="#stol">Keyingi bob: stolga nechta kishi o'tirdi? →</a>
-    </div>
-  </section>
-
-  <!-- 05 · Stol -->
-  <section class="sec" id="stol" style="padding-top:0">
-    <div class="wrap">
-      <div class="kick io">05 <span>/ Stol</span></div>
-      <h2 class="io">Stolga <em>nechta</em> kishi o'tirdi?</h2>
-      <p class="sub io">Sonni tanlang — bot rollarni xuddi shu tartibda tarqatadi. Bu botdagi taqsimot algoritmining aynan o'zi. O'rindiqni bossangiz, u kimligi ochiladi.</p>
-      <div class="tbl">
-        <div class="ring" id="ring">
-          <div class="felt2"></div>
-          <div class="ctr" id="ctr" aria-live="polite"></div>
-          <div id="seats"></div>
-        </div>
-        <div class="ctrl">
-          <div class="seg" role="group" aria-label="O'yin rejimi">
-            <button type="button" data-mode="almex" aria-pressed="true">Almex</button>
-            <button type="button" data-mode="baku" aria-pressed="false">Baku</button>
-          </div>
-          <div>
-            <div class="num"><output id="nOut" for="rng">12</output><span>o'yinchi</span></div>
-            <input id="rng" type="range" min="4" max="40" value="12" aria-label="O'yinchilar soni" style="margin-top:14px">
-            <div class="ends"><span>4</span><span>40</span></div>
-          </div>
-          <div class="legend" id="legend"></div>
-          <div><button type="button" class="btn sm" id="reshuffle">🔀 Qayta tarqatish</button></div>
-          <p class="tnote">Rejimni guruhda <code>/mode</code> bilan almashtirasiz. Guruh admini web panel orqali har bir son uchun rollarni o'zgartira oladi.</p>
-        </div>
-      </div>
-      <a class="next" href="#test">Keyingi bob: qaysi rol sizniki? →</a>
-    </div>
-  </section>
-
-  <!-- 06 · Test -->
-  <section class="sec" id="test" style="padding-top:0">
-    <div class="wrap">
-      <div class="kick io">06 <span>/ Test</span></div>
-      <h2 class="io">Siz aslida <em>kimsiz?</em></h2>
-      <p class="sub io">Oltita savol. Halol javob bering — natija sizni ajablantirishi mumkin.</p>
-      <div class="quiz" id="quiz" aria-live="polite"></div>
       <a class="next" href="#rejimlar">Keyingi bob: o'yin rejimlari →</a>
     </div>
   </section>
 
-  <!-- 07 · Rejimlar -->
+  <!-- 05 · Rejimlar -->
   <section class="sec" id="rejimlar" style="padding-top:0">
     <div class="wrap">
-      <div class="kick io">07 <span>/ Rejimlar</span></div>
+      <div class="kick io">05 <span>/ Rejimlar</span></div>
       <h2 class="io">Bir o'yin. <em>Besh</em> xil kecha.</h2>
       <div class="modes">
         <div class="md hl io"><div class="ic">🤵🏻</div><h3>Almex</h3><p>Asosiy rejim. 12 kishidan Advokat qo'shiladi. Qarovul, Tulki, Podshoh va Jodugar bilan — har tun yangi jumboq.</p><code>/mode → Almex</code></div>
@@ -604,10 +504,10 @@
     </div>
   </section>
 
-  <!-- 08 · Hamyon -->
+  <!-- 06 · Hamyon -->
   <section class="sec" id="hamyon" style="padding-top:0">
     <div class="wrap">
-      <div class="kick io">08 <span>/ Hamyon</span></div>
+      <div class="kick io">06 <span>/ Hamyon</span></div>
       <h2 class="io">Ikki bot. <em>Bitta</em> hamyon.</h2>
       <p class="sub io">PRO va olmoslaringiz Almex Mafia'da ham, Almex Black'da ham bir xil ishlaydi.</p>
       <div class="eco">
@@ -654,10 +554,10 @@
     </div>
   </section>
 
-  <!-- 09 · Boshlash -->
+  <!-- 07 · Boshlash -->
   <section class="sec" id="boshlash" style="padding-top:0">
     <div class="wrap">
-      <div class="kick io">09 <span>/ Boshlash</span></div>
+      <div class="kick io">07 <span>/ Boshlash</span></div>
       <h2 class="io">30 soniyada <em>o'yin</em> boshlang.</h2>
       <div class="steps">
         <div class="stp io"><b>1</b><h3>Botni guruhga qo'shing</h3><p>@AlmexMafiaBot ni guruhingizga qo'shing va admin qiling.</p></div>
@@ -675,10 +575,10 @@
     </div>
   </section>
 
-  <!-- 10 · Botlar -->
+  <!-- 08 · Botlar -->
   <section class="sec" id="botlar" style="padding-top:0">
     <div class="wrap">
-      <div class="kick io">10 <span>/ Botlar</span></div>
+      <div class="kick io">08 <span>/ Botlar</span></div>
       <h2 class="io">Qaysi stolga o'tirasiz?</h2>
       <div class="bots">
         <a class="bot io" href="https://t.me/AlmexMafiaBot"><span class="ar">↗</span><h3>Almex Mafia</h3><p>Almex va Baku rejimlari, turnirlar, PRO va avtomatik to'lov.</p><div class="st2"><b>18 900+</b><span>o'yinchi</span></div></a>
@@ -1065,143 +965,7 @@
   $("dlgX").addEventListener("click", closeDlg);
   dlg.addEventListener("click", function(e){ if(e.target === dlg) closeDlg(); });
 
-  /* ================= 05 · Stol ================= */
-  var mode = "almex", N = 12, assign = [], sel = -1, ring = $("ring"), seats = $("seats"), rng = $("rng");
-  function deal(anim){
-    var r = rolesFor(N, mode);
-    assign = shuffle(expand(r)); sel = -1;
-    renderRing(anim); renderLegend(r); renderCenter();
-  }
-  function renderRing(anim){
-    if(!assign || !assign.length) return;
-    var W = ring.clientWidth || 320, s = Math.max(22, Math.min(54, Math.PI * W * .86 / N * .82));
-    ring.style.setProperty("--s", s.toFixed(1) + "px");
-    seats.innerHTML = assign.map(function(k, i){
-      var a = i / N * Math.PI * 2 - Math.PI/2, x = 50 + 43*Math.cos(a), y = 50 + 43*Math.sin(a), r = R[k];
-      return '<button type="button" class="seat c-' + r[2] + (anim && !reduce ? ' pop' : '') + (i === sel ? ' sel' : '') + '" style="left:' + x.toFixed(2) + '%;top:' + y.toFixed(2) + '%;animation-delay:' + (i*22) + 'ms" data-i="' + i + '" aria-label="' + (i+1) + '-o\'rin: ' + esc(r[1]) + '">' + r[0] + '</button>';
-    }).join("");
-  }
-  function renderLegend(r){
-    var ks = KEYS.filter(function(k){ return r[k]; });
-    ks.sort(function(a,b){ return "mtn".indexOf(R[a][2]) - "mtn".indexOf(R[b][2]); });
-    $("legend").innerHTML = ks.map(function(k){ return '<button type="button" class="c-' + R[k][2] + '" data-k="' + k + '">' + R[k][0] + ' ' + esc(R[k][1]) + ' <b>×' + r[k] + '</b></button>'; }).join("");
-  }
-  function renderCenter(){
-    var ctr = $("ctr");
-    if(sel >= 0){
-      var r = R[assign[sel]];
-      ctr.className = "ctr c-" + r[2];
-      ctr.innerHTML = '<span class="em">' + r[0] + '</span><span class="nm">' + esc(r[1]) + '</span><small style="color:var(--c)">' + TEAM[r[2]] + '</small><span class="ds">' + esc(r[3].split(". ")[0].replace(/\.$/, "")) + '.</span>';
-      return;
-    }
-    var c = { m:0, t:0, n:0 }; assign.forEach(function(k){ c[R[k][2]]++; });
-    ctr.className = "ctr";
-    ctr.innerHTML = '<span class="big">' + N + '</span><small>o\'yinchi · ' + (mode === "almex" ? "Almex" : "Baku") + '</small>' +
-      '<div class="tbar"><i style="width:' + (c.m/N*100) + '%;background:var(--m)"></i><i style="width:' + (c.t/N*100) + '%;background:var(--t)"></i><i style="width:' + (c.n/N*100) + '%;background:var(--n)"></i></div>' +
-      '<div class="tleg"><span class="c-m">' + c.m + ' mafiya</span><span class="c-t">' + c.t + ' tinch</span><span class="c-n">' + c.n + ' yakka</span></div>';
-  }
-  seats.addEventListener("click", function(e){
-    var b = e.target.closest(".seat"); if(!b) return;
-    var i = +b.dataset.i; sel = sel === i ? -1 : i; buzz();
-    Array.prototype.forEach.call(seats.children, function(x){ x.classList.toggle("sel", +x.dataset.i === sel); });
-    renderCenter();
-  });
-  $("legend").addEventListener("click", function(e){ var b = e.target.closest("button[data-k]"); if(b) openRole(b.dataset.k); });
-  function fillRange(){ rng.style.setProperty("--f", ((N-4)/36*100) + "%"); }
-  var rT;
-  rng.addEventListener("input", function(){
-    N = +rng.value; $("nOut").textContent = N; fillRange();
-    clearTimeout(rT); rT = setTimeout(function(){ deal(true); }, 90);
-  });
-  Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function(b){
-    b.addEventListener("click", function(){
-      mode = b.dataset.mode;
-      Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function(x){ x.setAttribute("aria-pressed", x === b); });
-      deal(true);
-    });
-  });
-  $("reshuffle").addEventListener("click", function(){ deal(true); buzz(); });
-  fillRange(); deal(false);
-
-  /* ================= 06 · Test ================= */
-  var QZ = [
-    ["Tun tushdi. Siz nima qilasiz?", [
-      ["Rejani tuzaman va buyruq beraman", {don:2}],
-      ["Kimdir xavf ostida — uni himoya qilaman", {doktor:2, advokat:1}],
-      ["Ko'chaga chiqib, kim qayerga ketayotganini kuzataman", {daydi:2, sotqin:1}],
-      ["Pichog'imni charxlayman", {qotil:2}]]],
-    ["Kunduzgi bahsda siz…", [
-      ["Hammani o'z fikrimga ishontiraman", {janob:2, don:1}],
-      ["Jim turib, faktlarni yig'aman", {sherif:2, sotqin:1}],
-      ["Ataylab shubha uyg'otaman — kim birinchi ovoz berarkin?", {tulki:3}],
-      ["Gapirmayman. Mening ishim boshqa", {konchi:1, qotil:1, kezuvchi:1}]]],
-    ["Siz uchun eng muhimi…", [
-      ["G'alaba — qanday yo'l bilan bo'lmasin", {qotil:1, don:1, tulki:1}],
-      ["Adolat", {sherif:2, ovchi:2}],
-      ["Do'stlarim omon qolishi", {doktor:2, advokat:1}],
-      ["Boylik", {konchi:3}]]],
-    ["Sizni nohaq ayblashdi. Siz…", [
-      ["Sovuqqonlik bilan aybsizligimni isbotlayman", {advokat:2, janob:1}],
-      ["Ayblovchini o'zim bilan birga olib ketaman", {tulki:3}],
-      ["Kulaman — men baribir yutaman", {qotil:1, konchi:1}],
-      ["Ertaga bilib qolasiz, kim haq edi", {sherif:1, ovchi:1, kezuvchi:1}]]],
-    ["Qaysi buyum sizga yaqinroq?", [
-      ["🔫 Miltiq", {ovchi:2, sherif:1}],
-      ["💊 Dori-darmon", {doktor:2, kezuvchi:2}],
-      ["📁 Soxta hujjatlar", {advokat:2, don:1}],
-      ["⛏ Kirka", {konchi:2}]]],
-    ["Do'stlaringiz siz haqingizda nima deydi?", [
-      ["«Uni hech qachon tushunib bo'lmaydi»", {tulki:1, sotqin:2}],
-      ["«U doim bosh»", {don:2, janob:1}],
-      ["«Tunlari umuman uxlamaydi»", {daydi:2, kezuvchi:1, ovchi:1}],
-      ["«Juda ehtiyotkor»", {doktor:1, konchi:1, advokat:1}]]]
-  ];
-  var QLINE = {
-    don:"Siz tug'ma rahbarsiz. Odamlar sizga ergashadi — hatto qayoqqa ketayotganini bilmasa ham.",
-    sherif:"Sizni aldash qiyin. Bitta qarash — va kim yolg'on gapirayotgani ayon.",
-    doktor:"Siz bor joyda odamlar xotirjam uxlaydi. Lekin o'zingizni faqat bir marta qutqara olasiz.",
-    qotil:"Sizga jamoa kerak emas. Shahar ham.",
-    janob:"Sizning bitta so'zingiz ikki kishinikiga teng. Buni hamma biladi.",
-    tulki:"Siz o'yinni boshqalar o'ylagandan ikki qadam oldinda o'ynaysiz.",
-    konchi:"Hamma bahslashayotganda, siz jimgina boyib borasiz.",
-    ovchi:"Siz adolat uchun o'q uzasiz. Faqat mo'ljal xato ketmasin.",
-    advokat:"Siz har qanday ishni yutib bera olasiz — hatto eng qorong'isini ham.",
-    kezuvchi:"Siz kelgan uyda ertasi kuni hamma jim bo'ladi.",
-    daydi:"Siz hamma narsani ko'rasiz. Lekin hamma ham sizga ishonmaydi.",
-    sotqin:"Siz sirlarni yig'asiz — va eng to'g'ri paytda ochasiz."
-  };
-  var qi = 0, score = {}, quiz = $("quiz");
-  function renderQ(){
-    if(qi >= QZ.length) return renderResult();
-    var Q = QZ[qi];
-    quiz.innerHTML = '<div class="qp">' + QZ.map(function(_, i){ return '<i class="' + (i < qi ? "on" : "") + '"></i>'; }).join("") + '</div>' +
-      '<div class="qs"><div class="qn">Savol ' + (qi+1) + ' / ' + QZ.length + '</div><div class="qq">' + esc(Q[0]) + '</div><div class="qa">' +
-      Q[1].map(function(a, i){ return '<button type="button" data-i="' + i + '"><i>' + "ABCD"[i] + '</i>' + esc(a[0]) + '</button>'; }).join("") + '</div></div>';
-  }
-  function renderResult(){
-    var best = null, bs = -1;
-    Object.keys(QLINE).forEach(function(k){ var v = score[k] || 0; if(v > bs){ bs = v; best = k; } });
-    var r = R[best];
-    quiz.innerHTML = '<div class="qp">' + QZ.map(function(){ return '<i class="on"></i>'; }).join("") + '</div>' +
-      '<div class="qres qs c-' + r[2] + '"><div class="em">' + r[0] + '</div><div><div class="tl">' + TEAM[r[2]] + '</div><h3>Siz — ' + esc(r[1]) + '</h3><p>' + esc(QLINE[best]) + '</p><p style="margin-top:10px;color:var(--mu);font-size:15px">' + esc(r[3]) + '</p>' +
-      '<div class="row"><a class="btn red sm" href="https://t.me/AlmexMafiaBot">Botda o\'ynash</a><button type="button" class="btn sm" id="qShare">Do\'stga yuborish</button><button type="button" class="btn sm" id="qAgain">Qayta</button></div></div></div>';
-    $("qAgain").addEventListener("click", function(){ qi = 0; score = {}; renderQ(); });
-    $("qShare").addEventListener("click", function(){
-      var text = "Almex testi bo'yicha men — " + r[0] + " " + r[1] + "! Siz kimsiz?";
-      var url = location.origin + location.pathname + "#test";
-      if(navigator.share){ navigator.share({ title:"Almex", text:text, url:url }).catch(function(){}); }
-      else copy(text + " " + url, "Havola nusxalandi — do'stingizga yuboring");
-    });
-  }
-  quiz.addEventListener("click", function(e){
-    var b = e.target.closest(".qa button"); if(!b) return;
-    var pts = QZ[qi][1][+b.dataset.i][1];
-    for(var k in pts) score[k] = (score[k] || 0) + pts[k];
-    qi++; buzz(); renderQ();
-  });
-  renderQ();
-
-  /* ================= 09 · Buyruqlar ================= */
+  /* ================= 07 · Buyruqlar ================= */
   var CMDS = [
     ["/game","O'yin ro'yxatini ochish"], ["/start","O'yinni boshlash"], ["/stop","O'yinni to'xtatish"], ["/extend","Ro'yxat vaqtini uzaytirish"],
     ["/roles","Barcha rollar"], ["/profile","Profil va balans"], ["/top","Guruh reytingi"], ["/dokon","Do'kon"],
