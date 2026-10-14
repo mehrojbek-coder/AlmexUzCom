@@ -85,9 +85,18 @@
   @media (min-width:640px){ .stats{ grid-template-columns:repeat(4,1fr); } .btns{ grid-template-columns:1fr 1fr; } .teams{ grid-template-columns:repeat(3,1fr); } .cmds{ grid-template-columns:repeat(4,1fr); } .hero{ padding:72px 0 48px; } }
 
   .back{ color:var(--mu); font-weight:700; font-size:15px; }
-  .pg{ padding:22px 0 40px; }
+  .pg{ padding-top:22px; padding-bottom:40px; }
   .tabs{ position:sticky; top:56px; z-index:4; background:var(--bg); padding:10px 0; margin:0 0 8px; }
   .rl{ overflow:visible; padding:0; }
+  .gate{ padding-top:26px; padding-bottom:40px; }
+  .gate h1{ font-size:28px; }
+  .terms{ list-style:none; display:grid; gap:10px; margin:18px 0; }
+  .terms li{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 14px 12px 44px; position:relative; font-size:15px; color:#d8d4de; }
+  .terms li::before{ content:"§"; position:absolute; left:15px; top:11px; color:var(--gold); font-weight:800; }
+  .ok{ display:flex; gap:12px; align-items:flex-start; padding:14px; border:1px solid var(--line); border-radius:14px; background:var(--card); cursor:pointer; font-size:15px; }
+  .ok input{ width:22px; height:22px; flex:none; accent-color:var(--red); margin-top:1px; }
+  .btn[disabled]{ opacity:.4; pointer-events:none; }
+  [hidden]{ display:none !important; }
 </style>
 </head>
 <body>
@@ -97,7 +106,21 @@
   <a class="btn red sm" href="https://t.me/AlmexMafiaBot">O'ynash</a>
 </div></header>
 
-<main><div class="w pg">
+<main>
+<div class="w gate" id="gate" hidden>
+  <h1>Foydalanish qoidalari</h1>
+  <p class="lead" style="font-size:16px;margin:8px 0 0">Rollar bo'limini ochishdan oldin quyidagi qoidalarga rozi bo'ling.</p>
+  <ul class="terms">
+    <li>Almex o'yini, undagi rollar tizimi, o'yin mexanikasi va matnlari <b>patent bilan himoyalangan</b> intellektual mulkdir.</li>
+    <li>Ushbu sahifadagi ma'lumot faqat o'yinni o'rganish uchun. Uni nusxalash, tarqatish yoki boshqa bot, o'yin va sayt yaratishda ishlatish <b>ruxsatsiz taqiqlanadi</b>.</li>
+    <li>Ma'lumotni qayta ishlab chiqish, o'zgartirib o'z nomingizdan e'lon qilish va savdo maqsadida foydalanish ham taqiqlanadi.</li>
+    <li>Qoidalar buzilsa, Almex egasi huquqiy choralar ko'rish va botdan foydalanish huquqini cheklash huquqiga ega.</li>
+  </ul>
+  <label class="ok"><input type="checkbox" id="chk"><span>Qoidalarni o'qidim va ularga <b>roziman</b></span></label>
+  <button type="button" class="btn red" id="acc" style="width:100%;margin-top:14px" disabled>Davom etish</button>
+  <a class="btn" style="width:100%;margin-top:10px" href="/">Rozi emasman</a>
+</div>
+<div class="w pg" id="content" hidden>
   <h1 style="font-size:32px">41 ta rol</h1>
   <p class="lead" style="font-size:16px;margin:8px 0 6px">Rolingiz botdan shaxsiy xabarda keladi. Boshqalar bilmaydi.</p>
   <div class="tabs" id="rt">
@@ -108,7 +131,8 @@
   </div>
   <ul class="rl" id="rl"></ul>
   <a class="btn red" style="width:100%;margin-top:22px" href="https://t.me/AlmexMafiaBot">Almex Mafia'da o'ynash</a>
-</div></main>
+</div>
+</main>
 
 <script>
 (function(){
@@ -120,13 +144,22 @@
       return '<li class="c-' + r[2] + '"><span class="e">' + r[0] + '</span><div><b>' + esc(r[1]) + '</b><span>' + esc(r[3]) + '</span></div></li>';
     }).join("");
   }
+  function ok(){ try{ return localStorage.getItem("almex_terms") === "1"; }catch(e){ return false; } }
+  var gate = document.getElementById("gate"), content = document.getElementById("content");
+  var chk = document.getElementById("chk"), acc = document.getElementById("acc");
+  function show(){ gate.hidden = true; content.hidden = false; start(); window.scrollTo(0,0); }
+  chk.addEventListener("change", function(){ acc.disabled = !chk.checked; });
+  acc.addEventListener("click", function(){ if(!chk.checked) return; try{ localStorage.setItem("almex_terms","1"); }catch(e){} show(); });
+  function start(){
   var h = location.hash.slice(1); if(["t","m","n"].indexOf(h) > -1){ Array.prototype.forEach.call(tb.children, function(x){ x.setAttribute("aria-pressed", x.dataset.f === h ? "true" : "false"); }); draw(h); } else draw("all");
+  }
   tb.addEventListener("click", function(e){
     var b = e.target.closest("button"); if(!b) return;
     Array.prototype.forEach.call(tb.children, function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
     draw(b.dataset.f);
     window.scrollTo({top:0});
   });
+  if(ok()) show(); else gate.hidden = false;
 })();
 </script>
 </body>
